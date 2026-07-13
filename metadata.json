@@ -1,0 +1,6 @@
+{
+  "name": "SDMCI 2035",
+  "description": "منصة وزارة التجارة والصناعة السودانية الرقمية 2035 - التحول الرقمي الشامل لخدمات السجل التجاري، المنصة الصناعية، الاستيراد والتصدير، حماية المستهلك، وبوابة الاستثمار الذكية.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

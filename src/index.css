@@ -1,0 +1,90 @@
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  /* Official Sovereign Fonts (DIN Next Arabic & DIN Next fallback setup) */
+  --font-sans: "DIN Next Arabic", "DIN Next", "Cairo", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  
+  /* Official governmental brand colors - Bento Grid theme */
+  --color-sudan-green: #007A33;
+  --color-sudan-green-light: #009C41;
+  --color-sudan-gold: #C5A059;
+  --color-sudan-gold-light: #D8B87B;
+  --color-sudan-red: #EF4444;
+  --color-sudan-dark: #1A1A1A;
+  --color-sudan-slate: #2A2A2A;
+
+  /* Responsive Typography Scales */
+  --text-display-xxl: 3.5rem;
+  --text-display-xl: 2.5rem;
+  --text-display-lg: 2rem;
+  --text-display-md: 1.75rem;
+  --text-display-sm: 1.5rem;
+  --text-h1: 1.75rem;
+  --text-h2: 1.50rem;
+  --text-h3: 1.25rem;
+  --text-h4: 1.125rem;
+  --text-h5: 1.00rem;
+  --text-h6: 0.875rem;
+  --text-subtitle-xl: 1.25rem;
+  --text-subtitle-lg: 1.125rem;
+  --text-subtitle-md: 1.00rem;
+  --text-subtitle-sm: 0.875rem;
+  --text-body-xl: 1.125rem;
+  --text-body-lg: 1.00rem;
+  --text-body-medium: 0.875rem;
+  --text-body-sm: 0.8125rem;
+  --text-caption-lg: 0.75rem;
+  --text-caption-sm: 0.6875rem;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #F4F6F5;
+  color: #1A1A1A;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Animations helper */
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.03);
+  }
+}
+
+.glow-sudan {
+  box-shadow: 0 0 25px -5px rgba(0, 122, 61, 0.25);
+}
+
+.glow-gold {
+  box-shadow: 0 0 25px -5px rgba(197, 160, 89, 0.25);
+}
