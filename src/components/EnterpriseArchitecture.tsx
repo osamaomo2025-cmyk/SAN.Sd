@@ -535,7 +535,7 @@ service cloud.firestore {
         {/* Subtle decorative background flags */}
         <div className="absolute top-0 right-0 w-24 h-full bg-gradient-to-l from-sudan-green/5 to-transparent pointer-events-none"></div>
         <div>
-          <h2 className="text-xl md:text-2xl font-black text-[#1A1A1A] flex items-center gap-2">
+          <h2 className="text-xl md:text-2xl font-black text-[#1E293B] flex items-center gap-2">
             <Layers className="h-6 w-6 text-sudan-green animate-pulse" />
             {currentLanguage === "ar" ? "منظومة السجل المعماري ومخطط التحول الرقمي 2035" : "Ministry Enterprise Architecture Blueprint 2035"}
           </h2>
@@ -599,7 +599,7 @@ service cloud.firestore {
               {activeTab === "ea-overview" && (
                 <div className="space-y-6">
                   <div className="border-b border-gray-100 pb-4">
-                    <h3 className="text-base font-black text-[#1A1A1A] flex items-center gap-2">
+                    <h3 className="text-base font-black text-[#1E293B] flex items-center gap-2">
                       <Layers className="h-5 w-5 text-sudan-green" />
                       {currentLanguage === "ar" ? "الهيكل العام والترابط المؤسسي للمنصة" : "Unified Enterprise Architecture Mapping"}
                     </h3>
@@ -641,7 +641,7 @@ service cloud.firestore {
                     <div className="flex justify-center my-1 text-sudan-gold"><Workflow className="h-5 w-5 animate-bounce" /></div>
 
                     <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl flex items-center gap-4 hover:shadow-xs transition-shadow">
-                      <div className="h-10 w-10 bg-sudan-dark text-white rounded-xl flex items-center justify-center font-bold">L4</div>
+                      <div className="h-10 w-10 bg-sudan-dark text-slate-900 rounded-xl flex items-center justify-center font-bold">L4</div>
                       <div className="flex-1">
                         <h4 className="font-extrabold text-xs text-slate-800 uppercase tracking-wide">{currentLanguage === "ar" ? "قاعدة البيانات والحوسبة السحابية المغلقة (Data & Sovereign Cloud)" : "Data & Sovereign Cloud Storage"}</h4>
                         <p className="text-[11px] text-slate-500 mt-0.5">{currentLanguage === "ar" ? "قواعد Firestore الموزعة • شهادات الأمان Rules • سجلات الرصد المالي لتدقيق الحسابات" : "Cloud Firestore collections, Storage buckets, locked Audit ledger, and RBAC auth"}</p>
@@ -665,7 +665,7 @@ service cloud.firestore {
               {activeTab === "business-arch" && (
                 <div className="space-y-6">
                   <div className="border-b border-gray-100 pb-4">
-                    <h3 className="text-base font-black text-[#1A1A1A] flex items-center gap-2">
+                    <h3 className="text-base font-black text-[#1E293B] flex items-center gap-2">
                       <Building2 className="h-5 w-5 text-sudan-green" />
                       {currentLanguage === "ar" ? "البنية التشغيلية ومجالات العمل الخمسة للوزارة" : "Business Operational Domains & Org Map"}
                     </h3>
@@ -717,7 +717,7 @@ service cloud.firestore {
                         animate={{ opacity: 1, height: "auto" }}
                         className="p-4 bg-amber-50 border border-amber-100 rounded-2xl text-xs text-gray-600 leading-relaxed space-y-1"
                       >
-                        <p className="font-extrabold text-[#1A1A1A] flex items-center gap-1.5">
+                        <p className="font-extrabold text-[#1E293B] flex items-center gap-1.5">
                           <AlertCircle className="h-4 w-4 text-sudan-gold" />
                           {currentLanguage === "ar" ? "تفاصيل الدور الإداري الرقمي:" : "Sovereign Administrative Scope:"}
                         </p>
@@ -739,7 +739,7 @@ service cloud.firestore {
                         <div key={domain.id} className="p-5 bg-white border border-gray-200 rounded-2xl hover:border-sudan-green hover:shadow-xs transition-all space-y-3">
                           <div className="flex items-center justify-between border-b border-gray-100 pb-2">
                             <span className="text-[10px] bg-sudan-green/10 text-sudan-green font-black px-2.5 py-1 rounded-full">{domain.id}</span>
-                            <h4 className="font-black text-[#1A1A1A] text-xs md:text-sm">{currentLanguage === "ar" ? domain.nameAr : domain.nameEn}</h4>
+                            <h4 className="font-black text-[#1E293B] text-xs md:text-sm">{currentLanguage === "ar" ? domain.nameAr : domain.nameEn}</h4>
                           </div>
                           <p className="text-xs text-gray-500 leading-relaxed">{currentLanguage === "ar" ? domain.descriptionAr : domain.descriptionEn}</p>
                           
@@ -759,7 +759,7 @@ service cloud.firestore {
               {activeTab === "app-arch" && (
                 <div className="space-y-6">
                   <div className="border-b border-gray-100 pb-4">
-                    <h3 className="text-base font-black text-[#1A1A1A] flex items-center gap-2">
+                    <h3 className="text-base font-black text-[#1E293B] flex items-center gap-2">
                       <LayoutGrid className="h-5 w-5 text-sudan-green" />
                       {currentLanguage === "ar" ? "بنية التطبيقات والوحدات الرقمية الأربعة عشر" : "Application Layers & 14 Core Modules"}
                     </h3>
@@ -781,7 +781,7 @@ service cloud.firestore {
                               <Icon className="h-5 w-5" />
                             </div>
                             <div>
-                              <h5 className="font-extrabold text-xs text-[#1A1A1A]">{currentLanguage === "ar" ? layer.titleAr : layer.titleEn}</h5>
+                              <h5 className="font-extrabold text-xs text-[#1E293B]">{currentLanguage === "ar" ? layer.titleAr : layer.titleEn}</h5>
                               <p className="text-xs text-gray-500 mt-1 leading-relaxed">{currentLanguage === "ar" ? layer.detailsAr : layer.detailsEn}</p>
                             </div>
                           </div>
@@ -801,7 +801,7 @@ service cloud.firestore {
                             {String(idx + 1).padStart(2, "0")}
                           </span>
                           <div>
-                            <p className="font-extrabold text-xs text-[#1A1A1A]">{mod.name}</p>
+                            <p className="font-extrabold text-xs text-[#1E293B]">{mod.name}</p>
                             <p className="text-[10px] text-gray-400 mt-0.5">{currentLanguage === "ar" ? mod.ar : mod.en}</p>
                           </div>
                         </div>
@@ -815,7 +815,7 @@ service cloud.firestore {
               {activeTab === "data-arch" && (
                 <div className="space-y-6">
                   <div className="border-b border-gray-100 pb-4">
-                    <h3 className="text-base font-black text-[#1A1A1A] flex items-center gap-2">
+                    <h3 className="text-base font-black text-[#1E293B] flex items-center gap-2">
                       <Database className="h-5 w-5 text-sudan-green" />
                       {currentLanguage === "ar" ? "هندسة وقوام البيانات الإتحادية" : "Sovereign Federal Data Architecture"}
                     </h3>
@@ -835,7 +835,7 @@ service cloud.firestore {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                         {masterData.map((data, idx) => (
                           <div key={idx} className="p-4 bg-[#F4F6F5] border border-gray-200 rounded-xl">
-                            <p className="font-extrabold text-xs text-[#1A1A1A]">{currentLanguage === "ar" ? data.labelAr : data.labelEn}</p>
+                            <p className="font-extrabold text-xs text-[#1E293B]">{currentLanguage === "ar" ? data.labelAr : data.labelEn}</p>
                             <p className="text-xs text-gray-400 mt-1">{currentLanguage === "ar" ? data.descAr : data.descEn}</p>
                           </div>
                         ))}
@@ -851,7 +851,7 @@ service cloud.firestore {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                         {transactionData.map((data, idx) => (
                           <div key={idx} className="p-4 bg-[#F4F6F5] border border-gray-200 rounded-xl">
-                            <p className="font-extrabold text-xs text-[#1A1A1A]">{currentLanguage === "ar" ? data.labelAr : data.labelEn}</p>
+                            <p className="font-extrabold text-xs text-[#1E293B]">{currentLanguage === "ar" ? data.labelAr : data.labelEn}</p>
                             <p className="text-xs text-gray-400 mt-1">{currentLanguage === "ar" ? data.descAr : data.descEn}</p>
                           </div>
                         ))}
@@ -867,7 +867,7 @@ service cloud.firestore {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                         {analyticalData.map((data, idx) => (
                           <div key={idx} className="p-4 bg-[#F4F6F5] border border-gray-200 rounded-xl">
-                            <p className="font-extrabold text-xs text-[#1A1A1A]">{currentLanguage === "ar" ? data.labelAr : data.labelEn}</p>
+                            <p className="font-extrabold text-xs text-[#1E293B]">{currentLanguage === "ar" ? data.labelAr : data.labelEn}</p>
                             <p className="text-xs text-gray-400 mt-1">{currentLanguage === "ar" ? data.descAr : data.descEn}</p>
                           </div>
                         ))}
@@ -881,7 +881,7 @@ service cloud.firestore {
               {activeTab === "firebase-arch" && (
                 <div className="space-y-6">
                   <div className="border-b border-gray-100 pb-4">
-                    <h3 className="text-base font-black text-[#1A1A1A] flex items-center gap-2">
+                    <h3 className="text-base font-black text-[#1E293B] flex items-center gap-2">
                       <Server className="h-5 w-5 text-sudan-green" />
                       {currentLanguage === "ar" ? "بنية الحوسبة السحابية وقاعدة Firestore" : "Sovereign Firebase & Firestore Schema Architecture"}
                     </h3>
@@ -911,7 +911,7 @@ service cloud.firestore {
                     {/* Collection details display */}
                     <div className="border border-gray-200 rounded-2xl overflow-hidden shadow-xs">
                       <div className="bg-slate-50 px-4 py-3 border-b border-gray-200 flex items-center justify-between">
-                        <span className="text-xs font-mono font-bold text-[#1A1A1A]">Collection: /{selectedCollection}</span>
+                        <span className="text-xs font-mono font-bold text-[#1E293B]">Collection: /{selectedCollection}</span>
                         <span className="text-[10px] uppercase font-bold text-sudan-gold">{currentLanguage === "ar" ? "حقول مبرمجة فعلياً" : "Production Typed Rules"}</span>
                       </div>
                       
@@ -919,7 +919,7 @@ service cloud.firestore {
                         {firestoreCollections[selectedCollection as keyof typeof firestoreCollections]?.map((f, idx) => (
                           <div key={idx} className="p-4 flex flex-col md:flex-row justify-between gap-2 text-xs hover:bg-slate-50/50 transition-all">
                             <div className="space-y-1">
-                              <p className="font-mono font-extrabold text-[#1A1A1A]">{f.field}</p>
+                              <p className="font-mono font-extrabold text-[#1E293B]">{f.field}</p>
                               <p className="text-gray-400 text-[11px]">{currentLanguage === "ar" ? f.descAr : f.descEn}</p>
                             </div>
                             <div className="shrink-0">
@@ -936,7 +936,7 @@ service cloud.firestore {
                   {/* Cloud storage and functions outline */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-gray-100">
                     <div className="p-4 bg-[#F4F6F5] border border-gray-200 rounded-2xl space-y-2">
-                      <h4 className="font-black text-[#1A1A1A] text-xs flex items-center gap-2">
+                      <h4 className="font-black text-[#1E293B] text-xs flex items-center gap-2">
                         <FileText className="h-4.5 w-4.5 text-sudan-green" />
                         {currentLanguage === "ar" ? "مستودعات Cloud Storage" : "Cloud Storage Buckets"}
                       </h4>
@@ -948,7 +948,7 @@ service cloud.firestore {
                     </div>
 
                     <div className="p-4 bg-[#F4F6F5] border border-gray-200 rounded-2xl space-y-2">
-                      <h4 className="font-black text-[#1A1A1A] text-xs flex items-center gap-2">
+                      <h4 className="font-black text-[#1E293B] text-xs flex items-center gap-2">
                         <Cpu className="h-4.5 w-4.5 text-sudan-green" />
                         {currentLanguage === "ar" ? "أجهزة تريجر Cloud Functions" : "Cloud Functions Microservices"}
                       </h4>
@@ -966,7 +966,7 @@ service cloud.firestore {
               {activeTab === "workflow-engine" && (
                 <div className="space-y-6">
                   <div className="border-b border-gray-100 pb-4">
-                    <h3 className="text-base font-black text-[#1A1A1A] flex items-center gap-2">
+                    <h3 className="text-base font-black text-[#1E293B] flex items-center gap-2">
                       <Workflow className="h-5 w-5 text-sudan-green" />
                       {currentLanguage === "ar" ? "محاكي مسار الإجراءات والمعاملات الحكومي" : "Sovereign Workflow Engine & Lifecycle Simulator"}
                     </h3>
@@ -1009,7 +1009,7 @@ service cloud.firestore {
                     <div className="p-5 bg-white border border-gray-200 rounded-2xl space-y-3 shadow-xs">
                       <div className="flex items-center justify-between border-b border-gray-100 pb-2">
                         <span className="text-xs font-mono font-black text-sudan-gold">STEP {workflowState + 1} OF 8</span>
-                        <h4 className="font-extrabold text-xs md:text-sm text-[#1A1A1A]">{currentLanguage === "ar" ? workflowSteps[workflowState].labelAr : workflowSteps[workflowState].labelEn}</h4>
+                        <h4 className="font-extrabold text-xs md:text-sm text-[#1E293B]">{currentLanguage === "ar" ? workflowSteps[workflowState].labelAr : workflowSteps[workflowState].labelEn}</h4>
                       </div>
                       
                       <p className="text-xs text-gray-500 leading-relaxed">
@@ -1044,7 +1044,7 @@ service cloud.firestore {
                     <div className="flex justify-between items-center pt-2">
                       <button
                         onClick={handlePrevWorkflowStep}
-                        className="flex items-center gap-1.5 bg-[#F4F6F5] hover:bg-slate-200 text-[#1A1A1A] border border-gray-200 px-4 py-2 rounded-xl text-xs font-bold cursor-pointer transition-colors"
+                        className="flex items-center gap-1.5 bg-[#F4F6F5] hover:bg-slate-200 text-[#1E293B] border border-gray-200 px-4 py-2 rounded-xl text-xs font-bold cursor-pointer transition-colors"
                       >
                         <ChevronLeft className="h-4 w-4" />
                         {currentLanguage === "ar" ? "المرحلة السابقة" : "Previous Stage"}
@@ -1070,7 +1070,7 @@ service cloud.firestore {
               {activeTab === "integration-hub" && (
                 <div className="space-y-6">
                   <div className="border-b border-gray-100 pb-4">
-                    <h3 className="text-base font-black text-[#1A1A1A] flex items-center gap-2">
+                    <h3 className="text-base font-black text-[#1E293B] flex items-center gap-2">
                       <Network className="h-5 w-5 text-sudan-green" />
                       {currentLanguage === "ar" ? "خريطة التكامل الفيدرالي الموحد" : "Sudanese Unified Government Integration Map"}
                     </h3>
@@ -1103,7 +1103,7 @@ service cloud.firestore {
 
                     {/* REST Console Details */}
                     {selectedIntegration && (
-                      <div className="bg-sudan-dark text-[#D8DEE9] font-mono p-5 rounded-2xl space-y-4 shadow-lg text-[11px] border border-slate-700">
+                      <div className="bg-slate-950 text-[#D8DEE9] font-mono p-5 rounded-2xl space-y-4 shadow-lg text-[11px] border border-slate-800">
                         <div className="flex items-center justify-between border-b border-slate-700 pb-3">
                           <span className="text-[10px] bg-slate-700 text-sudan-gold px-2.5 py-0.5 rounded-md font-bold uppercase tracking-wider">
                             {integrationsList[selectedIntegration as keyof typeof integrationsList].method}
@@ -1146,7 +1146,7 @@ service cloud.firestore {
               {activeTab === "ai-services" && (
                 <div className="space-y-6">
                   <div className="border-b border-gray-100 pb-4">
-                    <h3 className="text-base font-black text-[#1A1A1A] flex items-center gap-2">
+                    <h3 className="text-base font-black text-[#1E293B] flex items-center gap-2">
                       <Sparkles className="h-5 w-5 text-sudan-green" />
                       {currentLanguage === "ar" ? "بنية الخدمات والذكاء الاصطناعي السيادي 2035" : "Sovereign AI Core & Document AI Platform"}
                     </h3>
@@ -1161,7 +1161,7 @@ service cloud.firestore {
                     
                     <div className="p-4 bg-[#F4F6F5] border border-gray-200 rounded-2xl space-y-4">
                       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
-                        <div className="flex items-center gap-2.5 text-xs text-[#1A1A1A]">
+                        <div className="flex items-center gap-2.5 text-xs text-[#1E293B]">
                           <span className="font-bold">{currentLanguage === "ar" ? "اختر مستنداً للمحاكاة:" : "Select Document:"}</span>
                           <select
                             value={ocrDocumentType}
@@ -1198,7 +1198,7 @@ service cloud.firestore {
                           className="bg-white p-4 rounded-xl border border-gray-200 space-y-3 text-xs"
                         >
                           <div className="flex items-center justify-between border-b border-gray-100 pb-2">
-                            <span className="font-extrabold text-[#1A1A1A]">{ocrResult.document_type}</span>
+                            <span className="font-extrabold text-[#1E293B]">{ocrResult.document_type}</span>
                             <span className="bg-emerald-50 border border-emerald-100 text-emerald-700 px-2.5 py-0.5 rounded font-mono text-[10px] font-bold">
                               Confidence: {ocrResult.confidence_score}
                             </span>
@@ -1208,7 +1208,7 @@ service cloud.firestore {
                             {Object.entries(ocrResult.extracted_metadata).map(([key, val]: any) => (
                               <div key={key} className="bg-slate-50 p-2.5 rounded-lg border border-gray-100">
                                 <span className="text-[10px] text-gray-400 font-bold block">{key}</span>
-                                <span className="text-[#1A1A1A] font-extrabold mt-0.5 block">{val}</span>
+                                <span className="text-[#1E293B] font-extrabold mt-0.5 block">{val}</span>
                               </div>
                             ))}
                           </div>
@@ -1238,7 +1238,7 @@ service cloud.firestore {
               {activeTab === "security-audit" && (
                 <div className="space-y-6">
                   <div className="border-b border-gray-100 pb-4">
-                    <h3 className="text-base font-black text-[#1A1A1A] flex items-center gap-2">
+                    <h3 className="text-base font-black text-[#1E293B] flex items-center gap-2">
                       <Lock className="h-5 w-5 text-sudan-green" />
                       {currentLanguage === "ar" ? "بنية الأمن السيبراني ومراقبة سجل التدقيق" : "Cybersecurity Controls & Audit Ledger"}
                     </h3>
@@ -1365,7 +1365,7 @@ service cloud.firestore {
               {activeTab === "export-specs" && (
                 <div className="space-y-6">
                   <div className="border-b border-gray-100 pb-4">
-                    <h3 className="text-base font-black text-[#1A1A1A] flex items-center gap-2">
+                    <h3 className="text-base font-black text-[#1E293B] flex items-center gap-2">
                       <FileCode className="h-5 w-5 text-sudan-green" />
                       {currentLanguage === "ar" ? "تصدير حزمة ومخططات المعمارية البرمجية" : "Developer Package & Firebase Exporter"}
                     </h3>
@@ -1398,10 +1398,10 @@ service cloud.firestore {
                     </div>
 
                     <div className="relative">
-                      <pre className="bg-sudan-dark text-[#D8DEE9] font-mono p-5 rounded-2xl text-[10px] md:text-xs overflow-x-auto max-h-[300px] leading-relaxed border border-slate-700">
+                      <pre className="bg-slate-950 text-[#D8DEE9] font-mono p-5 rounded-2xl text-[10px] md:text-xs overflow-x-auto max-h-[300px] leading-relaxed border border-slate-800">
                         {firestoreSecurityRulesCode}
                       </pre>
-                      <div className="absolute bottom-4 right-4 bg-sudan-dark/80 px-3 py-1 rounded text-[10px] text-gray-400 font-bold border border-slate-700">
+                      <div className="absolute bottom-4 right-4 bg-slate-900/80 px-3 py-1 rounded text-[10px] text-gray-400 font-bold border border-slate-800">
                         YAML / FireRules Standard
                       </div>
                     </div>
@@ -1430,7 +1430,7 @@ service cloud.firestore {
                       </button>
                     </div>
 
-                    <pre className="bg-sudan-dark text-[#D8DEE9] font-mono p-5 rounded-2xl text-[10px] md:text-xs overflow-x-auto max-h-[250px] leading-relaxed border border-slate-700">
+                    <pre className="bg-slate-950 text-[#D8DEE9] font-mono p-5 rounded-2xl text-[10px] md:text-xs overflow-x-auto max-h-[250px] leading-relaxed border border-slate-800">
                       {JSON.stringify(firestoreCollections, null, 2)}
                     </pre>
                   </div>

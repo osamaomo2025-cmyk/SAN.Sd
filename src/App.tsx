@@ -7,7 +7,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { 
   Building2, Cpu, Globe, Landmark, ShieldAlert, 
-  Menu, LayoutDashboard, Layers, Palette 
+  Menu, LayoutDashboard, Layers, Palette, Award, ShieldCheck, Scale 
 } from "lucide-react";
 
 import { 
@@ -18,6 +18,7 @@ import {
 
 import AIChatAssistant from "./components/AIChatAssistant";
 import CommercialRegistrationModule from "./components/CommercialRegistration";
+import CommercialNamesModule from "./components/CommercialNames";
 import IndustrialPlatformModule from "./components/IndustrialPlatform";
 import ImportExportModule from "./components/ImportExport";
 import InvestmentPortalModule from "./components/InvestmentPortal";
@@ -25,6 +26,9 @@ import ConsumerProtectionModule from "./components/ConsumerProtection";
 import Dashboards from "./components/Dashboards";
 import EnterpriseArchitecture from "./components/EnterpriseArchitecture";
 import GovernmentDesignSystem from "./components/GovernmentDesignSystem";
+import CorporateLifecycleModule from "./components/CorporateLifecycle";
+import LicensingPlatform from "./components/LicensingPlatform";
+
 
 // Standard Seeding Data fully compliant with Typescript structures
 const initialCompanies: CommercialRegistration[] = [
@@ -227,7 +231,12 @@ export default function App() {
   const [currentLanguage, setCurrentLanguage] = useState<"ar" | "en">("ar");
   const [currentRole, setCurrentRole] = useState<UserRole>(UserRole.BUSINESS_INVESTOR);
   const [activeModule, setActiveModule] = useState<string>("dashboard");
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(() => {
+    if (typeof window !== "undefined") {
+      return window.innerWidth >= 768;
+    }
+    return false;
+  });
 
   // Core Data State Synchronized via LocalStorage
   const [companies, setCompanies] = useState<CommercialRegistration[]>([]);
@@ -452,7 +461,10 @@ export default function App() {
   // Nav menu items
   const menuItems = [
     { id: "dashboard", labelAr: "لوحة المتابعة الرقمية", labelEn: "Sovereign Dashboard", icon: LayoutDashboard },
+    { id: "commercial-names", labelAr: "نظام الأسماء التجارية", labelEn: "Commercial Names", icon: Award },
     { id: "commercial", labelAr: "السجل التجاري الذكي", labelEn: "Commercial Registry", icon: Building2 },
+    { id: "corporate-lifecycle", labelAr: "تأسيس وحوكمة الشركات", labelEn: "Corporate Lifecycle", icon: ShieldCheck },
+    { id: "licensing-platform", labelAr: "التراخيص الوطنية والمطابقة", labelEn: "Licensing Platform", icon: Scale },
     { id: "industrial", labelAr: "المنصة الصناعية", labelEn: "Industrial Platform", icon: Cpu },
     { id: "importexport", labelAr: "الاستيراد والتصدير", labelEn: "Import & Export", icon: Globe },
     { id: "investment", labelAr: "بوابة الاستثمار والمدن", labelEn: "Investment Lands", icon: Landmark },
@@ -475,11 +487,11 @@ export default function App() {
 
   return (
     <div 
-      className="min-h-screen bg-[#F4F6F5] flex flex-col font-sans text-[#1A1A1A] selection:bg-sudan-green selection:text-white"
+      className="min-h-screen bg-[#F4F6F5] flex flex-col font-sans text-[#1E293B] selection:bg-sudan-green selection:text-white overflow-x-hidden"
       dir={currentLanguage === "ar" ? "rtl" : "ltr"}
     >
       {/* Upper Navigation/Branding Bar */}
-      <header className="bg-white text-[#1A1A1A] border-b border-gray-200 sticky top-0 z-30 shadow-sm h-20 flex items-center">
+      <header className="bg-white text-[#1E293B] border-b border-gray-200 sticky top-0 z-30 shadow-sm h-20 flex items-center">
         <div className="max-w-7xl mx-auto px-4 md:px-6 w-full flex items-center justify-between">
           {/* Logo / Title Block */}
           <div className="flex items-center gap-3">
@@ -517,12 +529,12 @@ export default function App() {
               <select
                 value={currentRole}
                 onChange={(e) => setCurrentRole(e.target.value as UserRole)}
-                className="bg-transparent text-[#1A1A1A] outline-none font-bold cursor-pointer"
+                className="bg-transparent text-[#1E293B] outline-none font-bold cursor-pointer"
               >
-                <option value={UserRole.BUSINESS_INVESTOR} className="bg-white text-[#1A1A1A]">{currentLanguage === "ar" ? "مستثمر / مواطن" : "Investor / Citizen"}</option>
-                <option value={UserRole.GOVERNMENT_EMPLOYEE} className="bg-white text-[#1A1A1A]">{currentLanguage === "ar" ? "موظف مراجع" : "Ministry Reviewer"}</option>
-                <option value={UserRole.GOVERNMENT_EXECUTIVE} className="bg-white text-[#1A1A1A]">{currentLanguage === "ar" ? "مدير تنفيذي" : "Executive Admin"}</option>
-                <option value={UserRole.GOVERNMENT_MINISTER} className="bg-white text-[#1A1A1A]">{currentLanguage === "ar" ? "معالي الوزير" : "His Excellency Minister"}</option>
+                <option value={UserRole.BUSINESS_INVESTOR} className="bg-white text-[#1E293B]">{currentLanguage === "ar" ? "مستثمر / مواطن" : "Investor / Citizen"}</option>
+                <option value={UserRole.GOVERNMENT_EMPLOYEE} className="bg-white text-[#1E293B]">{currentLanguage === "ar" ? "موظف مراجع" : "Ministry Reviewer"}</option>
+                <option value={UserRole.GOVERNMENT_EXECUTIVE} className="bg-white text-[#1E293B]">{currentLanguage === "ar" ? "مدير تنفيذي" : "Executive Admin"}</option>
+                <option value={UserRole.GOVERNMENT_MINISTER} className="bg-white text-[#1E293B]">{currentLanguage === "ar" ? "معالي الوزير" : "His Excellency Minister"}</option>
               </select>
             </div>
 
@@ -540,11 +552,23 @@ export default function App() {
       {/* Main Body Grid */}
       <div className="flex-1 flex max-w-7xl mx-auto w-full relative">
         
+        {/* Mobile Sidebar Backdrop Overlay */}
+        {isSidebarOpen && (
+          <div 
+            className="fixed inset-0 bg-black/40 backdrop-blur-xs z-30 md:hidden cursor-pointer"
+            onClick={() => setIsSidebarOpen(false)}
+          />
+        )}
+        
         {/* Sidebar Left Navigation */}
         <aside 
-          className={`bg-white border-r border-gray-200 w-64 shrink-0 p-5 space-y-4 absolute md:sticky md:top-20 h-[calc(100vh-80px)] z-20 md:block transition-all duration-300 ${
-            isSidebarOpen ? "translate-x-0" : currentLanguage === "ar" ? "translate-x-64" : "-translate-x-64"
-          } md:translate-x-0 ${currentLanguage === "ar" ? "right-0 border-l border-r-0" : "left-0"}`}
+          className={`bg-white w-64 shrink-0 p-5 space-y-4 fixed md:sticky top-0 md:top-20 bottom-0 h-full md:h-[calc(100vh-80px)] z-40 md:z-20 md:block transition-all duration-300 ${
+            isSidebarOpen 
+              ? "translate-x-0" 
+              : currentLanguage === "ar" 
+                ? "translate-x-full" 
+                : "-translate-x-full"
+          } md:translate-x-0 ${currentLanguage === "ar" ? "right-0 border-l border-gray-200 border-r-0" : "left-0"}`}
         >
           {/* Active User Header */}
           <div className="p-4 bg-[#F4F6F5] rounded-3xl border border-gray-200 flex items-center gap-3">
@@ -552,7 +576,7 @@ export default function App() {
               {currentRole[0].toUpperCase()}
             </div>
             <div className="overflow-hidden">
-              <h4 className="font-extrabold text-xs text-[#1A1A1A] truncate">{currentProfile.fullName}</h4>
+              <h4 className="font-extrabold text-xs text-[#1E293B] truncate">{currentProfile.fullName}</h4>
               <p className="text-[10px] text-sudan-gold font-bold mt-0.5">{currentRoleObj()[currentLanguage]}</p>
             </div>
           </div>
@@ -592,7 +616,7 @@ export default function App() {
         </aside>
 
         {/* Content Panel */}
-        <main className="flex-1 p-4 md:p-6 overflow-hidden min-h-[calc(100vh-80px)]">
+        <main className="flex-1 p-4 md:p-6 overflow-x-hidden min-h-[calc(100vh-80px)]">
           
           <AnimatePresence mode="wait">
             <motion.div
@@ -615,6 +639,14 @@ export default function App() {
                 />
               )}
 
+              {activeModule === "commercial-names" && (
+                <CommercialNamesModule
+                  currentLanguage={currentLanguage}
+                  isAdmin={currentRole !== UserRole.BUSINESS_INVESTOR}
+                  companies={companies}
+                />
+              )}
+
               {activeModule === "commercial" && (
                 <CommercialRegistrationModule
                   currentLanguage={currentLanguage}
@@ -622,6 +654,20 @@ export default function App() {
                   onAddCompany={handleAddCompany}
                   isAdmin={currentRole !== UserRole.BUSINESS_INVESTOR}
                   onUpdateStatus={handleUpdateCompanyStatus}
+                />
+              )}
+
+              {activeModule === "corporate-lifecycle" && (
+                <CorporateLifecycleModule
+                  currentLanguage={currentLanguage}
+                  role={currentRole}
+                />
+              )}
+
+              {activeModule === "licensing-platform" && (
+                <LicensingPlatform
+                  currentLanguage={currentLanguage}
+                  role={currentRole}
                 />
               )}
 

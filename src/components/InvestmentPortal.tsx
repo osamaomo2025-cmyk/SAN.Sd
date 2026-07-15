@@ -157,7 +157,7 @@ export default function InvestmentPortalModule({
                   <span className="text-[9px] bg-amber-100 text-[#C5A059] border border-amber-200 font-bold px-2 py-0.5 rounded-md uppercase tracking-wider">
                     {currentLanguage === "ar" ? opp.sectorAr : opp.sectorEn}
                   </span>
-                  <h4 className="font-extrabold text-[#1A1A1A] text-sm md:text-base leading-snug">
+                  <h4 className="font-extrabold text-[#1E293B] text-sm md:text-base leading-snug">
                     {currentLanguage === "ar" ? opp.titleAr : opp.titleEn}
                   </h4>
                 </div>
@@ -185,7 +185,7 @@ export default function InvestmentPortalModule({
               </span>
               <button
                 onClick={() => handleOpenFormWithOpp(opp)}
-                className="bg-sudan-dark hover:bg-slate-800 text-white text-[10px] font-extrabold uppercase tracking-wider px-4 py-2.5 rounded-xl flex items-center gap-1.5 cursor-pointer transition-all duration-300 shadow-sm"
+                className="bg-sudan-dark hover:bg-sudan-dark/80 text-slate-900 text-[10px] font-extrabold uppercase tracking-wider px-4 py-2.5 rounded-xl flex items-center gap-1.5 cursor-pointer transition-all duration-300 shadow-sm"
               >
                 <span>{currentLanguage === "ar" ? "التقديم وتخصيص أرض" : "Apply & Lease Land"}</span>
                 <ArrowRight className={`h-3.5 w-3.5 ${currentLanguage === "ar" ? "rotate-180" : ""}`} />
@@ -206,7 +206,7 @@ export default function InvestmentPortalModule({
           {applications.map(app => (
             <div key={app.id} className="py-4 flex items-center justify-between gap-4 text-xs">
               <div className="space-y-1.5">
-                <p className="font-extrabold text-[#1A1A1A]">{app.proposedProject}</p>
+                <p className="font-extrabold text-[#1E293B]">{app.proposedProject}</p>
                 <p className="text-gray-400">
                   {currentLanguage === "ar" 
                     ? `المستثمر: ${app.investorName} | المنطقة المفضلة: ${app.preferredIndustrialZone} (${app.requestedAreaSqm.toLocaleString()} متر مربع)` 
@@ -255,7 +255,7 @@ export default function InvestmentPortalModule({
               exit={{ scale: 0.95, opacity: 0 }}
               className="bg-white rounded-3xl shadow-2xl max-w-lg w-full"
             >
-              <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-sudan-dark text-white rounded-t-3xl">
+              <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-sudan-dark text-slate-900 rounded-t-3xl">
                 <h3 className="font-bold text-base flex items-center gap-2">
                   <Landmark className="h-5 w-5 text-sudan-gold" />
                   {currentLanguage === "ar" ? "حجز أرض صناعية استثمارية" : "Apply for Industrial Land Lease"}

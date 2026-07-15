@@ -113,7 +113,7 @@ export default function IndustrialPlatformModule({
       {/* Platform Header */}
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-gray-200 shadow-sm">
         <div>
-          <h2 className="text-xl font-bold text-[#1A1A1A] flex items-center gap-2">
+          <h2 className="text-xl font-bold text-[#1E293B] flex items-center gap-2">
             <Cpu className="h-6 w-6 text-sudan-green animate-pulse" />
             {currentLanguage === "ar" ? "المنصة الصناعية السودانية الموحدة 2035" : "Sudan Unified Industrial Platform 2035"}
           </h2>
@@ -140,7 +140,7 @@ export default function IndustrialPlatformModule({
           </div>
           <div>
             <h5 className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider">{currentLanguage === "ar" ? "إجمالي المصانع" : "Total Factories"}</h5>
-            <p className="text-2xl font-black text-[#1A1A1A] mt-1">{factories.length}</p>
+            <p className="text-2xl font-black text-[#1E293B] mt-1">{factories.length}</p>
           </div>
         </div>
         <div className="bg-white p-5 rounded-3xl border border-gray-200 shadow-sm flex items-center gap-4 hover:scale-[1.01] transition-all duration-300">
@@ -149,7 +149,7 @@ export default function IndustrialPlatformModule({
           </div>
           <div>
             <h5 className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider">{currentLanguage === "ar" ? "المرخصة بالكامل" : "Licensed Units"}</h5>
-            <p className="text-2xl font-black text-[#1A1A1A] mt-1">
+            <p className="text-2xl font-black text-[#1E293B] mt-1">
               {factories.filter(f => f.status === "approved").length}
             </p>
           </div>
@@ -160,7 +160,7 @@ export default function IndustrialPlatformModule({
           </div>
           <div>
             <h5 className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider">{currentLanguage === "ar" ? "خطوط الإنتاج المسجلة" : "Production Lines"}</h5>
-            <p className="text-2xl font-black text-[#1A1A1A] mt-1">
+            <p className="text-2xl font-black text-[#1E293B] mt-1">
               {factories.reduce((sum, f) => sum + f.productionLinesCount, 0)}
             </p>
           </div>
@@ -171,7 +171,7 @@ export default function IndustrialPlatformModule({
           </div>
           <div>
             <h5 className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider">{currentLanguage === "ar" ? "المفتشة بيئياً وفنياً" : "Passed Inspections"}</h5>
-            <p className="text-2xl font-black text-[#1A1A1A] mt-1">
+            <p className="text-2xl font-black text-[#1E293B] mt-1">
               {factories.filter(f => f.inspectionStatus === "passed").length}
             </p>
           </div>
@@ -233,7 +233,7 @@ export default function IndustrialPlatformModule({
                 </div>
 
                 <div>
-                  <h3 className="text-base md:text-lg font-extrabold text-[#1A1A1A]">{fac.factoryName}</h3>
+                  <h3 className="text-base md:text-lg font-extrabold text-[#1E293B]">{fac.factoryName}</h3>
                   <p className="text-xs text-gray-400 flex items-center gap-1 mt-1">
                     <MapPin className="h-3.5 w-3.5 text-sudan-gold" />
                     <span className="font-bold">{fac.locationState}</span>
@@ -317,7 +317,7 @@ export default function IndustrialPlatformModule({
               exit={{ scale: 0.95, opacity: 0 }}
               className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
             >
-              <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-sudan-dark text-white rounded-t-3xl">
+              <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-sudan-dark text-slate-900 rounded-t-3xl">
                 <div className="flex items-center gap-2.5">
                   <Cpu className="h-5 w-5 text-sudan-gold animate-spin-slow" />
                   <h3 className="font-bold text-base">

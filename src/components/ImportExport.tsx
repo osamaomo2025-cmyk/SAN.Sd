@@ -141,7 +141,7 @@ export default function ImportExportModule({
       {/* Banner */}
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-gray-200 shadow-sm">
         <div>
-          <h2 className="text-xl font-bold text-[#1A1A1A] flex items-center gap-2">
+          <h2 className="text-xl font-bold text-[#1E293B] flex items-center gap-2">
             <Globe className="h-6 w-6 text-sudan-green" />
             {currentLanguage === "ar" ? "إدارة الاستيراد والتصدير والتجارة الخارجية" : "Import & Export Custom Portal"}
           </h2>
@@ -219,13 +219,13 @@ export default function ImportExportModule({
                 </div>
                 
                 <div>
-                  <h4 className="font-extrabold text-[#1A1A1A] text-sm md:text-base">{lic.companyName}</h4>
+                  <h4 className="font-extrabold text-[#1E293B] text-sm md:text-base">{lic.companyName}</h4>
                   <p className="text-xs text-gray-400 mt-2 leading-relaxed">{lic.goodsDescription}</p>
                 </div>
                 
                 <div className="pt-3 border-t border-gray-100 text-xs text-gray-400 flex justify-between items-center">
                   <span>{currentLanguage === "ar" ? "القيمة التقديرية السنوية:" : "Est. Annual Value:"}</span>
-                  <span className="font-extrabold text-[#1A1A1A] font-mono">{lic.annualValueEstimate.toLocaleString()} SDG</span>
+                  <span className="font-extrabold text-[#1E293B] font-mono">{lic.annualValueEstimate.toLocaleString()} SDG</span>
                 </div>
 
                 {isAdmin && lic.status === "pending" && onUpdateLicenseStatus && (
@@ -268,7 +268,7 @@ export default function ImportExportModule({
                   </div>
 
                   <div>
-                    <h4 className="font-extrabold text-[#1A1A1A] text-sm md:text-base">
+                    <h4 className="font-extrabold text-[#1E293B] text-sm md:text-base">
                       {currentLanguage === "ar" ? cert.goodsDescriptionAr : cert.goodsDescriptionEn}
                     </h4>
                     <p className="text-xs text-gray-400 mt-2">
@@ -316,7 +316,7 @@ export default function ImportExportModule({
               exit={{ scale: 0.95, opacity: 0 }}
               className="bg-white rounded-3xl shadow-2xl max-w-lg w-full"
             >
-              <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-sudan-dark text-white rounded-t-3xl">
+              <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-sudan-dark text-slate-900 rounded-t-3xl">
                 <h3 className="font-bold text-base">
                   {currentLanguage === "ar" ? "طلب ترخيص استيراد وتصدير تجاري" : "Request Import / Export License"}
                 </h3>
@@ -416,7 +416,7 @@ export default function ImportExportModule({
               exit={{ scale: 0.95, opacity: 0 }}
               className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
             >
-              <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-sudan-dark text-white rounded-t-3xl">
+              <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-sudan-dark text-slate-900 rounded-t-3xl">
                 <h3 className="font-bold text-base flex items-center gap-2">
                   <Compass className="h-5 w-5 text-sudan-gold animate-spin-slow" />
                   {currentLanguage === "ar" ? "إصدار شهادة منشأ سودانية رقمية معتمدة" : "Issue Digital Certificate of Origin"}
@@ -529,7 +529,7 @@ export default function ImportExportModule({
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white text-slate-800 rounded-3xl max-w-2xl w-full overflow-hidden border-4 border-sudan-green p-8 space-y-6 shadow-2xl relative"
+              className="bg-white text-slate-800 rounded-3xl max-w-2xl w-full max-h-[95vh] overflow-y-auto border-4 border-sudan-green p-4 sm:p-8 space-y-6 shadow-2xl relative"
             >
               {/* Seal Backdrop */}
               <div className="absolute inset-0 flex items-center justify-center opacity-3 pointer-events-none">

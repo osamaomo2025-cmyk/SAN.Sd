@@ -473,12 +473,12 @@ export const COLOR_SCALES = {
     200: "#DFDFDF",
     300: "#C5C5C5",
     400: "#8E8E8E",
-    500: "#1A1A1A", // Primary Dark Interface Surface
-    600: "#171717",
-    700: "#141414",
-    800: "#111111",
-    900: "#0A0A0A",
-    950: "#050505"
+    500: "#b1e0c0", // Primary Dark Interface Surface (Replaced with Sovereign Mint #b1e0c0)
+    600: "#98cfa7",
+    700: "#80be90",
+    800: "#69ad7a",
+    900: "#529c65",
+    950: "#3d8b51"
   },
   semanticSuccess: {
     50: "#ECFDF5",
@@ -520,7 +520,7 @@ export const SEMANTIC_LIGHT_THEME = {
   surfaceCardSecondary: "#F9FAFB",
   surfaceSidebar: "#FFFFFF",
   surfaceHeader: "#FFFFFF",
-  surfaceFooter: "#1A1A1A",
+  surfaceFooter: "#b1e0c0",
   surfaceOverlay: "rgba(0,0,0,0.5)",
   
   // Interactive Elements
@@ -559,7 +559,7 @@ export const SEMANTIC_LIGHT_THEME = {
   divider: "#F3F4F6",
   
   // Texts
-  textPrimary: "#1A1A1A",
+  textPrimary: "#1E293B",
   textSecondary: "#4B5563",
   textTertiary: "#9CA3AF",
   textOnPrimary: "#FFFFFF",
@@ -629,7 +629,7 @@ export const SEMANTIC_DARK_THEME = {
   textSecondary: "#A3A3A3",
   textTertiary: "#737373",
   textOnPrimary: "#FFFFFF",
-  textOnSecondary: "#1A1A1A",
+  textOnSecondary: "#1E293B",
   
   // Tables
   tableHeaderBackground: "#171717",

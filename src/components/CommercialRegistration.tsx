@@ -117,7 +117,7 @@ export default function CommercialRegistrationModule({
       {/* Top Banner & Action */}
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-gray-200 shadow-sm">
         <div>
-          <h2 className="text-xl font-bold text-[#1A1A1A] flex items-center gap-2">
+          <h2 className="text-xl font-bold text-[#1E293B] flex items-center gap-2">
             <Building2 className="h-6 w-6 text-sudan-green" />
             {currentLanguage === "ar" ? "نظام السجل التجاري الرقمي 2035" : "Digital Commercial Registry System 2035"}
           </h2>
@@ -144,7 +144,7 @@ export default function CommercialRegistrationModule({
           </div>
           <div>
             <h4 className="text-[10px] text-gray-400 uppercase font-extrabold tracking-wider">{currentLanguage === "ar" ? "السجلات المعتمدة" : "Approved Registries"}</h4>
-            <p className="text-2xl font-black text-[#1A1A1A] mt-1">
+            <p className="text-2xl font-black text-[#1E293B] mt-1">
               {companies.filter(c => c.status === "approved").length}
             </p>
           </div>
@@ -155,7 +155,7 @@ export default function CommercialRegistrationModule({
           </div>
           <div>
             <h4 className="text-[10px] text-gray-400 uppercase font-extrabold tracking-wider">{currentLanguage === "ar" ? "تحت المراجعة" : "Under Review"}</h4>
-            <p className="text-2xl font-black text-[#1A1A1A] mt-1">
+            <p className="text-2xl font-black text-[#1E293B] mt-1">
               {companies.filter(c => c.status === "pending" || c.status === "under_review").length}
             </p>
           </div>
@@ -166,7 +166,7 @@ export default function CommercialRegistrationModule({
           </div>
           <div>
             <h4 className="text-[10px] text-gray-400 uppercase font-extrabold tracking-wider">{currentLanguage === "ar" ? "إجمالي رؤوس الأموال الاستثمارية" : "Total Venture Capital"}</h4>
-            <p className="text-2xl font-black text-[#1A1A1A] mt-1">
+            <p className="text-2xl font-black text-[#1E293B] mt-1">
               {companies.reduce((sum, c) => sum + c.capital, 0).toLocaleString()} <span className="text-xs font-normal">SDG</span>
             </p>
           </div>
@@ -221,7 +221,7 @@ export default function CommercialRegistrationModule({
                 <span className="text-xs text-gray-400 font-mono font-bold">{comp.registrationNumber}</span>
               </div>
               <div>
-                <h3 className="font-extrabold text-[#1A1A1A] text-sm md:text-base">
+                <h3 className="font-extrabold text-[#1E293B] text-sm md:text-base">
                   {currentLanguage === "ar" ? comp.companyNameAr : comp.companyNameEn}
                 </h3>
                 <p className="text-xs text-gray-400 mt-1">
@@ -265,7 +265,7 @@ export default function CommercialRegistrationModule({
               exit={{ scale: 0.95, opacity: 0 }}
               className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
             >
-              <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-sudan-dark text-white rounded-t-3xl">
+              <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-sudan-dark text-slate-900 rounded-t-3xl">
                 <div className="flex items-center gap-2.5">
                   <Building2 className="h-5 w-5 text-sudan-gold" />
                   <h3 className="font-bold text-base">
@@ -422,12 +422,12 @@ export default function CommercialRegistrationModule({
       {/* Verification Certificate (QR Code Detail Modal) */}
       <AnimatePresence>
         {selectedCompany && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm overflow-y-auto">
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-slate-900 text-white rounded-3xl max-w-lg w-full overflow-hidden border border-sudan-gold"
+              className="bg-slate-900 text-white rounded-3xl max-w-lg w-full max-h-[95vh] overflow-y-auto border border-sudan-gold"
             >
               {/* Header Certificate */}
               <div className="relative p-6 bg-gradient-to-br from-slate-850 to-slate-900 border-b border-sudan-gold/20 flex flex-col items-center text-center space-y-2">

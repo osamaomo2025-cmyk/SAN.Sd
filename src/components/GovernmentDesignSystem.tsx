@@ -101,7 +101,7 @@ export default function GovernmentDesignSystem({ currentLanguage, role }: Govern
   const colorsList = [
     { name: "Primary Sudan Green", hex: "#007A33", tailwind: "bg-sudan-green", contrast: "AAA (7.8:1)", category: "Primary", descAr: "الأخضر الوطني الرسمي لتمثيل التنمية والنماء والقطاع الزراعي العريق.", descEn: "The official national green representing development, agriculture, and prosperity." },
     { name: "Sovereign Gold", hex: "#C5A059", tailwind: "bg-sudan-gold", contrast: "AA (4.5:1 with Dark Text)", category: "Primary Accent", descAr: "الذهبي الملكي لتمثيل الثروات المعدنية، الصمغ العربي، وفرص الاستثمار الفاخرة.", descEn: "Royal Gold representing mineral wealth, Gum Arabic export grade, and premium investment." },
-    { name: "Sovereign Dark Slate", hex: "#1A1A1A", tailwind: "bg-sudan-dark", contrast: "AAA (21:1 with White)", category: "Neutral Dark", descAr: "الرمادي الفحمي الداكن للنصوص والأسطح القيادية الرسمية السيادية.", descEn: "Deep sovereign charcoal for corporate body text and high-contrast official layouts." },
+    { name: "Sovereign Mint", hex: "#b1e0c0", tailwind: "bg-sudan-dark", contrast: "AA (with Dark Text)", category: "Neutral Light Accent", descAr: "اللون السيادي الجديد المستلهم من الهوية النضرة والحديثة للتطبيق.", descEn: "Sovereign mint green representing a fresh and modern national digital identity." },
     { name: "Pure White / Off-White", hex: "#F4F6F5", tailwind: "bg-slate-50", contrast: "AAA with Slate Text", category: "Neutral Light", descAr: "الأبيض والرمادي الخفيف للفراغات المريحة والعناصر الإدارية الأنيقة.", descEn: "Soft off-white for negative spaces, crisp document cards, and clean background margins." },
     { name: "Semantic Success", hex: "#10B981", tailwind: "bg-emerald-500", contrast: "AAA (4.8:1)", category: "Semantic", descAr: "الأخضر المعتمد للمعاملات المقبولة، السجلات المرخصة، والرسوم المدفوعة.", descEn: "Approved transactions, verified corporate registers, and completed payments." },
     { name: "Semantic Warning / Pending", hex: "#F59E0B", tailwind: "bg-amber-500", contrast: "AA (3.1:1)", category: "Semantic", descAr: "البرتقالي الدافئ للمعاملات تحت التدقيق الميداني أو الحجوزات المؤقتة للأراضي.", descEn: "Applications under audit, temporary reservations, or warnings." },
@@ -151,7 +151,7 @@ export default function GovernmentDesignSystem({ currentLanguage, role }: Govern
               Sovereign Identity System
             </span>
           </div>
-          <h2 className="text-xl md:text-2xl font-black text-[#1A1A1A] flex items-center gap-2">
+          <h2 className="text-xl md:text-2xl font-black text-[#1E293B] flex items-center gap-2">
             <Palette className="h-6 w-6 text-sudan-green" />
             {currentLanguage === "ar" ? "نظام التصميم الرقمي الحكومي الموحد 2035" : "Sudan Government Design System 2035"}
           </h2>
@@ -295,7 +295,7 @@ export default function GovernmentDesignSystem({ currentLanguage, role }: Govern
                       <div className="h-24 w-24 rounded-full bg-sudan-gold border-4 border-white shadow-md flex items-center justify-center text-white font-black text-xs">
                         {currentLanguage === "ar" ? "ثروة" : "Gold"}
                       </div>
-                      <div className="h-24 w-24 rounded-full bg-sudan-dark border-4 border-white shadow-md flex items-center justify-center text-white font-black text-xs">
+                      <div className="h-24 w-24 rounded-full bg-sudan-dark border-4 border-white shadow-md flex items-center justify-center text-slate-900 font-black text-xs">
                         {currentLanguage === "ar" ? "سيادة" : "Sovereign"}
                       </div>
                     </div>
@@ -1301,7 +1301,7 @@ export default function GovernmentDesignSystem({ currentLanguage, role }: Govern
                     isDarkModePreview ? "bg-slate-800/30 border-slate-700" : "bg-indigo-50/20 border-indigo-100"
                   }`}>
                     <Award className="h-10 w-10 text-sudan-gold mx-auto animate-bounce" />
-                    <h4 className="font-extrabold text-sm text-[#1A1A1A] dark:text-white">
+                    <h4 className="font-extrabold text-sm text-[#1E293B] dark:text-white">
                       {currentLanguage === "ar" ? "تصدير الملفات البرمجية جاهز 100%" : "Production Ready Token Export Engine"}
                     </h4>
                     <p className="text-xs text-gray-500 max-w-lg mx-auto leading-relaxed">

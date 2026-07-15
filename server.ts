@@ -13,7 +13,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 
 app.use(express.json());
 
@@ -359,65 +359,42 @@ app.post("/api/complaints", (req, res) => {
   res.json({ success: true, complaint: newComplaint });
 });
 
-app.post("/api/complaints/:id/resolve", (req, res) => {
-  const db = getDB();
-  const { id } = req.params;
-  const { status, investigationNotes } = req.body;
-  const complaint = db.complaints.find((c) => c.id === id);
-  if (complaint) {
-    complaint.status = status;
-    complaint.investigationNotes = investigationNotes;
-    saveDB(db);
-    res.json({ success: true, complaint });
-  } else {
-    res.status(404).json({ error: "Complaint not found" });
-  }
-});
-
-// Reset database endpoint (for debug or testing)
-app.post("/api/db/reset", (req, res) => {
-  saveDB(defaultDBState);
-  res.json({ success: true, message: "Database reset to defaults" });
-});
-
-// --- GOOGLE GEMINI AI ASSISTANT ENDPOINT ---
-app.post("/api/gemini/chat", async (req, res) => {
+// AI Copilot Integration
+app.post("/api/chat", async (req, res) => {
   try {
-    const { message, history = [], context = {} } = req.body;
-    if (!message) {
-      return res.status(400).json({ error: "Message is required" });
+    const { message, history, context } = req.body;
+    
+    // Lazy initialize Gemini SDK
+    let ai: GoogleGenAI | null = null;
+    if (process.env.GEMINI_API_KEY) {
+      ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
     }
 
-    const ai = getGeminiClient();
-
-    // If API Key is missing, respond with beautiful system mock advice to keep things functional and instructive
     if (!ai) {
       console.warn("GEMINI_API_KEY is not defined in environment. Using high-fidelity fallback simulator.");
       
       let mockReply = "";
       const query = message.toLowerCase();
       
-      if (query.includes("سجل") || query.includes("register") || query.includes("شركة")) {
-        mockReply = "مرحباً بك! لتسجيل شركة جديدة في منصتنا الرقمية لعام 2035، يُرجى الانتقال إلى وحدة **السجل التجاري (Commercial Registration)** وتعبئة البيانات الأساسية (الاسم التجاري، رأس المال، الشركاء، الولاية). بعد الإرسال، سيتم توليد رمز استجابة سريعة (QR Code) موثق للتحقق الفوري من حالة السجل.";
-      } else if (query.includes("مصنع") || query.includes("صناعي") || query.includes("factory")) {
-        mockReply = "أهلاً بك في بوابة التصنيع السودانية 2035. يمكنك تسجيل منشأتك الصناعية من خلال **المنصة الصناعية (Industrial Platform)**. تحتاج لتقديم معلومات عن خطوط الإنتاج، الطاقة الاستيعابية، ومصادر الطاقة لتسهيل جدولة عمليات التفتيش الصناعي الذكي وحساب حصص دعم الطاقة المخصصة.";
+      if (query.includes("رخصة") || query.includes("ترخيص") || query.includes("تصريح") || query.includes("مطابقة") || query.includes("license") || query.includes("permit") || query.includes("compliance")) {
+        mockReply = "مرحباً بك في المنصة الفيدرالية الموحدة للتراخيص والمطابقة لجمهورية السودان. تتيح لك المنصة استخراج الرخص التجارية والتشغيل الصناعي (تأسيس المصانع وخطوط الفرز) وإجراء التعديلات والتجديدات سيادياً بالكامل إلكترونياً، مع تتبع الزيارات والرقابة الميدانية ومطابقة الشروط البيئية والصحية بالتكامل مع السجل التجاري.";
+      } else if (query.includes("تأسيس") || query.includes("شركة") || query.includes("حوكمة") || query.includes("دمج") || query.includes("تعديل") || query.includes("incorporate") || query.includes("company") || query.includes("corporate")) {
+        mockReply = "مرحباً بك في نظام تأسيس وحوكمة الشركات الرقمي لجمهورية السودان. يمكنك الآن تأسيس الشركات بمختلف أنواعها (المسؤولية المحدودة ذ.م.م، التوصية البسيطة، المساهمة العامة) وإيداع الحصص والتحقق منها وتحديث البيانات القانونية وتأسيس الفروع وتطبيق التصفية إلكترونياً بالكامل حوكمةً وامتثالاً لرؤية 2035.";
+      } else if (query.includes("اسم") || query.includes("حجز") || query.includes("name") || query.includes("classification")) {
+        mockReply = "مرحباً بك في نظام حجز الأسماء التجارية الفيدرالي الرقمي الموحد لعام 2026. يمكنك من خلال هذه المنصة فحص وحجز الأسماء التجارية في ثوانٍ، وتعديل الملكية ونقلها، وتمديد فترة حجز الاسم، والتحقق الفوري من شهادة حجز الاسم عبر رمز الاستجابة السريعة (QR Code).";
       } else if (query.includes("تصدير") || query.includes("استيراد") || query.includes("منشأ") || query.includes("export") || query.includes("import")) {
-        mockReply = "لتسجيل المصدرين والمستوردين أو استخراج **شهادة المنشأ الرقمية (Certificate of Origin)**، يرجى ملء طلبات الاستيراد والتصدير مباشرة من الوحدة المخصصة. يتم تدقيق رموز التعريف المنسق (HS Code) تلقائياً لتسريع الإفراج الجمركي بميناء بورتسودان.";
-      } else if (query.includes("استثمار") || query.includes("فرصة") || query.includes("أرض") || query.includes("investment")) {
-        mockReply = "رؤية السودان الاقتصادية 2035 تتيح فرصاً استثمارية هائلة في مجالات الصمغ العربي، الطاقة المتجددة، والصناعات الغذائية. تفضل بزيارة **بوابة الاستثمار (Investment Portal)** لاستعراض خارطة المدن الصناعية وحجز الأراضي الاستثمارية إلكترونياً.";
-      } else if (query.includes("شكوى") || query.includes("حماية") || query.includes("بلاغ") || query.includes("complaint")) {
-        mockReply = "تلتزم إدارة **حماية المستهلك (Consumer Protection)** بمراقبة الأسواق وضبط الأسعار. يمكنك تقديم بلاغ عاجل عن غش تجاري أو احتكار أو زيادة أسعار غير قانونية، وسيتم توجيه مفتش ميداني للموقع فوراً مع إخطارك بالحل في لوحة التحكم الخاصة بك.";
+        mockReply = "لتسجيل المصدرين والمستوردين وتوثيق عمليات التبادل التجاري، يمكنك استخدام وحدة الاستيراد والتصدير (Import & Export). هذه الوحدة تمكنك من حجز الحصص السنوية وتصدير شهادة المنشأ الإلكترونية الموثقة برمز QR لتسهيل التخليص الجمركي في الموانئ.";
       } else {
-        mockReply = "أهلاً بك في منصة وزارة التجارة والصناعة السودانية الرقمية 2035. أنا مساعدك الذكي المتكامل للوزارة الرقمية السودانية 2035. يمكنني إرشادك في شؤون السجل التجاري، التراخيص الصناعية، شهادات المنشأ، تتبع الاستثمارات، أو رفع شكاوى حماية المستهلك. كيف يمكنني خدمتك اليوم؟";
+        mockReply = "أهلاً بك في منصة وزارة التجارة والصناعة السودانية الرقمية 2035. أنا مساعدك الذكي المتكامل للوزارة الرقمية السودانية 2035. يمكنني إرشادك في حجز الأسماء التجارية، السجل التجاري، تأسيس وحوكمة الشركات، التراخيص الفيدرالية والمطابقة، التراخيص الصناعية، شهادات المنشأ، تتبع الاستثمارات، أو رفع شكاوى حماية المستهلك. كيف يمكنني خدمتك اليوم؟";
       }
 
       return res.json({
         text: `💡 (ملاحظة: يعمل المساعد حالياً بنظام محاكاة الذكاء الاصطناعي لعدم توفر مفتاح GEMINI_API_KEY في الإعدادات)\n\n${mockReply}`,
         suggestions: [
-          "كيف يمكنني تسجيل شركة جديدة؟",
-          "ما هي الفرص الاستثمارية في السودان 2035؟",
-          "كيف أستخرج شهادة منشأ لتصدير الصمغ العربي؟",
-          "تقديم بلاغ لحماية المستهلك"
+          "كيف يمكنني تقديم رخصة تشغيل صناعي للمصنع؟",
+          "تجديد رخصة تجارية أو تقديم طلب تعديل أنشطة",
+          "التحقق من صحة ترخيص عبر رمز الاستجابة السريعة QR",
+          "قوانين المطابقة والرقابة البيئية المعتمدة"
         ]
       });
     }
@@ -428,7 +405,9 @@ app.post("/api/gemini/chat", async (req, res) => {
       Your role is to guide and advise users (citizens, local businesses, international investors, and government employees) about policies, registrations, trade regulations, consumer protection, and industrial development in Sudan.
       
       Always frame responses around Sudan's "Vision 2035" for digital transformation, including:
-      - Quick, modern commercial registration (السجل التجاري الرقمي).
+      - Quick, modern company incorporation and corporate lifecycle (تأسيس وحوكمة الشركات وإدارة دورة حياتها بالكامل).
+      - Complete Licensing Platform supporting commercial/industrial licenses and special permits lifecycle (منصة التراخيص والمطابقة الوطنية الموحدة).
+      - Quick, modern commercial registration (السجل التجاري الرقمي والأسماء التجارية).
       - Modernizing industrial factories and smart manufacturing (المنصة الصناعية الذكية).
       - Seamless export/import certifications and digitized certificates of origin (شهادة المنشأ الرقمية وميناء بورتسودان الذكي).
       - Investment opportunities in golden sectors (الصمغ العربي, agriculture, gold, industrial zones like Giad, Port Sudan Free Zone, El Bagair).

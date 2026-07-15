@@ -17,7 +17,8 @@
   --color-sudan-gold: #C5A059;
   --color-sudan-gold-light: #D8B87B;
   --color-sudan-red: #EF4444;
-  --color-sudan-dark: #1A1A1A;
+  --color-sudan-dark: #b1e0c0;
+  --color-sudan-dark-text: #1E293B;
   --color-sudan-slate: #2A2A2A;
 
   /* Responsive Typography Scales */
@@ -47,7 +48,7 @@
 body {
   font-family: var(--font-sans);
   background-color: #F4F6F5;
-  color: #1A1A1A;
+  color: #1E293B;
 }
 
 /* Scrollbar styling */

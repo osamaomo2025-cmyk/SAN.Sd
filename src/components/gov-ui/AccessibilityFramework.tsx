@@ -806,7 +806,7 @@ export const AccessibilityFramework: React.FC<AccessibilityFrameworkProps> = ({
                 <button
                   onClick={simulateAudioSpeech}
                   disabled={isAudioSimulating}
-                  className="px-6 py-2.5 bg-sudan-dark text-white hover:bg-slate-800 disabled:opacity-40 text-xs font-bold rounded-xl cursor-pointer flex items-center justify-center gap-1.5 mx-auto"
+                  className="px-6 py-2.5 bg-sudan-dark text-slate-900 hover:bg-sudan-dark/80 disabled:opacity-40 text-xs font-bold rounded-xl cursor-pointer flex items-center justify-center gap-1.5 mx-auto"
                 >
                   <Volume2 className={`h-4 w-4 ${isAudioSimulating ? "animate-bounce text-sudan-gold" : ""}`} />
                   {isAudioSimulating ? (currentLanguage === "ar" ? "جاري التحدث..." : "Narration Active...") : (currentLanguage === "ar" ? "تشغيل القارئ الصوتي" : "Play Text Narration")}

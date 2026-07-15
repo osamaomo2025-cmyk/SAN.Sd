@@ -154,7 +154,7 @@ export default function AIChatAssistant({ currentLanguage, userProfile }: AIChat
         {!isMinimized && (
           <motion.div
             id="ai-assistant-window"
-            className={`fixed bottom-6 right-6 z-40 w-full max-w-md bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col h-[550px] ${
+            className={`fixed bottom-0 right-0 left-0 md:bottom-6 md:right-6 md:left-auto z-40 w-full md:max-w-md bg-white rounded-t-3xl md:rounded-2xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col h-[75vh] md:h-[550px] ${
               currentLanguage === "ar" ? "text-right" : "text-left"
             }`}
             initial={{ opacity: 0, y: 100, scale: 0.95 }}
@@ -163,17 +163,17 @@ export default function AIChatAssistant({ currentLanguage, userProfile }: AIChat
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
           >
             {/* Header */}
-            <div className="bg-sudan-dark text-white px-4 py-3 flex items-center justify-between border-b border-sudan-gold">
+            <div className="bg-sudan-dark text-slate-900 px-4 py-3 flex items-center justify-between border-b border-sudan-gold">
               <div className="flex items-center gap-3">
                 <div className="bg-sudan-green p-2 rounded-xl border border-sudan-gold flex items-center justify-center">
                   <Bot className="h-5 w-5 text-white" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-sm tracking-wide">
+                  <h3 className="font-bold text-sm tracking-wide text-slate-900">
                     {currentLanguage === "ar" ? "مساعد التجارة الذكي 2035" : "Sudan Commerce AI 2035"}
                   </h3>
-                  <p className="text-[10px] text-slate-300 flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+                  <p className="text-[10px] text-slate-700 flex items-center gap-1 font-bold">
+                    <span className="w-1.5 h-1.5 bg-green-600 rounded-full animate-pulse"></span>
                     {currentLanguage === "ar" ? "رؤية السودان للمستقبل" : "Sudan Vision 2035"}
                   </p>
                 </div>
@@ -182,13 +182,13 @@ export default function AIChatAssistant({ currentLanguage, userProfile }: AIChat
                 <button 
                   onClick={clearChat} 
                   title={currentLanguage === "ar" ? "إعادة تهيئة المحادثة" : "Reset chat"}
-                  className="p-1.5 hover:bg-slate-800 rounded-lg text-slate-400 hover:text-white transition-colors"
+                  className="p-1.5 hover:bg-sudan-dark-light/20 rounded-lg text-slate-700 hover:text-slate-900 transition-colors"
                 >
                   <RefreshCw className="h-4 w-4" />
                 </button>
                 <button 
                   onClick={() => setIsMinimized(true)} 
-                  className="px-2 py-1 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded-md text-xs font-semibold transition-colors"
+                  className="px-2 py-1 bg-sudan-green hover:bg-sudan-green-light text-white rounded-md text-xs font-semibold transition-colors"
                 >
                   {currentLanguage === "ar" ? "تصغير" : "Minimize"}
                 </button>

@@ -112,7 +112,7 @@ export default function ConsumerProtectionModule({
       {/* Banner */}
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-gray-200 shadow-sm">
         <div>
-          <h2 className="text-xl font-bold text-[#1A1A1A] flex items-center gap-2">
+          <h2 className="text-xl font-bold text-[#1E293B] flex items-center gap-2">
             <ShieldAlert className="h-6 w-6 text-sudan-green" />
             {currentLanguage === "ar" ? "إدارة حماية المستهلك والرقابة التجارية" : "Consumer Protection & Market Control"}
           </h2>
@@ -139,7 +139,7 @@ export default function ConsumerProtectionModule({
           </div>
           <div>
             <h5 className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider">{currentLanguage === "ar" ? "إجمالي البلاغات" : "Total Violations"}</h5>
-            <p className="text-2xl font-black text-[#1A1A1A] mt-1">{complaints.length}</p>
+            <p className="text-2xl font-black text-[#1E293B] mt-1">{complaints.length}</p>
           </div>
         </div>
         <div className="bg-white border border-gray-200 p-5 rounded-3xl flex items-center gap-4 shadow-sm hover:scale-[1.01] transition-all duration-300">
@@ -148,7 +148,7 @@ export default function ConsumerProtectionModule({
           </div>
           <div>
             <h5 className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider">{currentLanguage === "ar" ? "تمت تسويتها ومخالفتها" : "Resolved Cases"}</h5>
-            <p className="text-2xl font-black text-[#1A1A1A] mt-1">
+            <p className="text-2xl font-black text-[#1E293B] mt-1">
               {complaints.filter(c => c.status === "resolved").length}
             </p>
           </div>
@@ -159,7 +159,7 @@ export default function ConsumerProtectionModule({
           </div>
           <div>
             <h5 className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider">{currentLanguage === "ar" ? "قيد المتابعة الفورية" : "Under Action"}</h5>
-            <p className="text-2xl font-black text-[#1A1A1A] mt-1">
+            <p className="text-2xl font-black text-[#1E293B] mt-1">
               {complaints.filter(c => c.status === "new" || c.status === "investigating").length}
             </p>
           </div>
@@ -215,7 +215,7 @@ export default function ConsumerProtectionModule({
                 </div>
 
                 <div>
-                  <h3 className="font-extrabold text-[#1A1A1A] text-sm md:text-base">{comp.storeName}</h3>
+                  <h3 className="font-extrabold text-[#1E293B] text-sm md:text-base">{comp.storeName}</h3>
                   <p className="text-xs text-gray-400 mt-2 flex items-center gap-1.5 flex-wrap">
                     <Store className="h-3.5 w-3.5 text-gray-400" />
                     <span className="font-bold">{currentLanguage === "ar" ? `التاجر: ${comp.storeName}` : `Merchant: ${comp.storeName}`}</span>
@@ -254,7 +254,7 @@ export default function ConsumerProtectionModule({
               exit={{ scale: 0.95, opacity: 0 }}
               className="bg-white rounded-3xl shadow-2xl max-w-lg w-full"
             >
-              <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-sudan-dark text-white rounded-t-3xl">
+              <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-sudan-dark text-slate-900 rounded-t-3xl">
                 <h3 className="font-bold text-base flex items-center gap-2">
                   <ShieldAlert className="h-5 w-5 text-sudan-gold" />
                   {currentLanguage === "ar" ? "تقديم شكوى / بلاغ حماية مستهلك" : "File Commercial Market Complaint"}
@@ -374,14 +374,14 @@ export default function ConsumerProtectionModule({
       {/* Complaint Viewing Detail Modal */}
       <AnimatePresence>
         {viewingComplaint && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm overflow-y-auto">
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white text-slate-800 rounded-3xl max-w-lg w-full overflow-hidden"
+              className="bg-white text-slate-800 rounded-3xl max-w-lg w-full max-h-[95vh] overflow-y-auto"
             >
-              <div className="p-6 border-b border-slate-100 bg-sudan-dark text-white flex items-center justify-between">
+              <div className="p-6 border-b border-slate-100 bg-sudan-dark text-slate-900 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <ShieldAlert className="h-5 w-5 text-sudan-gold" />
                   <h3 className="font-bold text-sm">{currentLanguage === "ar" ? "بلاغ حماية المستهلك المعتمد" : "Consumer Grievance Report"}</h3>
