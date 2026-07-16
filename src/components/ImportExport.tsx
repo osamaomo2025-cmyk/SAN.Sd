@@ -7,9 +7,19 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { 
   FileCheck, Globe, Plus, CheckCircle, Clock, Search, X, 
-  ArrowLeftRight, FileText, Anchor, Compass, Printer, Download 
+  ArrowLeftRight, FileText, Anchor, Compass, Printer, Download,
+  UserCheck, Map, Truck, ShieldAlert, BarChart2, Brain, Sparkles, Check
 } from "lucide-react";
 import { ImportExportLicense, CertificateOfOrigin, ApplicationStatus } from "../types";
+
+// Import modular sub-components
+import TraderRegistry from "./trade/TraderRegistry";
+import TradeLogistics from "./trade/TradeLogistics";
+import TradeGisMap from "./trade/TradeGisMap";
+import TradeCompliance from "./trade/TradeCompliance";
+import TradeAnalytics from "./trade/TradeAnalytics";
+import TradeAdvisor from "./trade/TradeAdvisor";
+import TradeCertificates from "./trade/TradeCertificates";
 
 interface ImportExportProps {
   currentLanguage: "ar" | "en";
@@ -32,7 +42,12 @@ export default function ImportExportModule({
   onUpdateLicenseStatus,
   onUpdateCertStatus
 }: ImportExportProps) {
-  const [activeTab, setActiveTab] = useState<"licenses" | "certificates">("licenses");
+  // Navigation tabs for the National Trade Platform
+  const [activeTab, setActiveTab] = useState<
+    "overview" | "licenses" | "certificates" | "registry" | "logistics" | "gis" | "compliance" | "analytics" | "advisor" | "digital_certs"
+  >("overview");
+
+  // Forms states
   const [isLicenseFormOpen, setIsLicenseFormOpen] = useState(false);
   const [isCertFormOpen, setIsCertFormOpen] = useState(false);
   const [selectedCert, setSelectedCert] = useState<CertificateOfOrigin | null>(null);
@@ -137,174 +152,334 @@ export default function ImportExportModule({
   };
 
   return (
-    <div id="import-export-module" className="space-y-6">
-      {/* Banner */}
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-gray-200 shadow-sm">
-        <div>
-          <h2 className="text-xl font-bold text-[#1E293B] flex items-center gap-2">
-            <Globe className="h-6 w-6 text-sudan-green" />
-            {currentLanguage === "ar" ? "إدارة الاستيراد والتصدير والتجارة الخارجية" : "Import & Export Custom Portal"}
-          </h2>
-          <p className="text-xs text-gray-400 mt-1">
+    <div id="import-export-module-root" className="space-y-6">
+      
+      {/* Top Main Platform Banner */}
+      <div className="bg-[#1E293B] text-white p-6 md:p-8 rounded-3xl border border-slate-800 shadow-xl relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+        
+        {/* Abstract Vector Backdrop Accent */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-sudan-green/20 via-transparent to-transparent pointer-events-none"></div>
+
+        <div className="space-y-2 relative z-10">
+          <span className="text-[10px] bg-sudan-gold/20 text-sudan-gold border border-sudan-gold/30 px-3 py-1 rounded-full font-mono font-bold tracking-wider uppercase">
+            {currentLanguage === "ar" ? "منصة وزارة التجارة الموحدة ٢٠٣٥" : "FEDERAL UNIFIED TRADE GATEWAY 2035"}
+          </span>
+          <h1 className="text-xl md:text-2xl font-black tracking-tight leading-none text-white">
+            {currentLanguage === "ar" ? "المنصة الوطنية لتسهيل التجارة، الاستيراد، التصدير والخدمات اللوجستية" : "National Trade Facilitation, Import, Export & Logistics Portal"}
+          </h1>
+          <p className="text-xs md:text-sm text-slate-300 max-w-2xl font-medium leading-relaxed">
             {currentLanguage === "ar" 
-              ? "تسجيل المصدرين والمستوردين، إصدار شهادات المنشأ الرقمية المعتمدة لميناء بورتسودان" 
-              : "Register traders, track global licenses, and generate digital certificates of origin for swift clearance"}
+              ? "الربط الفيدرالي الشامل بين السجل التجاري، الجمارك، مواصفات SSMO، والموانئ لتسييل حركات البضائع والترانزيت الإقليمي للكوميسا." 
+              : "Comprehensive federal linkage between Trader Registry, Customs, SSMO standard clearances, and marine terminals to streamline COMESA transits."}
           </p>
         </div>
-        <div className="flex gap-2">
-          {activeTab === "licenses" ? (
+
+        {/* Global Stats or Quick Action widget */}
+        <div className="flex gap-2 relative z-10 w-full md:w-auto shrink-0 justify-end">
+          {activeTab === "licenses" && (
             <button
               onClick={() => setIsLicenseFormOpen(true)}
-              className="flex items-center gap-2 bg-sudan-green hover:bg-sudan-green-light text-white px-5 py-3 rounded-2xl text-xs font-bold shadow-sm hover:shadow-md cursor-pointer transition-all duration-300"
+              className="bg-sudan-green hover:bg-sudan-green-light text-white text-xs font-bold px-5 py-3.5 rounded-2xl cursor-pointer transition-all flex items-center gap-2 shadow-lg"
             >
               <Plus className="h-4.5 w-4.5" />
-              {currentLanguage === "ar" ? "طلب رخصة استيراد/تصدير" : "Apply for Trade License"}
+              {currentLanguage === "ar" ? "طلب رخصة صادر/وارد" : "Apply for Trade License"}
             </button>
-          ) : (
+          )}
+
+          {activeTab === "certificates" && (
             <button
               onClick={() => setIsCertFormOpen(true)}
-              className="flex items-center gap-2 bg-sudan-green hover:bg-sudan-green-light text-white px-5 py-3 rounded-2xl text-xs font-bold shadow-sm hover:shadow-md cursor-pointer transition-all duration-300"
+              className="bg-sudan-green hover:bg-sudan-green-light text-white text-xs font-bold px-5 py-3.5 rounded-2xl cursor-pointer transition-all flex items-center gap-2 shadow-lg"
             >
               <Plus className="h-4.5 w-4.5" />
-              {currentLanguage === "ar" ? "طلب شهادة منشأ جديدة" : "Request Certificate of Origin"}
+              {currentLanguage === "ar" ? "إصدار شهادة منشأ جديدة" : "Request Origin Cert"}
             </button>
           )}
         </div>
       </div>
 
-      {/* Tabs Switcher */}
-      <div className="flex border-b border-gray-200">
-        <button
-          onClick={() => setActiveTab("licenses")}
-          className={`px-6 py-3 font-semibold text-xs border-b-2 transition-all flex items-center gap-2 cursor-pointer uppercase tracking-wider ${
-            activeTab === "licenses" 
-              ? "border-sudan-green text-sudan-green font-extrabold" 
-              : "border-transparent text-gray-400 hover:text-gray-800"
-          }`}
-        >
-          <ArrowLeftRight className="h-4 w-4" />
-          {currentLanguage === "ar" ? "رخص الاستيراد والتصدير" : "Trade Licenses"}
-        </button>
-        <button
-          onClick={() => setActiveTab("certificates")}
-          className={`px-6 py-3 font-semibold text-xs border-b-2 transition-all flex items-center gap-2 cursor-pointer uppercase tracking-wider ${
-            activeTab === "certificates" 
-              ? "border-sudan-green text-sudan-green font-extrabold" 
-              : "border-transparent text-gray-400 hover:text-gray-800"
-          }`}
-        >
-          <FileCheck className="h-4 w-4" />
-          {currentLanguage === "ar" ? "شهادات المنشأ الرقمية" : "Certificates of Origin"}
-        </button>
+      {/* Horizontal Sub-Navigation Tab Links */}
+      <div className="flex flex-wrap border-b border-gray-200 gap-1 overflow-x-auto pb-1 no-scrollbar">
+        {[
+          { id: "overview", labelAr: "لوحة التحكم العامة", labelEn: "Overview Dashboard", icon: Globe },
+          { id: "licenses", labelAr: "رخص الاستيراد والتصدير", labelEn: "Trade Licenses", icon: ArrowLeftRight },
+          { id: "certificates", labelAr: "شهادات المنشأ الجمركية", labelEn: "Origin Certificates", icon: FileCheck },
+          { id: "registry", labelAr: "سجل المتعاملين (NTI)", labelEn: "Trader Registry", icon: UserCheck },
+          { id: "logistics", labelAr: "سلسلة التتبع واللوجستيات", labelEn: "Logistics Tracking", icon: Truck },
+          { id: "gis", labelAr: "الخريطة الجغرافية (GIS)", labelEn: "GIS Trade Map", icon: Map },
+          { id: "compliance", labelAr: "الامتثال والمطابقة (SSMO)", labelEn: "Compliance Hub", icon: ShieldAlert },
+          { id: "analytics", labelAr: "ذكاء الأعمال والبيانات (BI)", labelEn: "Trade BI & Analytics", icon: BarChart2 },
+          { id: "advisor", labelAr: "المستشار الذكي (AI)", labelEn: "AI Trade Advisor", icon: Brain },
+          { id: "digital_certs", labelAr: "بوابة الشهادات الرقمية", labelEn: "Sovereign Documents", icon: FileText }
+        ].map((tab) => {
+          const IconComponent = tab.icon;
+          const isSelected = activeTab === tab.id;
+          return (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id as any)}
+              className={`px-4 py-3 font-semibold text-xs border-b-2 transition-all flex items-center gap-2 cursor-pointer uppercase tracking-wider whitespace-nowrap ${
+                isSelected 
+                  ? "border-sudan-green text-sudan-green font-extrabold" 
+                  : "border-transparent text-gray-400 hover:text-gray-800"
+              }`}
+            >
+              <IconComponent className="h-4 w-4" />
+              <span>{currentLanguage === "ar" ? tab.labelAr : tab.labelEn}</span>
+            </button>
+          );
+        })}
       </div>
 
-      {/* Sub-Contents */}
-      {activeTab === "licenses" ? (
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {licenses.map(lic => (
-              <div key={lic.id} className="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm space-y-4 hover:border-sudan-green hover:shadow-md transition-all duration-300">
-                <div className="flex items-center justify-between">
-                  <span className={`text-[9px] px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider border ${
-                    lic.licenseType === "export" ? "bg-indigo-100 text-indigo-800 border-indigo-200" : "bg-cyan-100 text-cyan-800 border-cyan-200"
-                  }`}>
-                    {lic.licenseType === "export" ? (currentLanguage === "ar" ? "رخصة تصدير" : "Export License") : (currentLanguage === "ar" ? "رخصة استيراد" : "Import License")}
-                  </span>
-                  
-                  <span className={`text-[9px] px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider border ${
-                    lic.status === "approved" ? "bg-emerald-100 text-emerald-800 border-emerald-200" : "bg-amber-100 text-amber-800 border-amber-200"
-                  }`}>
-                    {lic.status === "approved" ? (currentLanguage === "ar" ? "نشط" : "Approved") : (currentLanguage === "ar" ? "معلق" : "Pending")}
-                  </span>
+      {/* Main Container Switcher */}
+      <div className="min-h-[400px]">
+        {activeTab === "overview" && (
+          <div className="space-y-6">
+            {/* Highlights Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[
+                {
+                  titleAr: "البنية التحتية والممرات",
+                  titleEn: "Logistics Corridors Status",
+                  descAr: "تتبع نشط لـ ٥ ممرات تجارية متكاملة مع معابر مصر وإثيوبيا وموانئ البحر الأحمر بكفاءة تبلغ ٩٢%.",
+                  descEn: "Active telemetry for 5 national trade corridors feeding into Egypt, Ethiopia, and maritime hubs.",
+                  actionLabelAr: "فتح الخريطة الجغرافية",
+                  actionLabelEn: "Open GIS Map",
+                  target: "gis"
+                },
+                {
+                  titleAr: "المستشار التجاري للذكاء الاصطناعي",
+                  titleEn: "Predictive Trade AI Copilot",
+                  descAr: "خوارزميات فحص تلقائي لتوقع نسب تأخير جمارك بورتسودان وسواكن، وتوصيات مسارات الشحن.",
+                  descEn: "Autonomous algorithms predicting port customs clearance speeds and optimizing live cargo routes.",
+                  actionLabelAr: "استشارة المستشار الذكي",
+                  actionLabelEn: "Query AI Advisor",
+                  target: "advisor"
+                },
+                {
+                  titleAr: "الامتثال الجمركي ومكافحة AML",
+                  titleEn: "Sovereign Compliance & Integrity",
+                  descAr: "نظام التحقق المسبق من العقوبات وفحص السلع المقيدة ومطابقتها للمعايير والرقابة الفيدرالية.",
+                  descEn: "Sovereign screening checks for restricted tariff codes and coordinating SSMO inspection workflows.",
+                  actionLabelAr: "دخول بوابة الامتثال",
+                  actionLabelEn: "Open Compliance Hub",
+                  target: "compliance"
+                }
+              ].map((card, i) => (
+                <div key={i} className="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm space-y-4 hover:border-sudan-green hover:shadow-md transition-all duration-300 flex flex-col justify-between">
+                  <div className="space-y-2">
+                    <h3 className="font-extrabold text-[#1E293B] text-base">
+                      {currentLanguage === "ar" ? card.titleAr : card.titleEn}
+                    </h3>
+                    <p className="text-xs text-gray-500 leading-relaxed font-semibold">
+                      {currentLanguage === "ar" ? card.descAr : card.descEn}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setActiveTab(card.target as any)}
+                    className="text-xs font-bold text-sudan-green hover:text-sudan-green-light underline mt-2 text-right md:text-left cursor-pointer"
+                  >
+                    {currentLanguage === "ar" ? card.actionLabelAr : card.actionLabelEn} &rarr;
+                  </button>
                 </div>
-                
-                <div>
-                  <h4 className="font-extrabold text-[#1E293B] text-sm md:text-base">{lic.companyName}</h4>
-                  <p className="text-xs text-gray-400 mt-2 leading-relaxed">{lic.goodsDescription}</p>
-                </div>
-                
-                <div className="pt-3 border-t border-gray-100 text-xs text-gray-400 flex justify-between items-center">
-                  <span>{currentLanguage === "ar" ? "القيمة التقديرية السنوية:" : "Est. Annual Value:"}</span>
-                  <span className="font-extrabold text-[#1E293B] font-mono">{lic.annualValueEstimate.toLocaleString()} SDG</span>
+              ))}
+            </div>
+
+            {/* Quick Summary of Active Licenses & Certificates */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              
+              {/* Active Trade Licenses summary */}
+              <div className="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm space-y-4">
+                <div className="flex justify-between items-center">
+                  <h4 className="font-extrabold text-slate-800 text-sm">
+                    {currentLanguage === "ar" ? "أحدث التراخيص الجمركية المسجلة" : "Recent Active Trade Permits"}
+                  </h4>
+                  <button onClick={() => setActiveTab("licenses")} className="text-xs text-sudan-green font-bold hover:underline cursor-pointer">
+                    {currentLanguage === "ar" ? "عرض الكل" : "View All"}
+                  </button>
                 </div>
 
-                {isAdmin && lic.status === "pending" && onUpdateLicenseStatus && (
-                  <div className="pt-3 flex justify-end gap-1.5 border-t border-gray-100">
-                    <button
-                      onClick={() => onUpdateLicenseStatus(lic.id, ApplicationStatus.APPROVED)}
-                      className="bg-sudan-green hover:bg-sudan-green-light text-white text-[10px] font-bold px-3 py-1.5 rounded-lg cursor-pointer"
-                    >
-                      {currentLanguage === "ar" ? "الموافقة" : "Approve"}
-                    </button>
-                  </div>
-                )}
+                <div className="space-y-2.5">
+                  {licenses.slice(0, 3).map((lic) => (
+                    <div key={lic.id} className="p-3.5 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-between text-xs">
+                      <div className="space-y-1 overflow-hidden">
+                        <div className="flex items-center gap-2">
+                          <span className="font-extrabold text-slate-800 truncate">{lic.companyName}</span>
+                          <span className={`text-[8px] px-2 py-0.5 rounded font-mono font-bold ${
+                            lic.licenseType === "export" ? "bg-indigo-150 text-indigo-800" : "bg-cyan-150 text-cyan-800"
+                          }`}>
+                            {lic.licenseType.toUpperCase()}
+                          </span>
+                        </div>
+                        <p className="text-[10px] text-gray-400 font-semibold truncate">{lic.goodsDescription}</p>
+                      </div>
+                      <span className="font-mono text-sudan-green font-bold shrink-0">{lic.annualValueEstimate.toLocaleString()} SDG</span>
+                    </div>
+                  ))}
+
+                  {licenses.length === 0 && (
+                    <p className="text-xs text-slate-400 font-bold text-center py-6">{currentLanguage === "ar" ? "لا توجد تراخيص مسجلة" : "No licenses registered."}</p>
+                  )}
+                </div>
               </div>
-            ))}
-            {licenses.length === 0 && (
-              <div className="col-span-full bg-white text-center py-12 rounded-3xl border border-gray-200 space-y-2 shadow-sm">
-                <Globe className="h-10 w-10 text-slate-300 mx-auto" />
-                <p className="text-slate-500 text-sm">{currentLanguage === "ar" ? "لا توجد تراخيص استيراد وتصدير مسجلة" : "No trade licenses found"}</p>
+
+              {/* Active Certificates summary */}
+              <div className="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm space-y-4">
+                <div className="flex justify-between items-center">
+                  <h4 className="font-extrabold text-slate-800 text-sm">
+                    {currentLanguage === "ar" ? "آخر شهادات المنشأ الرقمية المعتمدة" : "Recent Digital Origin Certificates"}
+                  </h4>
+                  <button onClick={() => setActiveTab("certificates")} className="text-xs text-sudan-green font-bold hover:underline cursor-pointer">
+                    {currentLanguage === "ar" ? "عرض الكل" : "View All"}
+                  </button>
+                </div>
+
+                <div className="space-y-2.5">
+                  {certificates.slice(0, 3).map((cert) => (
+                    <div key={cert.id} className="p-3.5 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-between text-xs">
+                      <div className="space-y-1 overflow-hidden">
+                        <p className="font-extrabold text-slate-800 truncate">
+                          {currentLanguage === "ar" ? cert.goodsDescriptionAr : cert.goodsDescriptionEn}
+                        </p>
+                        <p className="text-[10px] text-gray-400 font-semibold truncate">
+                          {currentLanguage === "ar" ? `المصدر: ${cert.exporterName}` : `Exporter: ${cert.exporterName}`}
+                        </p>
+                      </div>
+                      <span className="font-mono text-sudan-gold font-bold shrink-0">{cert.invoiceValue.toLocaleString()} {cert.currency}</span>
+                    </div>
+                  ))}
+
+                  {certificates.length === 0 && (
+                    <p className="text-xs text-slate-400 font-bold text-center py-6">{currentLanguage === "ar" ? "لا توجد شهادات مسجلة" : "No certificates registered."}</p>
+                  )}
+                </div>
               </div>
-            )}
+            </div>
           </div>
-        </div>
-      ) : (
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {certificates.map(cert => (
-              <div 
-                key={cert.id} 
-                onClick={() => setSelectedCert(cert)}
-                className="bg-white border border-gray-200 hover:border-sudan-green hover:shadow-md rounded-3xl p-6 shadow-sm space-y-4 cursor-pointer transition-all duration-300 flex items-start justify-between"
-              >
-                <div className="space-y-3 flex-1">
-                  <div className="flex items-center gap-2">
-                    <span className="text-[10px] bg-slate-50 border border-gray-100 px-2 py-0.5 rounded-md font-mono font-bold text-slate-500">{cert.certificateNumber}</span>
+        )}
+
+        {activeTab === "licenses" && (
+          <div className="space-y-4">
+            {/* List and Grid for Licenses */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {licenses.map(lic => (
+                <div key={lic.id} className="bg-white border border-gray-200 rounded-3xl p-6 shadow-sm space-y-4 hover:border-sudan-green hover:shadow-md transition-all duration-300">
+                  <div className="flex items-center justify-between">
                     <span className={`text-[9px] px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider border ${
-                      cert.status === "approved" ? "bg-emerald-100 text-emerald-800 border-emerald-200" : "bg-amber-100 text-amber-800 border-amber-200"
+                      lic.licenseType === "export" ? "bg-indigo-100 text-indigo-800 border-indigo-200" : "bg-cyan-100 text-cyan-800 border-cyan-200"
                     }`}>
-                      {cert.status === "approved" ? (currentLanguage === "ar" ? "معتمدة" : "Certified") : (currentLanguage === "ar" ? "قيد المراجعة" : "Pending")}
+                      {lic.licenseType === "export" ? (currentLanguage === "ar" ? "رخصة تصدير" : "Export License") : (currentLanguage === "ar" ? "رخصة استيراد" : "Import License")}
+                    </span>
+                    
+                    <span className={`text-[9px] px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider border ${
+                      lic.status === "approved" ? "bg-emerald-100 text-emerald-800 border-emerald-200" : "bg-amber-100 text-amber-800 border-amber-200"
+                    }`}>
+                      {lic.status === "approved" ? (currentLanguage === "ar" ? "نشط" : "Approved") : (currentLanguage === "ar" ? "معلق" : "Pending")}
                     </span>
                   </div>
-
+                  
                   <div>
-                    <h4 className="font-extrabold text-[#1E293B] text-sm md:text-base">
-                      {currentLanguage === "ar" ? cert.goodsDescriptionAr : cert.goodsDescriptionEn}
-                    </h4>
-                    <p className="text-xs text-gray-400 mt-2">
-                      {currentLanguage === "ar" ? `المصدر: ${cert.exporterName}` : `Exporter: ${cert.exporterName}`}
-                    </p>
-                    <p className="text-xs text-gray-400">
-                      {currentLanguage === "ar" ? `المستورد: ${cert.importerName} (${cert.importerCountry})` : `Importer: ${cert.importerName} (${cert.importerCountry})`}
-                    </p>
+                    <h4 className="font-extrabold text-[#1E293B] text-sm md:text-base">{lic.companyName}</h4>
+                    <p className="text-xs text-gray-400 mt-2 leading-relaxed">{lic.goodsDescription}</p>
+                  </div>
+                  
+                  <div className="pt-3 border-t border-gray-100 text-xs text-gray-400 flex justify-between items-center">
+                    <span>{currentLanguage === "ar" ? "القيمة التقديرية السنوية:" : "Est. Annual Value:"}</span>
+                    <span className="font-extrabold text-[#1E293B] font-mono">{lic.annualValueEstimate.toLocaleString()} SDG</span>
                   </div>
 
-                  <div className="pt-3 border-t border-gray-100 grid grid-cols-2 gap-2 text-[11px] text-slate-500">
-                    <div>
-                      <p className="text-[9px] text-gray-400 uppercase font-extrabold tracking-wider">{currentLanguage === "ar" ? "ميناء التصدير" : "Port of Loading"}</p>
-                      <p className="font-bold text-gray-600 truncate mt-0.5">{cert.portOfLoading}</p>
+                  {isAdmin && lic.status === "pending" && onUpdateLicenseStatus && (
+                    <div className="pt-3 flex justify-end gap-1.5 border-t border-gray-100">
+                      <button
+                        onClick={() => onUpdateLicenseStatus(lic.id, ApplicationStatus.APPROVED)}
+                        className="bg-sudan-green hover:bg-sudan-green-light text-white text-[10px] font-bold px-4 py-2 rounded-xl cursor-pointer"
+                      >
+                        {currentLanguage === "ar" ? "الموافقة" : "Approve"}
+                      </button>
                     </div>
-                    <div>
-                      <p className="text-[9px] text-gray-400 uppercase font-extrabold tracking-wider">{currentLanguage === "ar" ? "قيمة الفاتورة" : "Invoice Value"}</p>
-                      <p className="font-mono font-bold text-emerald-600 mt-0.5">{cert.invoiceValue.toLocaleString()} {cert.currency}</p>
-                    </div>
-                  </div>
+                  )}
                 </div>
-
-                <div className="bg-[#F4F6F5] border border-gray-200 p-2.5 rounded-2xl text-sudan-green shrink-0">
-                  <FileText className="h-5 w-5" />
+              ))}
+              {licenses.length === 0 && (
+                <div className="col-span-full bg-white text-center py-12 rounded-3xl border border-gray-200 space-y-2 shadow-sm">
+                  <Globe className="h-10 w-10 text-slate-300 mx-auto" />
+                  <p className="text-slate-500 text-sm">{currentLanguage === "ar" ? "لا توجد تراخيص استيراد وتصدير مسجلة" : "No trade licenses found"}</p>
                 </div>
-              </div>
-            ))}
-            {certificates.length === 0 && (
-              <div className="col-span-full bg-white text-center py-12 rounded-3xl border border-gray-200 space-y-2 shadow-sm">
-                <FileCheck className="h-10 w-10 text-slate-300 mx-auto" />
-                <p className="text-slate-500 text-sm">{currentLanguage === "ar" ? "لم يتم استخراج شهادات منشأ بعد" : "No certificates of origin issued yet"}</p>
-              </div>
-            )}
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+
+        {activeTab === "certificates" && (
+          <div className="space-y-4">
+            {/* List and Grid for Certificates of Origin */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {certificates.map(cert => (
+                <div 
+                  key={cert.id} 
+                  onClick={() => setSelectedCert(cert)}
+                  className="bg-white border border-gray-200 hover:border-sudan-green hover:shadow-md rounded-3xl p-6 shadow-sm space-y-4 cursor-pointer transition-all duration-300 flex items-start justify-between"
+                >
+                  <div className="space-y-3 flex-1 overflow-hidden">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] bg-slate-50 border border-gray-100 px-2 py-0.5 rounded-md font-mono font-bold text-slate-500">{cert.certificateNumber}</span>
+                      <span className={`text-[9px] px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider border ${
+                        cert.status === "approved" ? "bg-emerald-100 text-emerald-800 border-emerald-200" : "bg-amber-100 text-amber-800 border-amber-200"
+                      }`}>
+                        {cert.status === "approved" ? (currentLanguage === "ar" ? "معتمدة" : "Certified") : (currentLanguage === "ar" ? "قيد المراجعة" : "Pending")}
+                      </span>
+                    </div>
+
+                    <div>
+                      <h4 className="font-extrabold text-[#1E293B] text-sm md:text-base truncate">
+                        {currentLanguage === "ar" ? cert.goodsDescriptionAr : cert.goodsDescriptionEn}
+                      </h4>
+                      <p className="text-xs text-gray-400 mt-2 truncate">
+                        {currentLanguage === "ar" ? `المصدر: ${cert.exporterName}` : `Exporter: ${cert.exporterName}`}
+                      </p>
+                      <p className="text-xs text-gray-400 truncate">
+                        {currentLanguage === "ar" ? `المستورد: ${cert.importerName} (${cert.importerCountry})` : `Importer: ${cert.importerName} (${cert.importerCountry})`}
+                      </p>
+                    </div>
+
+                    <div className="pt-3 border-t border-gray-100 grid grid-cols-2 gap-2 text-[11px] text-slate-500">
+                      <div>
+                        <p className="text-[9px] text-gray-400 uppercase font-extrabold tracking-wider">{currentLanguage === "ar" ? "ميناء التصدير" : "Port of Loading"}</p>
+                        <p className="font-bold text-gray-600 truncate mt-0.5">{cert.portOfLoading}</p>
+                      </div>
+                      <div>
+                        <p className="text-[9px] text-gray-400 uppercase font-extrabold tracking-wider">{currentLanguage === "ar" ? "قيمة الفاتورة" : "Invoice Value"}</p>
+                        <p className="font-mono font-bold text-emerald-600 mt-0.5">{cert.invoiceValue.toLocaleString()} {cert.currency}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-[#F4F6F5] border border-gray-200 p-2.5 rounded-2xl text-sudan-green shrink-0 ml-2">
+                    <FileText className="h-5 w-5" />
+                  </div>
+                </div>
+              ))}
+              {certificates.length === 0 && (
+                <div className="col-span-full bg-white text-center py-12 rounded-3xl border border-gray-200 space-y-2 shadow-sm">
+                  <FileCheck className="h-10 w-10 text-slate-300 mx-auto" />
+                  <p className="text-slate-500 text-sm">{currentLanguage === "ar" ? "لم يتم استخراج شهادات منشأ بعد" : "No certificates of origin issued yet"}</p>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Modular Tabs */}
+        {activeTab === "registry" && <TraderRegistry currentLanguage={currentLanguage} />}
+        {activeTab === "logistics" && <TradeLogistics currentLanguage={currentLanguage} />}
+        {activeTab === "gis" && <TradeGisMap currentLanguage={currentLanguage} />}
+        {activeTab === "compliance" && <TradeCompliance currentLanguage={currentLanguage} />}
+        {activeTab === "analytics" && <TradeAnalytics currentLanguage={currentLanguage} />}
+        {activeTab === "advisor" && <TradeAdvisor currentLanguage={currentLanguage} />}
+        {activeTab === "digital_certs" && <TradeCertificates currentLanguage={currentLanguage} />}
+      </div>
+
+      {/* --- FORMS AND MODALS OVERLAYS --- */}
 
       {/* License Application Form */}
       <AnimatePresence>
@@ -314,13 +489,13 @@ export default function ImportExportModule({
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white rounded-3xl shadow-2xl max-w-lg w-full"
+              className="bg-white rounded-3xl shadow-2xl max-w-lg w-full text-slate-800"
             >
-              <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-sudan-dark text-slate-900 rounded-t-3xl">
+              <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-900 text-white rounded-t-3xl">
                 <h3 className="font-bold text-base">
                   {currentLanguage === "ar" ? "طلب ترخيص استيراد وتصدير تجاري" : "Request Import / Export License"}
                 </h3>
-                <button onClick={() => setIsLicenseFormOpen(false)} className="bg-slate-800 hover:bg-slate-700 p-1.5 rounded-full cursor-pointer">
+                <button onClick={() => setIsLicenseFormOpen(false)} className="text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 p-1.5 rounded-full cursor-pointer">
                   <X className="h-4 w-4" />
                 </button>
               </div>
@@ -328,7 +503,7 @@ export default function ImportExportModule({
               {licenseSuccess ? (
                 <div className="p-10 text-center space-y-3">
                   <CheckCircle className="h-12 w-12 text-emerald-500 mx-auto animate-bounce" />
-                  <h4 className="font-bold text-slate-800">{currentLanguage === "ar" ? "تم استلام الطلب!" : "Request Sent!"}</h4>
+                  <h4 className="font-bold text-slate-800">{currentLanguage === "ar" ? "تم استلاف الطلب!" : "Request Sent!"}</h4>
                   <p className="text-xs text-slate-400">{currentLanguage === "ar" ? "سوف تتم مراجعته وإرسال رخصة التشغيل خلال دقائق." : "We are reviewing your trade license request."}</p>
                 </div>
               ) : (
@@ -414,14 +589,14 @@ export default function ImportExportModule({
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+              className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto text-slate-800"
             >
-              <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-sudan-dark text-slate-900 rounded-t-3xl">
+              <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-900 text-white rounded-t-3xl">
                 <h3 className="font-bold text-base flex items-center gap-2">
-                  <Compass className="h-5 w-5 text-sudan-gold animate-spin-slow" />
+                  <Compass className="h-5 w-5 text-sudan-gold" />
                   {currentLanguage === "ar" ? "إصدار شهادة منشأ سودانية رقمية معتمدة" : "Issue Digital Certificate of Origin"}
                 </h3>
-                <button onClick={() => setIsCertFormOpen(false)} className="bg-slate-800 hover:bg-slate-700 p-1.5 rounded-full cursor-pointer">
+                <button onClick={() => setIsCertFormOpen(false)} className="text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 p-1.5 rounded-full cursor-pointer">
                   <X className="h-4 w-4" />
                 </button>
               </div>
@@ -488,7 +663,7 @@ export default function ImportExportModule({
                       </select>
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-xs font-bold text-slate-600">{currentLanguage === "ar" ? "ميناء التفريغ والاستلام *" : "Port of Discharge *"}</label>
+                      <label className="text-xs font-bold text-slate-600">{currentLanguage === "ar" ? "ميناء التفريغ والاستلاف *" : "Port of Discharge *"}</label>
                       <input type="text" required value={portOfDischarge} onChange={(e) => setPortOfDischarge(e.target.value)} placeholder="e.g. Marseille, France" className="w-full bg-slate-50 border border-slate-200 text-sm px-4 py-2.5 rounded-xl outline-none focus:bg-white focus:border-sudan-green transition-all" />
                     </div>
                   </div>

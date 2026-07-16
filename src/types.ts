@@ -388,3 +388,131 @@ export interface SovereignLicense {
   updatedAt: string;
 }
 
+// Module 21: Sovereign Cybersecurity & National SOC Types
+export enum SovereignSOCRole {
+  SOC_ANALYST = "soc_analyst",
+  INCIDENT_RESPONDER = "incident_responder",
+  THREAT_HUNTER = "threat_hunter",
+  DIGITAL_FORENSICS_SPECIALIST = "digital_forensics",
+  SECURITY_ENGINEER = "security_engineer",
+  IAM_ADMINISTRATOR = "iam_admin",
+  SECURITY_MANAGER = "security_manager",
+  CISO = "ciso",
+  UNDERSECRETARY = "undersecretary",
+  MINISTER = "minister",
+  SUPER_ADMINISTRATOR = "super_admin"
+}
+
+export interface SecurityEvent {
+  id: string;
+  timestamp: string;
+  source: string; // e.g. "API Gateway", "Licensing Portal", "Commerce Ledger"
+  category: "authentication" | "data_access" | "system" | "api_call" | "network";
+  severity: "low" | "medium" | "high" | "critical";
+  messageAr: string;
+  messageEn: string;
+  actor: string;
+  ipAddress: string;
+  status: "blocked" | "allowed" | "flagged";
+  payload?: string;
+}
+
+export interface SecurityIncident {
+  id: string;
+  titleAr: string;
+  titleEn: string;
+  descriptionAr: string;
+  descriptionEn: string;
+  category: "phishing" | "ransomware" | "ddos" | "brute_force" | "unauthorized_access" | "data_leak" | "insider_threat";
+  severity: "low" | "medium" | "high" | "critical";
+  status: "new" | "investigating" | "contained" | "mitigated" | "resolved" | "closed";
+  loggedAt: string;
+  assignedTo: string; // SovereignSOCRole
+  timeline: {
+    timestamp: string;
+    actionAr: string;
+    actionEn: string;
+    actor: string;
+  }[];
+  containmentActionAr?: string;
+  containmentActionEn?: string;
+  rootCauseAr?: string;
+  rootCauseEn?: string;
+  lessonsLearnedAr?: string;
+  lessonsLearnedEn?: string;
+}
+
+export interface ThreatIntelFeed {
+  id: string;
+  ioc: string; // IP, Domain, Hash
+  type: "ip" | "domain" | "file_hash" | "url";
+  threatActor: string;
+  mitreMapping: string; // e.g., "T1110 (Brute Force)"
+  confidenceScore: number; // 0-100
+  source: string; // e.g. "Sudan NCSC", "International Feed"
+  lastUpdated: string;
+  status: "active" | "inactive";
+  severity: "low" | "medium" | "high" | "critical";
+}
+
+export interface SecurityVulnerability {
+  id: string;
+  titleAr: string;
+  titleEn: string;
+  cveId: string;
+  component: string; // e.g., "Sovereign Payment Gateway API"
+  severity: "low" | "medium" | "high" | "critical";
+  score: number; // CVSS
+  status: "open" | "remediation_scheduled" | "patched" | "risk_accepted";
+  discoveredAt: string;
+  remediationPlanAr: string;
+  remediationPlanEn: string;
+}
+
+export interface DigitalCertificate {
+  id: string;
+  serialNumber: string;
+  subjectAr: string;
+  subjectEn: string;
+  issuer: string; // e.g., "Sudan National Root CA"
+  issueDate: string;
+  expiryDate: string;
+  status: "active" | "expired" | "revoked";
+  keyAlgorithm: string; // e.g., "RSA 4096"
+  revocationReasonAr?: string;
+  revocationReasonEn?: string;
+}
+
+export interface SecurityPolicy {
+  id: string;
+  titleAr: string;
+  titleEn: string;
+  type: "conditional_access" | "password_complexity" | "session_timeout" | "dlp_rule";
+  rulesAr: string;
+  rulesEn: string;
+  status: "enforced" | "monitored" | "disabled";
+  updatedAt: string;
+  updatedBy: string;
+}
+
+export interface SecurityKPI {
+  id: string;
+  metricNameAr: string;
+  metricNameEn: string;
+  value: number;
+  target: number;
+  unit: string;
+  category: "soc" | "iam" | "vulnerability" | "compliance";
+}
+
+export interface SecurityAuditLog {
+  id: string;
+  timestamp: string;
+  actor: string;
+  actionAr: string;
+  actionEn: string;
+  details: string;
+  hash: string; // Immutable blockchain-like tamper proof SHA-256
+}
+
+

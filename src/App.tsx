@@ -7,7 +7,8 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { 
   Building2, Cpu, Globe, Landmark, ShieldAlert, 
-  Menu, LayoutDashboard, Layers, Palette, Award, ShieldCheck, Scale 
+  Menu, LayoutDashboard, Layers, Palette, Award, ShieldCheck, Scale, Network, Fingerprint, BarChart3, ClipboardList,
+  ShoppingBag, Database, Users, Boxes, Briefcase, Shield
 } from "lucide-react";
 
 import { 
@@ -28,6 +29,20 @@ import EnterpriseArchitecture from "./components/EnterpriseArchitecture";
 import GovernmentDesignSystem from "./components/GovernmentDesignSystem";
 import CorporateLifecycleModule from "./components/CorporateLifecycle";
 import LicensingPlatform from "./components/LicensingPlatform";
+import NationalIntegrationHub from "./components/NationalIntegrationHub";
+import TrustServicesPlatform from "./components/TrustServicesPlatform";
+import GovernmentPaymentPlatform from "./components/GovernmentPaymentPlatform";
+import SovereignBIPlatform from "./components/SovereignBIPlatform";
+import SmartInspectionPlatform from "./components/SmartInspectionPlatform";
+import DigitalCommercePlatform from "./components/DigitalCommercePlatform";
+import NationalInnovationPlatform from "./components/innovation/NationalInnovationPlatform";
+import GovernmentRecordsArchivePlatform from "./components/GovernmentRecordsArchivePlatform";
+import SovereignLegalAffairsPlatform from "./components/SovereignLegalAffairsPlatform";
+import SovereignHumanCapitalPlatform from "./components/SovereignHumanCapitalPlatform";
+import SovereignAssetManagementPlatform from "./components/SovereignAssetManagementPlatform";
+import SovereignProcurementPlatform from "./components/SovereignProcurementPlatform";
+import SovereignGRCPlatform from "./components/SovereignGRCPlatform";
+import SovereignSOCPlatform from "./components/SovereignSOCPlatform";
 
 
 // Standard Seeding Data fully compliant with Typescript structures
@@ -461,6 +476,17 @@ export default function App() {
   // Nav menu items
   const menuItems = [
     { id: "dashboard", labelAr: "لوحة المتابعة الرقمية", labelEn: "Sovereign Dashboard", icon: LayoutDashboard },
+    { id: "gov-records", labelAr: "المنصة الاتحادية للسجلات والأرشيف", labelEn: "Federal Records & Archive", icon: Database },
+    { id: "legal-affairs", labelAr: "الشؤون القانونية والقضايا والتشريعات", labelEn: "Sovereign Legal Affairs", icon: Scale },
+    { id: "human-capital", labelAr: "إدارة رأس المال البشري والرواتب", labelEn: "Human Capital & Payroll", icon: Users },
+    { id: "sovereign-eam", labelAr: "إدارة الأصول والمنشآت واللوجستيات", labelEn: "Sovereign EAM & Logistics", icon: Boxes },
+    { id: "sovereign-procurement", labelAr: "المشتريات والعطاءات والتعاقدات", labelEn: "Sovereign Procurement", icon: Briefcase },
+    { id: "sovereign-grc", labelAr: "الحوكمة والمخاطر والالتزام والتدقيق", labelEn: "Sovereign GRC & Audit", icon: Shield },
+    { id: "sovereign-soc", labelAr: "العمليات السيبرانية والـ SOC السيادي", labelEn: "Sovereign SOC & InfoSec", icon: ShieldAlert },
+    { id: "bi-platform", labelAr: "ذكاء الأعمال ودعم القرار", labelEn: "Sovereign BI & Decision Support", icon: BarChart3 },
+    { id: "smart-inspection", labelAr: "منصة التفتيش والإنفاذ الذكي", labelEn: "Smart Inspection & Enforcement", icon: ClipboardList },
+    { id: "digital-commerce", labelAr: "التجارة الرقمية وتطوير الـ SMEs", labelEn: "Digital Commerce & SMEs", icon: ShoppingBag },
+    { id: "national-innovation", labelAr: "المنصة الوطنية للابتكار وبراءات الاختراع", labelEn: "National Innovation & Patents", icon: Award },
     { id: "commercial-names", labelAr: "نظام الأسماء التجارية", labelEn: "Commercial Names", icon: Award },
     { id: "commercial", labelAr: "السجل التجاري الذكي", labelEn: "Commercial Registry", icon: Building2 },
     { id: "corporate-lifecycle", labelAr: "تأسيس وحوكمة الشركات", labelEn: "Corporate Lifecycle", icon: ShieldCheck },
@@ -469,6 +495,9 @@ export default function App() {
     { id: "importexport", labelAr: "الاستيراد والتصدير", labelEn: "Import & Export", icon: Globe },
     { id: "investment", labelAr: "بوابة الاستثمار والمدن", labelEn: "Investment Lands", icon: Landmark },
     { id: "consumer", labelAr: "حماية المستهلك والرقابة", labelEn: "Consumer Protection", icon: ShieldAlert },
+    { id: "integration-hub", labelAr: "الربط والتبادل الحكومي البيني", labelEn: "National Interoperability Hub", icon: Network },
+    { id: "trust-services", labelAr: "الهوية الرقمية والخدمات الموثوقة", labelEn: "Identity & Trust Services", icon: Fingerprint },
+    { id: "payment-platform", labelAr: "بوابة الدفع والجباية الرقمية", labelEn: "Sovereign Payment Gateway", icon: Landmark },
     { id: "architecture", labelAr: "المخطط السيادي للتحول 2035", labelEn: "Enterprise Blueprint 2035", icon: Layers },
     { id: "design-system", labelAr: "نظام التصميم الحكومي الموحد", labelEn: "Government Design System", icon: Palette }
   ];
@@ -639,6 +668,44 @@ export default function App() {
                 />
               )}
 
+              {activeModule === "bi-platform" && (
+                <SovereignBIPlatform
+                  currentLanguage={currentLanguage}
+                  role={currentRole}
+                  companies={companies}
+                  factories={factories}
+                  licenses={licenses}
+                  certificates={certificates}
+                  applications={applications}
+                  complaints={complaints}
+                />
+              )}
+
+              {activeModule === "smart-inspection" && (
+                <SmartInspectionPlatform
+                  currentLanguage={currentLanguage}
+                  role={currentRole}
+                  companies={companies}
+                  factories={factories}
+                  licenses={licenses}
+                  certificates={certificates}
+                  applications={applications}
+                  complaints={complaints}
+                />
+              )}
+
+              {activeModule === "digital-commerce" && (
+                <DigitalCommercePlatform
+                  currentLanguage={currentLanguage}
+                />
+              )}
+
+              {activeModule === "national-innovation" && (
+                <NationalInnovationPlatform
+                  currentLanguage={currentLanguage}
+                />
+              )}
+
               {activeModule === "commercial-names" && (
                 <CommercialNamesModule
                   currentLanguage={currentLanguage}
@@ -706,10 +773,29 @@ export default function App() {
               {activeModule === "consumer" && (
                 <ConsumerProtectionModule
                   currentLanguage={currentLanguage}
-                  complaints={complaints}
-                  onAddComplaint={handleAddComplaint}
-                  isAdmin={currentRole !== UserRole.BUSINESS_INVESTOR}
-                  onUpdateComplaintStatus={handleUpdateComplaintStatus}
+                  companies={companies}
+                  licenses={licenses}
+                />
+              )}
+
+              {activeModule === "integration-hub" && (
+                <NationalIntegrationHub
+                  currentLanguage={currentLanguage}
+                  role={currentRole}
+                />
+              )}
+
+              {activeModule === "trust-services" && (
+                <TrustServicesPlatform
+                  currentLanguage={currentLanguage}
+                  role={currentRole}
+                />
+              )}
+
+              {activeModule === "payment-platform" && (
+                <GovernmentPaymentPlatform
+                  currentLanguage={currentLanguage}
+                  role={currentRole}
                 />
               )}
 
@@ -722,6 +808,54 @@ export default function App() {
 
               {activeModule === "design-system" && (
                 <GovernmentDesignSystem
+                  currentLanguage={currentLanguage}
+                  role={currentRole}
+                />
+              )}
+
+              {activeModule === "gov-records" && (
+                <GovernmentRecordsArchivePlatform
+                  currentLanguage={currentLanguage}
+                />
+              )}
+
+              {activeModule === "legal-affairs" && (
+                <SovereignLegalAffairsPlatform
+                  currentLanguage={currentLanguage}
+                  role={currentRole}
+                />
+              )}
+
+              {activeModule === "human-capital" && (
+                <SovereignHumanCapitalPlatform
+                  currentLanguage={currentLanguage}
+                  role={currentRole}
+                />
+              )}
+
+              {activeModule === "sovereign-eam" && (
+                <SovereignAssetManagementPlatform
+                  currentLanguage={currentLanguage}
+                  role={currentRole}
+                />
+              )}
+
+              {activeModule === "sovereign-procurement" && (
+                <SovereignProcurementPlatform
+                  currentLanguage={currentLanguage}
+                  role={currentRole}
+                />
+              )}
+
+              {activeModule === "sovereign-grc" && (
+                <SovereignGRCPlatform
+                  currentLanguage={currentLanguage}
+                  role={currentRole}
+                />
+              )}
+
+              {activeModule === "sovereign-soc" && (
+                <SovereignSOCPlatform
                   currentLanguage={currentLanguage}
                   role={currentRole}
                 />
