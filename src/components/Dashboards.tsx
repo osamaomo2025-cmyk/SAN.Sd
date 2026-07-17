@@ -35,6 +35,7 @@ interface DashboardsProps {
   certificates: CertificateOfOrigin[];
   applications: LandApplication[];
   complaints: ConsumerComplaint[];
+  onNavigateModule?: (moduleId: string) => void;
 }
 
 // 11 Persona Roles enum for the Dashboard simulator
@@ -59,7 +60,8 @@ export default function Dashboards({
   licenses,
   certificates,
   applications,
-  complaints
+  complaints,
+  onNavigateModule
 }: DashboardsProps) {
   
   // States
@@ -271,6 +273,30 @@ export default function Dashboards({
   return (
     <div className="space-y-6" id="national-smart-dashboard">
       
+      {/* SOVEREIGN SLOGAN BANNER - Absolute Top */}
+      <div className="bg-gradient-to-r from-slate-900 to-[#0A2F1D] p-6 rounded-3xl border border-emerald-800/30 shadow-md flex flex-col md:flex-row items-center justify-between gap-4 overflow-hidden relative">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-sudan-green/10 rounded-full blur-2xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-32 h-32 bg-sudan-gold/10 rounded-full blur-2xl pointer-events-none" />
+        
+        <div className="flex items-center gap-4 relative z-10">
+          <div className="h-12 w-12 bg-white/10 rounded-2xl flex items-center justify-center border border-white/10">
+            <Globe className="w-6 h-6 text-sudan-gold animate-spin-slow" />
+          </div>
+          <div className="space-y-1 text-center md:text-right">
+            <p className="text-lg md:text-2xl font-black text-white tracking-wide" style={{ fontFamily: "Cairo, sans-serif" }}>
+              {currentLanguage === "ar" ? "صناعة وتجارة محلية نحو العالمية" : "Local Industry & Trade Towards Global Horizons"}
+            </p>
+            <p className="text-[10px] text-emerald-200 font-bold uppercase tracking-widest">
+              {currentLanguage === "ar" ? "الرؤية الوطنية الشاملة • جمهورية السودان" : "National Comprehensive Vision • Republic of Sudan"}
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 bg-sudan-gold/25 text-sudan-gold border border-sudan-gold/30 text-xs font-black px-4 py-2 rounded-xl shrink-0 relative z-10 shadow-sm">
+          <span>{currentLanguage === "ar" ? "شعارنا الوطني" : "National Slogan"}</span>
+        </div>
+      </div>
+
       {/* LOCAL PERSONALIZED INTENT SUB-HEADER */}
       <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 bg-white p-4 rounded-3xl border border-gray-200 shadow-sm">
         
@@ -329,22 +355,6 @@ export default function Dashboards({
               </button>
             );
           })}
-        </div>
-      </div>
-
-      {/* SOVEREIGN SLOGAN BANNER */}
-      <div className="bg-white px-6 py-4 rounded-3xl border border-gray-200 shadow-xs flex flex-col md:flex-row items-center justify-between gap-4 overflow-hidden relative">
-        <div className="absolute top-0 right-0 w-24 h-24 bg-sudan-green/5 rounded-full blur-xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-24 h-24 bg-sudan-gold/5 rounded-full blur-xl pointer-events-none" />
-        <div className="flex items-center gap-3 relative z-10">
-          <div className="h-2 w-2 rounded-full bg-sudan-green animate-pulse" />
-          <p className="text-base md:text-2xl font-extrabold text-[#1E293B] tracking-wide text-center md:text-right" style={{ fontFamily: "DIN Next Arabic, sans-serif" }}>
-            {currentLanguage === "ar" ? "صناعة وتجارة محلية نحو العالمية" : "Local Industry & Trade Towards Global Horizons"}
-          </p>
-        </div>
-        <div className="flex items-center gap-2 bg-sudan-green/10 text-sudan-green text-xs font-bold px-3 py-1.5 rounded-xl shrink-0">
-          <Globe className="w-4 h-4 animate-spin-slow" />
-          <span>{currentLanguage === "ar" ? "شعارنا الوطني" : "National Slogan"}</span>
         </div>
       </div>
 
@@ -506,6 +516,22 @@ export default function Dashboards({
                   return (
                     <div 
                       key={ser.id} 
+                      onClick={() => {
+                        if (onNavigateModule) {
+                          const moduleMap: Record<string, string> = {
+                            "corp-reg": "commercial",
+                            "lic-renew": "licensing-platform",
+                            "cons-comp": "consumer",
+                            "land-app": "investment",
+                            "export-lic": "importexport"
+                          };
+                          const targetModule = moduleMap[ser.id];
+                          if (targetModule) {
+                            onNavigateModule(targetModule);
+                            window.scrollTo({ top: 0, behavior: "smooth" });
+                          }
+                        }
+                      }}
                       className={`p-4 rounded-3xl border transition-all hover:-translate-y-0.5 group relative flex flex-col justify-between min-h-[140px] cursor-pointer ${
                         isFav ? "bg-slate-50 border-sudan-green" : "bg-white border-gray-100 hover:border-gray-300"
                       }`}

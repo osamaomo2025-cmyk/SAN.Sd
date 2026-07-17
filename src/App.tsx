@@ -48,6 +48,7 @@ import SovereignDRResiliencePlatform from "./components/SovereignDRResiliencePla
 import SovereignNationalSuperApp from "./components/SovereignNationalSuperApp";
 import SovereignExecutiveCommandCenter from "./components/SovereignExecutiveCommandCenter";
 import SovereignAutonomousOperationsHub from "./components/SovereignAutonomousOperationsHub";
+import SovereignAuthModal from "./components/SovereignAuthModal";
 
 
 // Standard Seeding Data fully compliant with Typescript structures
@@ -257,6 +258,7 @@ export default function App() {
     }
     return false;
   });
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   // Core Data State Synchronized via LocalStorage
   const [companies, setCompanies] = useState<CommercialRegistration[]>([]);
@@ -569,6 +571,18 @@ export default function App() {
           {/* Quick Language + Role switcher */}
           <div className="flex items-center gap-2 md:gap-4">
             
+            {/* Sovereign Identity Auth Portal Button */}
+            <button
+              onClick={() => setIsAuthModalOpen(true)}
+              className="bg-sudan-green hover:bg-sudan-green-light text-white px-3 py-1.5 rounded-xl text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 cursor-pointer border border-transparent"
+              title={currentLanguage === "ar" ? "بوابة الهوية الموحدة وتفعيل الحساب" : "Unified Auth & Identity Portal"}
+            >
+              <Fingerprint className="w-4.5 h-4.5 text-sudan-gold" />
+              <span className="hidden sm:inline">
+                {currentLanguage === "ar" ? "تسجيل الدخول والتحقق" : "Login & Verify"}
+              </span>
+            </button>
+
             {/* Elegant Role Swapper Dropdown */}
             <div className="flex items-center gap-1.5 bg-[#F4F6F5] border border-gray-200 px-2.5 md:px-3 py-1.5 rounded-xl text-xs">
               <span className="text-gray-400 text-[10px] uppercase font-bold hidden md:inline">{currentLanguage === "ar" ? "الصلاحية:" : "Role:"}</span>
@@ -682,6 +696,7 @@ export default function App() {
                   certificates={certificates}
                   applications={applications}
                   complaints={complaints}
+                  onNavigateModule={setActiveModule}
                 />
               )}
 
@@ -921,6 +936,15 @@ export default function App() {
       <AIChatAssistant 
         currentLanguage={currentLanguage} 
         userProfile={currentProfile} 
+      />
+
+      {/* Sovereign unified Login & Registration Portal Modal */}
+      <SovereignAuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        currentLanguage={currentLanguage}
+        currentRole={currentRole}
+        onChangeRole={setCurrentRole}
       />
     </div>
   );
