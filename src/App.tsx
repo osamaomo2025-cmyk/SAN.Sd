@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { 
   Building2, Cpu, Globe, Landmark, ShieldAlert, 
   Menu, LayoutDashboard, Layers, Palette, Award, ShieldCheck, Scale, Network, Fingerprint, BarChart3, ClipboardList,
-  ShoppingBag, Database, Users, Boxes, Briefcase, Shield
+  ShoppingBag, Database, Users, Boxes, Briefcase, Shield, Brain, Smartphone
 } from "lucide-react";
 
 import { 
@@ -43,6 +43,11 @@ import SovereignAssetManagementPlatform from "./components/SovereignAssetManagem
 import SovereignProcurementPlatform from "./components/SovereignProcurementPlatform";
 import SovereignGRCPlatform from "./components/SovereignGRCPlatform";
 import SovereignSOCPlatform from "./components/SovereignSOCPlatform";
+import SovereignAIGovernancePlatform from "./components/SovereignAIGovernancePlatform";
+import SovereignDRResiliencePlatform from "./components/SovereignDRResiliencePlatform";
+import SovereignNationalSuperApp from "./components/SovereignNationalSuperApp";
+import SovereignExecutiveCommandCenter from "./components/SovereignExecutiveCommandCenter";
+import SovereignAutonomousOperationsHub from "./components/SovereignAutonomousOperationsHub";
 
 
 // Standard Seeding Data fully compliant with Typescript structures
@@ -476,6 +481,8 @@ export default function App() {
   // Nav menu items
   const menuItems = [
     { id: "dashboard", labelAr: "لوحة المتابعة الرقمية", labelEn: "Sovereign Dashboard", icon: LayoutDashboard },
+    { id: "autonomous-operations", labelAr: "التشغيل الذاتي والابتكار السيادي", labelEn: "Autonomous Gov & Future Innovation", icon: Cpu },
+    { id: "executive-command-center", labelAr: "مركز القيادة التنفيذي ورؤية 2035", labelEn: "Executive Command Center 2035", icon: Landmark },
     { id: "gov-records", labelAr: "المنصة الاتحادية للسجلات والأرشيف", labelEn: "Federal Records & Archive", icon: Database },
     { id: "legal-affairs", labelAr: "الشؤون القانونية والقضايا والتشريعات", labelEn: "Sovereign Legal Affairs", icon: Scale },
     { id: "human-capital", labelAr: "إدارة رأس المال البشري والرواتب", labelEn: "Human Capital & Payroll", icon: Users },
@@ -483,6 +490,8 @@ export default function App() {
     { id: "sovereign-procurement", labelAr: "المشتريات والعطاءات والتعاقدات", labelEn: "Sovereign Procurement", icon: Briefcase },
     { id: "sovereign-grc", labelAr: "الحوكمة والمخاطر والالتزام والتدقيق", labelEn: "Sovereign GRC & Audit", icon: Shield },
     { id: "sovereign-soc", labelAr: "العمليات السيبرانية والـ SOC السيادي", labelEn: "Sovereign SOC & InfoSec", icon: ShieldAlert },
+    { id: "dr-resilience", labelAr: "المرونة والتعافي واستمرارية الأعمال", labelEn: "Disaster Recovery & Resilience", icon: ShieldCheck },
+    { id: "national-superapp", labelAr: "التطبيق الوطني والخدمات الموحدة", labelEn: "National Super App Portal", icon: Smartphone },
     { id: "bi-platform", labelAr: "ذكاء الأعمال ودعم القرار", labelEn: "Sovereign BI & Decision Support", icon: BarChart3 },
     { id: "smart-inspection", labelAr: "منصة التفتيش والإنفاذ الذكي", labelEn: "Smart Inspection & Enforcement", icon: ClipboardList },
     { id: "digital-commerce", labelAr: "التجارة الرقمية وتطوير الـ SMEs", labelEn: "Digital Commerce & SMEs", icon: ShoppingBag },
@@ -496,6 +505,7 @@ export default function App() {
     { id: "investment", labelAr: "بوابة الاستثمار والمدن", labelEn: "Investment Lands", icon: Landmark },
     { id: "consumer", labelAr: "حماية المستهلك والرقابة", labelEn: "Consumer Protection", icon: ShieldAlert },
     { id: "integration-hub", labelAr: "الربط والتبادل الحكومي البيني", labelEn: "National Interoperability Hub", icon: Network },
+    { id: "ai-governance", labelAr: "الحوكمة والذكاء الاصطناعي السيادي", labelEn: "National AI Governance Platform", icon: Brain },
     { id: "trust-services", labelAr: "الهوية الرقمية والخدمات الموثوقة", labelEn: "Identity & Trust Services", icon: Fingerprint },
     { id: "payment-platform", labelAr: "بوابة الدفع والجباية الرقمية", labelEn: "Sovereign Payment Gateway", icon: Landmark },
     { id: "architecture", labelAr: "المخطط السيادي للتحول 2035", labelEn: "Enterprise Blueprint 2035", icon: Layers },
@@ -530,7 +540,14 @@ export default function App() {
             >
               <Menu className="h-6 w-6" />
             </button>
-            <div className="flex items-center gap-4">
+            <button 
+              onClick={() => {
+                setActiveModule("dashboard");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              className="flex items-center gap-4 text-start hover:opacity-90 active:scale-[0.99] transition-all cursor-pointer"
+              title={currentLanguage === "ar" ? "العودة إلى الصفحة الرئيسية" : "Go to Homepage"}
+            >
               {/* Emblem Logo Emblem - Sudan Flag Inspired */}
               <div className="w-12 h-12 bg-[#007229] rounded-xl flex items-center justify-center shrink-0 shadow-sm border border-[#005220]/20">
                 <div className="w-6 h-4 bg-white relative rounded-sm overflow-hidden">
@@ -546,7 +563,7 @@ export default function App() {
                   {currentLanguage === "ar" ? "الخدمات الاتحادية والتحول الرقمي • السودان 2035" : "Federal Service Hub | Sudan 2035"}
                 </p>
               </div>
-            </div>
+            </button>
           </div>
 
           {/* Quick Language + Role switcher */}
@@ -785,6 +802,27 @@ export default function App() {
                 />
               )}
 
+              {activeModule === "ai-governance" && (
+                <SovereignAIGovernancePlatform
+                  currentLanguage={currentLanguage}
+                  role={currentRole}
+                />
+              )}
+
+              {activeModule === "dr-resilience" && (
+                <SovereignDRResiliencePlatform
+                  currentLanguage={currentLanguage}
+                  role={currentRole}
+                />
+              )}
+
+              {activeModule === "national-superapp" && (
+                <SovereignNationalSuperApp
+                  currentLanguage={currentLanguage}
+                  role={currentRole}
+                />
+              )}
+
               {activeModule === "trust-services" && (
                 <TrustServicesPlatform
                   currentLanguage={currentLanguage}
@@ -856,6 +894,20 @@ export default function App() {
 
               {activeModule === "sovereign-soc" && (
                 <SovereignSOCPlatform
+                  currentLanguage={currentLanguage}
+                  role={currentRole}
+                />
+              )}
+
+              {activeModule === "executive-command-center" && (
+                <SovereignExecutiveCommandCenter
+                  currentLanguage={currentLanguage}
+                  role={currentRole}
+                />
+              )}
+
+              {activeModule === "autonomous-operations" && (
+                <SovereignAutonomousOperationsHub
                   currentLanguage={currentLanguage}
                   role={currentRole}
                 />

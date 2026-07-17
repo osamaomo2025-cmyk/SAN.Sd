@@ -343,7 +343,124 @@ const initialBrokerEvents: BrokerEvent[] = [
 
 export default function NationalIntegrationHub({ currentLanguage, role }: NationalIntegrationHubProps) {
   // Navigation Tabs
-  const [activeSubTab, setActiveSubTab] = useState<"dashboard" | "gateway" | "mdm" | "events" | "security" | "ai">("dashboard");
+  const [activeSubTab, setActiveSubTab] = useState<"dashboard" | "gateway" | "mdm" | "events" | "security" | "ai" | "opendata" | "devportal">("dashboard");
+
+  // Open Data Sets State
+  const [openDatasets, setOpenDatasets] = useState([
+    {
+      id: "DS-COMM-REG",
+      titleAr: "السجل الديموغرافي للشركات والمصانع الفيدرالية",
+      titleEn: "Federal Corporate & Factories Demographics",
+      categoryAr: "ديموغرافيا الأعمال",
+      categoryEn: "Business Demographics",
+      downloads: 4120,
+      size: "24.5 MB",
+      qualityScore: 99.4,
+      stewardship: "إدارة التسجيل الفيدرالي",
+      classification: "Public",
+      version: "v2.1.0",
+      status: "Approved",
+      lastUpdated: "2026-07-10"
+    },
+    {
+      id: "DS-IND-STATS",
+      titleAr: "مؤشرات الإنتاج الصناعي ومطابقة الجودة السنوية",
+      titleEn: "Annual Industrial Production & Quality Index",
+      categoryAr: "إحصائيات صناعية",
+      categoryEn: "Industrial Statistics",
+      downloads: 1840,
+      size: "18.2 MB",
+      qualityScore: 98.1,
+      stewardship: "قسم التفتيش والرقابة الفنية",
+      classification: "Public",
+      version: "v1.4.0",
+      status: "Approved",
+      lastUpdated: "2026-07-12"
+    },
+    {
+      id: "DS-GUM-ARABIC",
+      titleAr: "إحصائيات صادرات الصمغ العربي والمحاصيل النقدية لدول الكوميسا",
+      titleEn: "Gum Arabic & Cash Crops COMESA Exports Statistics",
+      categoryAr: "مؤشرات التجارة الخارجية",
+      categoryEn: "Trade Indicators",
+      downloads: 3890,
+      size: "12.8 MB",
+      qualityScore: 100.0,
+      stewardship: "شعبة التبادل الخارجي والصادرات",
+      classification: "Public",
+      version: "v3.0.2",
+      status: "Approved",
+      lastUpdated: "2026-07-15"
+    },
+    {
+      id: "DS-CONS-VIOLATION",
+      titleAr: "بلاغات ومخالفات حماية المستهلك والغش التجاري",
+      titleEn: "Consumer Protection Violations & Price Anomalies",
+      categoryAr: "حماية المستهلك والرقابة",
+      categoryEn: "Consumer Protection",
+      downloads: 940,
+      size: "8.4 MB",
+      qualityScore: 95.6,
+      stewardship: "إدارة حماية المستهلك والأسواق",
+      classification: "Public",
+      version: "v1.0.1",
+      status: "Pending Review",
+      lastUpdated: "2026-07-16"
+    }
+  ]);
+
+  // AI Data Advisor Recommendations State
+  const [aiDataAdvisorLogs, setAiDataAdvisorLogs] = useState<string[]>([]);
+  const [isDataAdvisorThinking, setIsDataAdvisorThinking] = useState(false);
+
+  // Download simulation state
+  const [downloadingDatasetId, setDownloadingDatasetId] = useState<string | null>(null);
+
+  const runAIDataAdvisor = () => {
+    setIsDataAdvisorThinking(true);
+    setAiDataAdvisorLogs([]);
+
+    setTimeout(() => {
+      setIsDataAdvisorThinking(false);
+      setAiDataAdvisorLogs([
+        currentLanguage === "ar"
+          ? "🤖 اقتراحات مستشار البيانات الاصطناعي السيادي:\n\n" +
+            "1. 🔍 الكشف عن تكرار: تم الكشف عن تطابق بنسبة %94 بين حقول 'العنوان الفيدرالي' في مجموعة ديموغرافيا الشركات و قاعدة بيانات السكن لوزارة العدل. يوصى بدمجهما في السجل المشترك لمنع الازدواجية.\n" +
+            "2. 💡 فرصة API جديدة: يُقترح نشر واجهة GeoJSON لمواقع مصانع الصمغ العربي بناءً على اهتمام المطورين المتزايد لتسهيل تخطيط سلاسل الإمداد.\n" +
+            "3. 📈 توقع الطلب: يتوقع النموذج نمواً بنسبة %40 في طلب الاستعلامات على API الجمارك (بورتسودان) الأسبوع المقبل نظراً لتراكم طلبات التخليص السلعي.\n" +
+            "4. ⚠️ معالجة الاختناقات: يواجه API السجل المدني انخفاضاً طفيفاً في جودة الاستجابة خلال ساعات الذروة (11-1 ظهراً). يوصى بتفعيل الذاكرة المؤقتة (Caching) للمواليد الفيدراليين."
+          : "🤖 Sovereign AI Data Advisor Intelligence Report:\n\n" +
+            "1. 🔍 DUPLICATE DETECTED: Found 94% schema overlap between 'Federal Address Registries' and Ministry of Justice land databases. Consolidation recommended into MDM hub.\n" +
+            "2. 💡 NEW API RECOMMENDATION: Highly advise publishing a secure GeoJSON API map of Gum Arabic manufacturing hubs to cater to rising investor request volumes.\n" +
+            "3. 📈 DEMAND FORECAST: Predictive models forecast a 40% surge in Customs API queries next week due to high volume arrivals at Port Sudan docks.\n" +
+            "4. ⚠️ BOTTLENECK MITIGATION: Civil Registry API latency is drifting during peak hours (11 AM - 1 PM). Recommend enabling a secure Redis cache for static national identity queries."
+      ]);
+    }, 1500);
+  };
+
+  const handleDownloadDataset = (id: string, format: string) => {
+    setDownloadingDatasetId(`${id}-${format}`);
+    setTimeout(() => {
+      setDownloadingDatasetId(null);
+      // increment download count
+      setOpenDatasets(prev => prev.map(ds => {
+        if (ds.id === id) {
+          return { ...ds, downloads: ds.downloads + 1 };
+        }
+        return ds;
+      }));
+    }, 1500);
+  };
+
+  const handleApproveDataset = (id: string) => {
+    setOpenDatasets(prev => prev.map(ds => {
+      if (ds.id === id) {
+        return { ...ds, status: "Approved" };
+      }
+      return ds;
+    }));
+  };
+
 
   // Core Data States
   const [agencies, setAgencies] = useState<IntegratedAgency[]>(initialAgencies);
@@ -793,7 +910,9 @@ export default function NationalIntegrationHub({ currentLanguage, role }: Nation
             { id: "mdm", labelAr: "إدارة البيانات الرئيسية MDM", labelEn: "Master Data Hub (MDM)", icon: Database },
             { id: "events", labelAr: "ناقل الأحداث السيادي", labelEn: "Sovereign Event Broker", icon: Workflow },
             { id: "security", labelAr: "دروع الحماية والـ mTLS", labelEn: "Security & mTLS Shield", icon: KeyRound },
-            { id: "ai", labelAr: "المساعد الذكي للمطابقة", labelEn: "AI Integration Co-Pilot", icon: Sparkles }
+            { id: "ai", labelAr: "المساعد الذكي للمطابقة", labelEn: "AI Integration Co-Pilot", icon: Sparkles },
+            { id: "opendata", labelAr: "المنصة والكتالوج الوطني المفتوح", labelEn: "National Open Data & Catalog", icon: Globe },
+            { id: "devportal", labelAr: "بوابة المطورين والـ Sandbox", labelEn: "Developer Portal & Sandbox", icon: Terminal }
           ].map(tab => {
             const isActive = activeSubTab === tab.id;
             const IconComponent = tab.icon;
@@ -1860,6 +1979,346 @@ export default function NationalIntegrationHub({ currentLanguage, role }: Nation
                         </p>
                       </div>
                     )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* TAB 7: OPEN DATA PLATFORM & CATALOG */}
+          {activeSubTab === "opendata" && (
+            <div className="space-y-6" id="tab-open-data">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Datasets Listing and Downloads */}
+                <div className="lg:col-span-2 bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-4">
+                  <div>
+                    <h3 className="font-bold text-gray-900 text-lg" style={{ fontFamily: "var(--font-arabic)" }}>
+                      {currentLanguage === "ar" ? "كتالوج البيانات المفتوحة الوطني" : "National Open Data Catalog"}
+                    </h3>
+                    <p className="text-xs text-gray-500">
+                      {currentLanguage === "ar"
+                        ? "تصفح وتحميل مجموعات البيانات الفيدرالية بصيغ مقروءة آلياً لدعم الابتكار والنمو الاقتصادي تماشياً مع رؤية السودان 2035."
+                        : "Browse, evaluate, and download structured federal datasets in machine-readable formats to empower researchers and start-ups."}
+                    </p>
+                  </div>
+
+                  <div className="space-y-4">
+                    {openDatasets.map((ds) => {
+                      const isPending = ds.status === "Pending Review";
+                      return (
+                        <div key={ds.id} className="p-4 rounded-xl bg-slate-50 border border-gray-100 text-xs space-y-3">
+                          <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 border-b border-gray-200/50 pb-2">
+                            <div className="space-y-1">
+                              <span className="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded text-[8px] uppercase tracking-wide">
+                                {currentLanguage === "ar" ? ds.categoryAr : ds.categoryEn}
+                              </span>
+                              <h4 className="font-bold text-slate-950 text-xs" style={{ fontFamily: "var(--font-arabic)" }}>
+                                {currentLanguage === "ar" ? ds.titleAr : ds.titleEn}
+                              </h4>
+                            </div>
+
+                            <div className="flex items-center gap-2">
+                              <span className="font-mono text-gray-400 text-[10px]">[{ds.id}]</span>
+                              <span className={`px-2 py-0.5 rounded text-[9px] font-bold uppercase ${
+                                ds.status === "Approved" ? "bg-emerald-100 text-emerald-800" : "bg-amber-100 text-amber-800"
+                              }`}>
+                                {currentLanguage === "ar" 
+                                  ? ds.status === "Approved" ? "معتمد ومتاح" : "قيد المراجعة"
+                                  : ds.status}
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-gray-600 font-medium">
+                            <div>
+                              <span className="text-gray-400 block text-[9px]">{currentLanguage === "ar" ? "المسؤول عن البيانات" : "Data Steward"}</span>
+                              <span className="text-slate-800">{ds.stewardship}</span>
+                            </div>
+                            <div>
+                              <span className="text-gray-400 block text-[9px]">{currentLanguage === "ar" ? "التصنيف والنسخة" : "Classification / Version"}</span>
+                              <span className="text-slate-800">{ds.classification} | {ds.version}</span>
+                            </div>
+                            <div>
+                              <span className="text-gray-400 block text-[9px]">{currentLanguage === "ar" ? "جودة البيانات" : "Quality Score"}</span>
+                              <span className="text-emerald-600 font-bold">★ {ds.qualityScore}%</span>
+                            </div>
+                            <div>
+                              <span className="text-gray-400 block text-[9px]">{currentLanguage === "ar" ? "مرات التحميل / الحجم" : "Downloads / Size"}</span>
+                              <span className="text-slate-800 font-mono">{ds.downloads.toLocaleString()} ({ds.size})</span>
+                            </div>
+                          </div>
+
+                          <div className="flex flex-wrap justify-between items-center gap-2 pt-2 border-t border-dashed border-gray-200">
+                            <div className="flex flex-wrap gap-2">
+                              {["CSV", "JSON", "XML", "GeoJSON"].map((fmt) => {
+                                const isSim = downloadingDatasetId === `${ds.id}-${fmt}`;
+                                return (
+                                  <button
+                                    key={fmt}
+                                    onClick={() => handleDownloadDataset(ds.id, fmt)}
+                                    disabled={!!downloadingDatasetId || isPending}
+                                    className="px-2 py-1 bg-white hover:bg-emerald-50 text-emerald-800 font-bold border border-emerald-200 rounded text-[10px] cursor-pointer disabled:bg-gray-100 disabled:text-gray-300 transition-all flex items-center gap-1 font-mono"
+                                  >
+                                    {isSim ? (
+                                      <RefreshCw className="w-3 h-3 animate-spin text-emerald-600" />
+                                    ) : (
+                                      <Globe className="w-3 h-3 text-emerald-600" />
+                                    )}
+                                    <span>{fmt}</span>
+                                  </button>
+                                );
+                              })}
+                            </div>
+
+                            {isPending && (role === UserRole.GOVERNMENT_MINISTER || role === UserRole.GOVERNMENT_EXECUTIVE) && (
+                              <button
+                                onClick={() => handleApproveDataset(ds.id)}
+                                className="px-3 py-1 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded text-[10px] cursor-pointer transition-all"
+                              >
+                                {currentLanguage === "ar" ? "موافقة ونشر" : "Approve & Publish"}
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Right: Lineage and AI Data Advisor */}
+                <div className="space-y-6">
+                  {/* Data Lineage Card */}
+                  <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 space-y-4">
+                    <h3 className="font-bold text-gray-900 text-sm border-b border-gray-100 pb-2 flex items-center gap-1.5" style={{ fontFamily: "var(--font-arabic)" }}>
+                      <Workflow className="w-4.5 h-4.5 text-emerald-600" />
+                      <span>{currentLanguage === "ar" ? "مسار تدفق البيانات الفيدرالي" : "Federal Data Lineage"}</span>
+                    </h3>
+
+                    <p className="text-[11px] text-gray-400 leading-normal">
+                      {currentLanguage === "ar"
+                        ? "يوضح المخطط مصدر البيانات التجارية وعمليات إخفاء الهوية والتدقيق الأمني قبل النشر النهائي."
+                        : "Visual lineage tracing commercial registries from database ingress, scrubbing/anonymization, up to public API publication."}
+                    </p>
+
+                    <div className="bg-gray-50 p-4 rounded-xl border border-gray-100 space-y-3 font-mono text-[10px] text-gray-600">
+                      <div className="flex items-center justify-between">
+                        <span className="bg-blue-100 text-blue-800 px-2 py-0.5 rounded font-bold">1. Core DB</span>
+                        <span>Commercial Ingress</span>
+                      </div>
+                      <div className="text-center text-gray-300">↓</div>
+                      <div className="flex items-center justify-between border-y border-dashed border-gray-200 py-1.5">
+                        <span className="bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded font-bold">2. PII Scrub</span>
+                        <span>Anonymization Loop</span>
+                      </div>
+                      <div className="text-center text-gray-300">↓</div>
+                      <div className="flex items-center justify-between">
+                        <span className="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold">3. Open Data Catalog</span>
+                        <span>Public v2.1.0 JSON</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* AI Data Advisor */}
+                  <div className="bg-slate-900 text-white rounded-2xl p-5 border border-slate-800 flex flex-col justify-between shadow-xl min-h-[280px]">
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                        <div className="flex items-center gap-2">
+                          <Sparkles className="w-4.5 h-4.5 text-amber-400" />
+                          <span className="font-bold text-xs tracking-wider" style={{ fontFamily: "var(--font-arabic)" }}>
+                            {currentLanguage === "ar" ? "مستشار البيانات الذكي" : "AI Data Advisor"}
+                          </span>
+                        </div>
+                        <span className="bg-emerald-500/10 text-emerald-400 text-[9px] px-2 py-0.5 rounded font-mono font-bold">
+                          ACTIVE INTEGRITY
+                        </span>
+                      </div>
+
+                      <p className="text-[11px] text-gray-400 leading-normal">
+                        {currentLanguage === "ar"
+                          ? "قم بتشغيل مستشار البيانات الذكي لاكتشاف مجموعات البيانات المتكررة واقتراح تحسينات الجودة والتنبؤ بحجم استهلاك المطورين للـ APIs."
+                          : "Trigger the intelligent data steward agent to analyze datasets catalog, identify quality drifts, and predict API requests."}
+                      </p>
+
+                      <button
+                        onClick={runAIDataAdvisor}
+                        disabled={isDataAdvisorThinking}
+                        className="w-full py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg text-xs cursor-pointer transition-all flex items-center justify-center gap-1"
+                      >
+                        {isDataAdvisorThinking ? (
+                          <>
+                            <RefreshCw className="w-4 h-4 animate-spin text-white" />
+                            <span>ANALYZING DUPLICATES...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Sparkles className="w-4 h-4" />
+                            <span>{currentLanguage === "ar" ? "تشغيل مستشار البيانات الذكي" : "Trigger AI Data Advisor"}</span>
+                          </>
+                        )}
+                      </button>
+
+                      {aiDataAdvisorLogs.length > 0 && (
+                        <motion.div 
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          className="bg-slate-950 p-4 rounded-xl border border-slate-800 text-xs leading-relaxed font-mono text-gray-300 whitespace-pre-wrap"
+                        >
+                          {aiDataAdvisorLogs[0]}
+                        </motion.div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* TAB 8: DEVELOPER PORTAL & SANDBOX */}
+          {activeSubTab === "devportal" && (
+            <div className="space-y-6" id="tab-dev-portal">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Interactive Documentation and testing playground */}
+                <div className="lg:col-span-2 bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-6 flex flex-col justify-between">
+                  <div className="space-y-4">
+                    <div>
+                      <h3 className="font-bold text-gray-900 text-lg" style={{ fontFamily: "var(--font-arabic)" }}>
+                        {currentLanguage === "ar" ? "بيئة اختبار المطورين التفاعلية (Sandbox)" : "Interactive Developer Sandbox"}
+                      </h3>
+                      <p className="text-xs text-gray-500">
+                        {currentLanguage === "ar"
+                          ? "اختر واجهة برمجية (API)، عدّل المعاملات، واختبر الاستجابة الفورية بصيغة JSON بالتطابق مع معايير الأمان الوطنية."
+                          : "Select an API from the catalog, configure payload parameters, and run live sandbox simulations to generate sample JSON structures."}
+                      </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="space-y-2 text-xs">
+                        <label className="font-bold text-gray-700">{currentLanguage === "ar" ? "الواجهة البرمجية المستهدفة" : "Target Endpoint"}</label>
+                        <select
+                          value={selectedEndpoint.id}
+                          onChange={(e) => {
+                            const found = endpoints.find(ep => ep.id === e.target.value);
+                            if (found) setSelectedEndpoint(found);
+                          }}
+                          className="w-full px-3 py-2 bg-gray-50 rounded-xl border border-gray-200 text-xs font-semibold focus:outline-none"
+                        >
+                          {endpoints.map(ep => (
+                            <option key={ep.id} value={ep.id}>{ep.method} {ep.path}</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div className="space-y-2 text-xs">
+                        <label className="font-bold text-gray-700">{currentLanguage === "ar" ? "معرف العقد / المطور" : "Developer ID Token"}</label>
+                        <input
+                          type="text"
+                          readOnly
+                          value="sdmci_dev_sandbox_sandbox_key_active_2026_x"
+                          className="w-full px-3 py-2 bg-gray-100 text-gray-500 rounded-xl border border-gray-200 font-mono text-[11px] focus:outline-none"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-2 text-xs">
+                      <label className="font-bold text-gray-700">{currentLanguage === "ar" ? "حمولة الطلب (Request Payload)" : "Request Payload JSON"}</label>
+                      <textarea
+                        rows={4}
+                        value={simulatedPayload}
+                        onChange={(e) => setSimulatedPayload(e.target.value)}
+                        className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl font-mono text-[11px] focus:outline-none"
+                      />
+                    </div>
+
+                    <div className="flex justify-end">
+                      <button
+                        onClick={handleRunGatewaySimulation}
+                        disabled={isSimulating}
+                        className="px-5 py-2 bg-emerald-700 hover:bg-emerald-800 disabled:bg-gray-200 text-white font-bold rounded-xl text-xs cursor-pointer transition-all flex items-center gap-1"
+                      >
+                        {isSimulating ? (
+                          <>
+                            <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                            <span>INVOKING CLIENT...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Play className="w-3.5 h-3.5" />
+                            <span>{currentLanguage === "ar" ? "إرسال طلب تجريبي" : "Invoke API Sandbox"}</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+
+                    {simulationResponse && (
+                      <motion.div 
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="space-y-3 pt-3 border-t border-gray-100"
+                      >
+                        <div className="bg-slate-900 text-white rounded-xl p-4 border border-slate-800 space-y-2 font-mono text-[11px]">
+                          <div className="text-amber-400 font-bold uppercase tracking-wider text-[9px] mb-1">SANDBOX CLIENT RESPONSE</div>
+                          <pre className="overflow-x-auto text-gray-300 max-h-[220px]">{JSON.stringify(simulationResponse, null, 2)}</pre>
+                        </div>
+                      </motion.div>
+                    )}
+                  </div>
+
+                  <p className="text-[10.5px] text-gray-400 text-center italic mt-4">
+                    Sandbox environment is isolated and does not touch live production registers.
+                  </p>
+                </div>
+
+                {/* SDK and Change logs panel */}
+                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-6">
+                  {/* SDK Downloads */}
+                  <div className="space-y-3">
+                    <h3 className="font-bold text-gray-900 text-sm border-b border-gray-100 pb-2 flex items-center gap-1.5" style={{ fontFamily: "var(--font-arabic)" }}>
+                      <FileCode className="w-4.5 h-4.5 text-emerald-600" />
+                      <span>{currentLanguage === "ar" ? "مكتبات الربط والـ SDKs" : "Download Developer SDKs"}</span>
+                    </h3>
+
+                    <p className="text-[11px] text-gray-500">
+                      {currentLanguage === "ar"
+                        ? "قم بتحميل حزم المطورين الجاهزة بلغات البرمجة المختلفة لربط نظام شركتك مباشرة بالوزارة."
+                        : "Integrate SDMCI gateways directly into your code with lightweight production-ready packages."}
+                    </p>
+
+                    <div className="space-y-2 text-xs">
+                      {[
+                        { lang: "Node.js SDK", ver: "v2.0.4", size: "1.2 MB" },
+                        { lang: "Python Library", ver: "v2.1.0", size: "890 KB" },
+                        { lang: "Go SDK Module", ver: "v1.8.9", size: "2.4 MB" }
+                      ].map((sdk, idx) => (
+                        <div key={idx} className="p-3 bg-gray-50 border border-gray-100 rounded-xl flex justify-between items-center">
+                          <div>
+                            <span className="font-bold text-slate-800 block">{sdk.lang}</span>
+                            <span className="text-gray-400 block text-[10px]">{sdk.ver} | {sdk.size}</span>
+                          </div>
+                          <button className="px-2.5 py-1 bg-white hover:bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold rounded text-[10px] cursor-pointer">
+                            Download
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Change logs & deprecation */}
+                  <div className="space-y-3 pt-4 border-t border-gray-100">
+                    <h4 className="font-bold text-gray-900 text-xs uppercase tracking-wider">{currentLanguage === "ar" ? "تاريخ تحديثات الـ API" : "API Lifecycle Changelog"}</h4>
+                    <div className="space-y-2 text-[11px] leading-relaxed text-gray-500 font-medium">
+                      <div className="flex gap-2 items-start">
+                        <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full shrink-0 mt-1.5" />
+                        <div>
+                          <strong className="text-slate-800">v2.0.0 (Latest):</strong> mTLS validation & JWT signatures mandatory across all federal agencies.
+                        </div>
+                      </div>
+                      <div className="flex gap-2 items-start">
+                        <span className="w-1.5 h-1.5 bg-amber-500 rounded-full shrink-0 mt-1.5" />
+                        <div>
+                          <strong className="text-slate-800">v1.8.0 (Deprecated):</strong> Unsigned plain JSON payloads will be rejected after 2026-12-31.
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
