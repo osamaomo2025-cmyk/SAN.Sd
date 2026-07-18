@@ -274,25 +274,28 @@ export default function Dashboards({
     <div className="space-y-6" id="national-smart-dashboard">
       
       {/* SOVEREIGN SLOGAN BANNER - Absolute Top */}
-      <div className="bg-gradient-to-r from-slate-900 to-[#0A2F1D] p-6 rounded-3xl border border-emerald-800/30 shadow-md flex flex-col md:flex-row items-center justify-between gap-4 overflow-hidden relative">
-        <div className="absolute top-0 right-0 w-32 h-32 bg-sudan-green/10 rounded-full blur-2xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-32 h-32 bg-sudan-gold/10 rounded-full blur-2xl pointer-events-none" />
+      <div className="bg-gradient-to-r from-slate-950 to-[#052315] p-6 rounded-3xl border border-emerald-700/40 shadow-xl flex flex-col md:flex-row items-center justify-between gap-4 overflow-hidden relative">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-sudan-green/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-32 h-32 bg-sudan-gold/20 rounded-full blur-3xl pointer-events-none" />
         
-        <div className="flex items-center gap-4 relative z-10">
-          <div className="h-12 w-12 bg-white/10 rounded-2xl flex items-center justify-center border border-white/10">
-            <Globe className="w-6 h-6 text-sudan-gold animate-spin-slow" />
+        <div className="flex items-center gap-4 relative z-10 w-full md:w-auto">
+          <div className="h-14 w-14 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10 shrink-0 shadow-lg">
+            <Globe className="w-7 h-7 text-sudan-gold animate-spin-slow" />
           </div>
-          <div className="space-y-1 text-center md:text-right">
-            <p className="text-lg md:text-2xl font-black text-white tracking-wide" style={{ fontFamily: "Cairo, sans-serif" }}>
-              {currentLanguage === "ar" ? "صناعة وتجارة محلية نحو العالمية" : "Local Industry & Trade Towards Global Horizons"}
-            </p>
-            <p className="text-[10px] text-emerald-200 font-bold uppercase tracking-widest">
+          <div className="space-y-2 text-center md:text-right w-full md:w-auto">
+            {/* Prominent background for the slogan text to make it stand out */}
+            <div className="bg-emerald-950/90 border border-sudan-gold/40 px-5 py-2.5 rounded-2xl shadow-xl backdrop-blur-xs inline-block">
+              <p className="text-xl md:text-3xl font-black text-white tracking-wide" style={{ fontFamily: "Cairo, sans-serif" }}>
+                {currentLanguage === "ar" ? "تجارة وصناعة محلية نحو العالمية" : "Local Trade & Industry Towards Global Horizons"}
+              </p>
+            </div>
+            <p className="text-[10px] text-sudan-gold font-bold uppercase tracking-widest block">
               {currentLanguage === "ar" ? "الرؤية الوطنية الشاملة • جمهورية السودان" : "National Comprehensive Vision • Republic of Sudan"}
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 bg-sudan-gold/25 text-sudan-gold border border-sudan-gold/30 text-xs font-black px-4 py-2 rounded-xl shrink-0 relative z-10 shadow-sm">
+        <div className="flex items-center gap-2 bg-sudan-gold text-slate-900 border border-sudan-gold/50 text-xs font-black px-4 py-2 rounded-xl shrink-0 relative z-10 shadow-md">
           <span>{currentLanguage === "ar" ? "شعارنا الوطني" : "National Slogan"}</span>
         </div>
       </div>

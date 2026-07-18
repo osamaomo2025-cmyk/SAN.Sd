@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { 
   Building2, Cpu, Globe, Landmark, ShieldAlert, 
   Menu, LayoutDashboard, Layers, Palette, Award, ShieldCheck, Scale, Network, Fingerprint, BarChart3, ClipboardList,
-  ShoppingBag, Database, Users, Boxes, Briefcase, Shield, Brain, Smartphone
+  ShoppingBag, Database, Users, Boxes, Briefcase, Shield, Brain, Smartphone, Grid
 } from "lucide-react";
 
 import { 
@@ -18,6 +18,7 @@ import {
 } from "./types";
 
 import AIChatAssistant from "./components/AIChatAssistant";
+import NationalElectronicServicesCenter from "./components/NationalElectronicServicesCenter";
 import CommercialRegistrationModule from "./components/CommercialRegistration";
 import CommercialNamesModule from "./components/CommercialNames";
 import IndustrialPlatformModule from "./components/IndustrialPlatform";
@@ -251,7 +252,7 @@ const initialComplaints: ConsumerComplaint[] = [
 export default function App() {
   const [currentLanguage, setCurrentLanguage] = useState<"ar" | "en">("ar");
   const [currentRole, setCurrentRole] = useState<UserRole>(UserRole.BUSINESS_INVESTOR);
-  const [activeModule, setActiveModule] = useState<string>("dashboard");
+  const [activeModule, setActiveModule] = useState<string>("services-center");
   const [isSidebarOpen, setIsSidebarOpen] = useState(() => {
     if (typeof window !== "undefined") {
       return window.innerWidth >= 768;
@@ -259,6 +260,7 @@ export default function App() {
     return false;
   });
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [menuSearch, setMenuSearch] = useState("");
 
   // Core Data State Synchronized via LocalStorage
   const [companies, setCompanies] = useState<CommercialRegistration[]>([]);
@@ -482,6 +484,7 @@ export default function App() {
 
   // Nav menu items
   const menuItems = [
+    { id: "services-center", labelAr: "المركز الوطني للخدمات الإلكترونية", labelEn: "National Electronic Services Center", icon: Grid },
     { id: "dashboard", labelAr: "لوحة المتابعة الرقمية", labelEn: "Sovereign Dashboard", icon: LayoutDashboard },
     { id: "autonomous-operations", labelAr: "التشغيل الذاتي والابتكار السيادي", labelEn: "Autonomous Gov & Future Innovation", icon: Cpu },
     { id: "executive-command-center", labelAr: "مركز القيادة التنفيذي ورؤية 2035", labelEn: "Executive Command Center 2035", icon: Landmark },
@@ -557,13 +560,10 @@ export default function App() {
                   <div className="absolute inset-y-0 right-0 w-1/3 bg-[#000000]"></div>
                 </div>
               </div>
-              <div>
-                <h1 className="text-base md:text-lg font-extrabold leading-none text-sudan-green">
+              <div className="py-1">
+                <h1 className="text-base md:text-xl font-extrabold text-sudan-green" style={{ fontFamily: "Cairo, sans-serif" }}>
                   {currentLanguage === "ar" ? "وزارة التجارة والصناعة" : "Ministry of Commerce & Industry"}
                 </h1>
-                <p className="text-[10px] uppercase tracking-wider text-gray-500 font-bold mt-1">
-                  {currentLanguage === "ar" ? "الخدمات الاتحادية والتحول الرقمي • السودان 2035" : "Federal Service Hub | Sudan 2035"}
-                </p>
               </div>
             </button>
           </div>
@@ -622,7 +622,7 @@ export default function App() {
         
         {/* Sidebar Left Navigation */}
         <aside 
-          className={`bg-white w-64 shrink-0 p-5 space-y-4 fixed md:sticky top-0 md:top-20 bottom-0 h-full md:h-[calc(100vh-80px)] z-40 md:z-20 md:block transition-all duration-300 ${
+          className={`bg-white w-64 shrink-0 p-4 space-y-4 fixed md:sticky top-0 md:top-20 bottom-0 h-full md:h-[calc(100vh-80px)] z-40 md:z-20 md:block transition-all duration-300 overflow-y-auto ${
             isSidebarOpen 
               ? "translate-x-0" 
               : currentLanguage === "ar" 
@@ -631,41 +631,109 @@ export default function App() {
           } md:translate-x-0 ${currentLanguage === "ar" ? "right-0 border-l border-gray-200 border-r-0" : "left-0"}`}
         >
           {/* Active User Header */}
-          <div className="p-4 bg-[#F4F6F5] rounded-3xl border border-gray-200 flex items-center gap-3">
-            <div className="h-10 w-10 bg-sudan-green text-white rounded-2xl flex items-center justify-center font-bold uppercase shadow-sm">
+          <div className="p-3.5 bg-[#F4F6F5] rounded-3xl border border-gray-200 flex items-center gap-3">
+            <div className="h-9 w-9 bg-sudan-green text-white rounded-2xl flex items-center justify-center font-black uppercase shadow-xs shrink-0">
               {currentRole[0].toUpperCase()}
             </div>
             <div className="overflow-hidden">
               <h4 className="font-extrabold text-xs text-[#1E293B] truncate">{currentProfile.fullName}</h4>
-              <p className="text-[10px] text-sudan-gold font-bold mt-0.5">{currentRoleObj()[currentLanguage]}</p>
+              <p className="text-[9px] text-sudan-gold font-black mt-0.5">{currentRoleObj()[currentLanguage]}</p>
             </div>
           </div>
 
-          <div className="pt-4 space-y-1.5">
-            {menuItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = activeModule === item.id;
+          {/* Quick Menu Search bar */}
+          <div className="relative">
+            <input
+              type="text"
+              value={menuSearch}
+              onChange={(e) => setMenuSearch(e.target.value)}
+              placeholder={currentLanguage === "ar" ? "بحث في القائمة..." : "Search services..."}
+              className="w-full bg-slate-50 hover:bg-slate-100 focus:bg-white text-[11px] font-bold px-3 py-2 rounded-xl outline-none border border-slate-200 focus:border-sudan-green transition-all"
+              dir={currentLanguage === "ar" ? "rtl" : "ltr"}
+            />
+            {menuSearch && (
+              <button 
+                onClick={() => setMenuSearch("")}
+                className="absolute inset-y-0 ltr:right-2.5 rtl:left-2.5 my-auto text-gray-400 hover:text-gray-600 text-xs font-bold px-1"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+
+          {/* Grouped & Filtered Navigation Links */}
+          <div className="space-y-4">
+            {[
+              {
+                id: "citizens-investors",
+                labelAr: "بوابات الخدمات والمعاملات",
+                labelEn: "Services & Portals",
+                items: ["services-center", "commercial", "commercial-names", "corporate-lifecycle", "licensing-platform", "industrial", "importexport", "investment", "consumer", "digital-commerce", "national-superapp", "national-innovation"]
+              },
+              {
+                id: "strategic-command",
+                labelAr: "الرقابة والقيادة الاستراتيجية",
+                labelEn: "Leadership & Control",
+                items: ["dashboard", "executive-command-center", "bi-platform", "smart-inspection", "autonomous-operations"]
+              },
+              {
+                id: "resource-ops",
+                labelAr: "الموارد والعمليات الداخلية",
+                labelEn: "Resources & ERP",
+                items: ["human-capital", "sovereign-eam", "sovereign-procurement", "gov-records", "legal-affairs"]
+              },
+              {
+                id: "infrastructure-sec",
+                labelAr: "الربط والأمن السيبراني",
+                labelEn: "Infrastructure & Security",
+                items: ["sovereign-grc", "sovereign-soc", "dr-resilience", "integration-hub", "ai-governance", "trust-services", "payment-platform", "architecture", "design-system"]
+              }
+            ].map((group) => {
+              // Filter items inside this group that match the search query
+              const groupItems = menuItems.filter(
+                (item) =>
+                  group.items.includes(item.id) &&
+                  (currentLanguage === "ar"
+                    ? item.labelAr.toLowerCase().includes(menuSearch.toLowerCase())
+                    : item.labelEn.toLowerCase().includes(menuSearch.toLowerCase()))
+              );
+
+              if (groupItems.length === 0) return null;
+
               return (
-                <button
-                  key={item.id}
-                  onClick={() => {
-                    setActiveModule(item.id);
-                    if (window.innerWidth < 768) setIsSidebarOpen(false);
-                  }}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-xs font-bold transition-all cursor-pointer ${
-                    isActive 
-                      ? "bg-sudan-green text-white shadow-sm font-extrabold" 
-                      : "text-gray-500 hover:text-sudan-green hover:bg-slate-50"
-                  }`}
-                >
-                  <Icon className={`h-4.5 w-4.5 shrink-0 ${isActive ? "text-sudan-gold" : "text-gray-400"}`} />
-                  <span>{currentLanguage === "ar" ? item.labelAr : item.labelEn}</span>
-                </button>
+                <div key={group.id} className="space-y-1">
+                  <h5 className="text-[9px] uppercase font-black text-sudan-gold/90 tracking-wider px-2 py-1 bg-slate-50 rounded-lg inline-block w-full" style={{ fontFamily: "Cairo, sans-serif" }}>
+                    {currentLanguage === "ar" ? group.labelAr : group.labelEn}
+                  </h5>
+                  <div className="space-y-1">
+                    {groupItems.map((item) => {
+                      const Icon = item.icon;
+                      const isActive = activeModule === item.id;
+                      return (
+                        <button
+                          key={item.id}
+                          onClick={() => {
+                            setActiveModule(item.id);
+                            if (window.innerWidth < 768) setIsSidebarOpen(false);
+                          }}
+                          className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-[11px] font-bold transition-all cursor-pointer ${
+                            isActive 
+                              ? "bg-sudan-green text-white shadow-xs font-black" 
+                              : "text-gray-500 hover:text-sudan-green hover:bg-slate-50"
+                          }`}
+                        >
+                          <Icon className={`h-4 w-4 shrink-0 ${isActive ? "text-sudan-gold" : "text-gray-400"}`} />
+                          <span className="truncate">{currentLanguage === "ar" ? item.labelAr : item.labelEn}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
               );
             })}
           </div>
 
-          <div className="pt-6 border-t border-gray-100 space-y-2 text-[10px] text-gray-400">
+          <div className="pt-4 border-t border-gray-100 space-y-2 text-[10px] text-gray-400">
             <p className="text-center font-semibold font-mono">SDMCI © 2035</p>
             <p className="text-center leading-normal">
               {currentLanguage === "ar" 
@@ -686,6 +754,14 @@ export default function App() {
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.2 }}
             >
+              {activeModule === "services-center" && (
+                <NationalElectronicServicesCenter
+                  currentLanguage={currentLanguage}
+                  role={currentRole}
+                  onNavigateModule={setActiveModule}
+                />
+              )}
+
               {activeModule === "dashboard" && (
                 <Dashboards
                   currentLanguage={currentLanguage}
