@@ -102,6 +102,12 @@ interface DBState {
   secPolicies: any[];
   secKpis: any[];
   secAuditLogs: any[];
+  comBusinesses: any[];
+  comLicenses: any[];
+  openDatasets: any[];
+  apiGatewayLogs: any[];
+  observatoryMetrics: any[];
+  comNotifications: any[];
 }
 
 const defaultDBState: DBState = {
@@ -2020,6 +2026,110 @@ const defaultDBState: DBState = {
       details: "Cert Serial: SN-9981-XX-2025",
       hash: "sha256_seclog02baefdce8910bcdafe223901ba4f"
     }
+  ],
+  comBusinesses: [
+    {
+      id: "db-1",
+      digitalId: "SD-BIZ-481920",
+      storeNameAr: "منصة سودا-ماركت للمنتجات العضوية",
+      storeNameEn: "SudaMarket Organic Platform",
+      businessType: "marketplace",
+      ownerName: "ياسر عبد الكريم الطيب",
+      email: "yasser@sudamarket.sd",
+      phone: "+249912345001",
+      status: "active",
+      trustScore: 96,
+      sector: "agricultural_commerce",
+      addressState: "الخرطوم",
+      addressCity: "الخرطوم",
+      registeredAt: "2026-01-15T08:30:00Z",
+      annualRevenue: 12500000,
+      paymentPlatformLinked: true,
+      logisticsLinked: true,
+      crLink: "comp-1",
+      licenseLink: "lic-1",
+      auditLogs: [
+        { id: "log-1", actionAr: "إنشاء السجل التجاري الرقمي", actionEn: "Digital business registry created", actor: "ياسر الطيب", role: "merchant", timestamp: "2026-01-15T08:30:00Z", ip: "197.251.48.2" },
+        { id: "log-2", actionAr: "تفعيل الربط الجمركي وبوابة الدفع", actionEn: "Sovereign Payment gateway integration verified", actor: "النظام التلقائي", role: "system", timestamp: "2026-01-16T10:15:00Z", ip: "127.0.0.1" },
+        { id: "log-3", actionAr: "تحديث شهادة الامتثال الفيدرالي", actionEn: "Federal compliance certification updated", actor: "أمل البشير", role: "government_officer", timestamp: "2026-05-10T12:00:00Z", ip: "196.1.200.45" }
+      ]
+    },
+    {
+      id: "db-2",
+      digitalId: "SD-BIZ-759102",
+      storeNameAr: "متجر كردفان لتصدير الصمغ والكركديه",
+      storeNameEn: "Kordofan Gum & Hibiscus Store",
+      businessType: "online_store",
+      ownerName: "آمنة صالح العبيد",
+      email: "amna@kordofangum.sd",
+      phone: "+249123098765",
+      status: "verified",
+      trustScore: 92,
+      sector: "export_trade",
+      addressState: "شمال كردفان",
+      addressCity: "الأبيض",
+      registeredAt: "2026-02-20T09:00:00Z",
+      annualRevenue: 8400000,
+      paymentPlatformLinked: true,
+      logisticsLinked: true,
+      crLink: "comp-1",
+      licenseLink: "lic-1",
+      auditLogs: [
+        { id: "log-4", actionAr: "طلب تسجيل متجر منزلي مصاحب", actionEn: "Home business extension registered", actor: "آمنة العبيد", role: "sme_owner", timestamp: "2026-02-20T09:00:00Z", ip: "197.251.52.14" },
+        { id: "log-5", actionAr: "الموافقة الأمنية وفحص الموثوقية", actionEn: "Identity and safety vetting approved", actor: "مكتب التجارة الرقمية", role: "government_officer", timestamp: "2026-02-21T14:30:00Z", ip: "196.1.200.46" }
+      ]
+    },
+    {
+      id: "db-3",
+      digitalId: "SD-BIZ-930412",
+      storeNameAr: "دليفري نيل لخدمات التوصيل السريع",
+      storeNameEn: "Delivery Nile Logistics Hub",
+      businessType: "digital_service",
+      ownerName: "أحمد المأمون التازي",
+      email: "tazi@deliverynile.sd",
+      phone: "+249915554321",
+      status: "active",
+      trustScore: 89,
+      sector: "logistics_services",
+      addressState: "البحر الأحمر",
+      addressCity: "بورتسودان",
+      registeredAt: "2026-03-05T11:45:00Z",
+      annualRevenue: 24000000,
+      paymentPlatformLinked: true,
+      logisticsLinked: true,
+      crLink: "comp-2",
+      licenseLink: "lic-2",
+      auditLogs: [
+        { id: "log-6", actionAr: "إنشاء هوية الربط اللوجستي الفيدرالي", actionEn: "National logistics linkage initialized", actor: "أحمد التازي", role: "merchant", timestamp: "2026-03-05T11:45:00Z", ip: "197.251.60.101" }
+      ]
+    }
+  ],
+  comLicenses: [
+    { id: "lic-e-1", licenseNumber: "SD-ELIC-839201", type: "online_store_license", businessId: "db-2", storeName: "Kordofan Gum & Hibiscus Store", issueDate: "2026-02-21T14:30:00Z", expiryDate: "2027-02-21T14:30:00Z", status: "active" },
+    { id: "lic-e-2", licenseNumber: "SD-ELIC-192837", type: "platform_operator_license", businessId: "db-1", storeName: "SudaMarket Organic Platform", issueDate: "2026-01-16T10:15:00Z", expiryDate: "2027-01-16T10:15:00Z", status: "active" }
+  ],
+  openDatasets: [
+    { id: "ds-1", titleAr: "قاعدة بيانات الشركات والسجلات الرقمية الكلية", titleEn: "Sovereign Company & Store Registry Datasets", category: "company", downloadCount: 1420, recordCount: 18450, lastUpdated: "2026-07-15T00:00:00Z", size: "3.2 MB", descAr: "الإحصاءات والبيانات الوصفية لسجلات الشركات والمتاجر الموثقة في جمهورية السودان لعام 2026.", descEn: "Metadata and structural metrics of certified company and store registries in the Republic of Sudan for 2026." },
+    { id: "ds-2", titleAr: "إحصائيات وحجم التجارة الرقمية الداخلية والخارجية", titleEn: "National Digital Trade & Transaction Volume statistics", category: "trade", downloadCount: 980, recordCount: 52100, lastUpdated: "2026-07-17T00:00:00Z", size: "12.4 MB", descAr: "أحجام المبيعات وقيم التبادل الرقمي وتدفق السلع بين الولايات السودانية ومحيط الكوميسا الإقليمي.", descEn: "Sales values, digital exchange volumes, and supply chain flows across Sudanese states and the COMESA region." },
+    { id: "ds-3", titleAr: "مؤشرات نمو الطاقة الصناعية ومصانع الفرز الغذائي", titleEn: "Industrial Growth Capacity & Agro-sorting Indices", category: "industrial", downloadCount: 750, recordCount: 1240, lastUpdated: "2026-07-10T00:00:00Z", size: "1.8 MB", descAr: "بيانات الطاقة التشغيلية وتوزع المصانع ومواقع الفرز الاستراتيجية في المناطق الحرة والمدن اللوجستية.", descEn: "Operational capacity, factory distributions, and strategic agro-sorting facilities in free zones and logistics cities." },
+    { id: "ds-4", titleAr: "خريطة الاستثمارات الأجنبية المباشرة وتدفقات رؤوس الأموال", titleEn: "Foreign Direct Investment Mapping & Allocation Trends", category: "investment", downloadCount: 1100, recordCount: 850, lastUpdated: "2026-07-14T00:00:00Z", size: "2.1 MB", descAr: "تدفقات رؤوس الأموال الأجنبية حسب القطاعات الاستثمارية والموقع الجغرافي ونسب إنجاز المشاريع المفتوحة.", descEn: "FDI inflows by sectors, coordinates, and open project execution percentage benchmarks." },
+    { id: "ds-5", titleAr: "إحصاءات شكاوى حماية المستهلك ومؤشرات سلامة الأسواق", titleEn: "Consumer Protection Recalls & Price Resolution Trends", category: "consumer", downloadCount: 540, recordCount: 9320, lastUpdated: "2026-07-18T10:00:00Z", size: "4.5 MB", descAr: "كشوف الاستدعاءات ومعدلات حل المنازعات التجارية ورصد الأسعار ومستويات الامتثال لقوانين الغش التجاري.", descEn: "Product recall lists, marketplace dispute resolutions, price auditing tracks, and anti-fraud compliance statistics." }
+  ],
+  apiGatewayLogs: [
+    { id: "akey-1", clientId: "sd-client-4829", clientName: "Portal Developer Hub", apiKey: "sd_api_live_f893b821098e4c7ba89", scopes: ["read:registry", "read:opendata"], status: "active", requestCount: 45290, errorRate: 0.12, avgLatency: 45 },
+    { id: "akey-2", clientId: "sd-client-9102", clientName: "National Custom Integration", apiKey: "sd_api_live_10c283ea09ba28dce81", scopes: ["read:registry", "write:licensing"], status: "active", requestCount: 125020, errorRate: 0.05, avgLatency: 28 }
+  ],
+  observatoryMetrics: [
+    { id: "met-1", metricAr: "معدل تبني المدفوعات الرقمية في المتاجر", metricEn: "E-Payment Adoption Rate in Stores", value: 78.4, target: 85.0, unit: "%", trend: "up" },
+    { id: "met-2", metricAr: "نمو قطاع ريادة الأعمال الرقمي السنوي", metricEn: "Annual Digital SME Expansion Index", value: 18.2, target: 15.0, unit: "%", trend: "up" },
+    { id: "met-3", metricAr: "نسبة التحصيل الرقمي للرسوم السيادية", metricEn: "Sovereign Digital Fee Collection", value: 94.6, target: 100.0, unit: "%", trend: "up" },
+    { id: "met-4", metricAr: "معدل بقاء الشركات التقنية الناشئة (أكثر من سنتين)", metricEn: "Tech Startup Survival Rate (>2 Years)", value: 65.0, target: 75.0, unit: "%", trend: "stable" },
+    { id: "met-5", metricAr: "حجم فرص العمل الجديدة المتولدة رقمياً", metricEn: "Digital Economy Jobs Spawned", value: 45200, target: 50000, unit: "Jobs", trend: "up" },
+    { id: "met-6", metricAr: "نسبة رقمنة التراخيص والخدمات الحكومية للشركات", metricEn: "Sovereign G2B Service Digitalization Rate", value: 89.1, target: 95.0, unit: "%", trend: "up" }
+  ],
+  comNotifications: [
+    { id: "ntf-e-1", titleAr: "تفعيل رخصة الكيان الرقمي الموحد بنجاح", titleEn: "Sovereign Digital License Activated", recipient: "+249912345001", channel: "all", status: "delivered", timestamp: "2026-07-16T10:15:00Z", messageAr: "تم تفعيل رخصتكم التجارية الرقمية الموحدة رقم SD-ELIC-192837 بنجاح تحت رؤية السودان 2035.", messageEn: "Your Sovereign Unified Digital Permit SD-ELIC-192837 is successfully active." },
+    { id: "ntf-e-2", titleAr: "تحديث شروط تصدير السلع بموجب الكوميسا", titleEn: "Updated COMESA Agricultural Tariff Guideline", recipient: "amna@kordofangum.sd", channel: "email", status: "delivered", timestamp: "2026-07-17T08:00:00Z", messageAr: "عزيزي التاجر، تم تصفير الرسوم الجمركية على الصمغ الطبيعي المصدر إلى كينيا ومصر بالتكامل مع الكوميسا.", messageEn: "Sovereign notice: Zero customs tariff is now active for natural gum exported to Egypt and Kenya under COMESA agreements." }
   ]
 };
 
@@ -2043,7 +2153,8 @@ function getDB(): DBState {
         "assets", "facilities", "warehouses", "inventories", "fleetVehicles", "maintenanceWorkOrders", "spareParts", "assetKpis", "facilityKpis", "assetAuditLogs",
         "suppliers", "procurementPlans", "tenders", "bids", "purchaseOrders", "procurementContracts", "supplierKpis", "procurementAuditLogs",
         "grcRisks", "grcControls", "grcPolicies", "grcAudits", "grcFindings", "grcCorrectiveActions", "grcComplianceRecords", "grcIncidents", "grcAuditLogs",
-        "secEvents", "secIncidents", "secThreatIntel", "secVulnerabilities", "secCertificates", "secPolicies", "secKpis", "secAuditLogs"
+        "secEvents", "secIncidents", "secThreatIntel", "secVulnerabilities", "secCertificates", "secPolicies", "secKpis", "secAuditLogs",
+        "comBusinesses", "comLicenses", "openDatasets", "apiGatewayLogs", "observatoryMetrics", "comNotifications"
       ];
       for (const k of keys) {
         if (!db[k]) {
@@ -6426,6 +6537,1454 @@ app.post("/api/sec/ai-defense", async (req, res) => {
       details: err.message
     });
   }
+});
+
+// ==========================================
+// PHASE SEVEN: NATIONAL DIGITAL ECONOMY & SMART COMMERCE PLATFORM ENDPOINTS
+// ==========================================
+
+// --- MODULE 1: NATIONAL E-COMMERCE REGISTRY ---
+app.get("/api/commerce/businesses", (req, res) => {
+  const db = getDB();
+  res.json(db.comBusinesses || []);
+});
+
+app.post("/api/commerce/businesses", (req, res) => {
+  const db = getDB();
+  const { storeNameAr, storeNameEn, businessType, ownerName, email, phone, sector, addressState, addressCity, annualRevenue, crLink, licenseLink } = req.body;
+
+  // Validation Rules
+  if (!storeNameAr || !storeNameEn || !ownerName || !email || !phone) {
+    return res.status(400).json({ error: "Missing required business registration fields" });
+  }
+
+  const id = `db-${Date.now()}`;
+  const digitalId = `SD-BIZ-${Math.floor(100000 + Math.random() * 900000)}`;
+  
+  const newBusiness = {
+    id,
+    digitalId,
+    storeNameAr,
+    storeNameEn,
+    businessType,
+    ownerName,
+    email,
+    phone,
+    sector: sector || "general_commerce",
+    addressState: addressState || "الخرطوم",
+    addressCity: addressCity || "الخرطوم",
+    registeredAt: new Date().toISOString(),
+    annualRevenue: Number(annualRevenue) || 0,
+    paymentPlatformLinked: false,
+    logisticsLinked: false,
+    crLink: crLink || null,
+    licenseLink: licenseLink || null,
+    status: "pending",
+    trustScore: 75,
+    auditLogs: [
+      {
+        id: `log-${Date.now()}`,
+        actionAr: "تقديم طلب التسجيل في منصة السجل الوطني للتجارة الإلكترونية",
+        actionEn: "E-Commerce Business Registration application submitted",
+        actor: ownerName,
+        role: "merchant",
+        timestamp: new Date().toISOString(),
+        ip: req.ip || "127.0.0.1"
+      }
+    ]
+  };
+
+  db.comBusinesses.unshift(newBusiness);
+
+  // Workflow integration: Generate an automated notification
+  const notificationId = `ntf-${Date.now()}`;
+  db.comNotifications.unshift({
+    id: notificationId,
+    titleAr: "استلام طلب تسجيل الكيان الرقمي",
+    titleEn: "Digital Merchant Application Received",
+    recipient: phone,
+    channel: "all",
+    status: "delivered",
+    timestamp: new Date().toISOString(),
+    messageAr: `عزيزي المالك، تم استلام طلب تسجيل متجرك "${storeNameAr}" بنجاح تحت المعرف الوطني ${digitalId}. جاري التدقيق.`,
+    messageEn: `Dear Owner, your application for "${storeNameEn}" has been received with ID ${digitalId}. Review pending.`
+  });
+
+  // Update observatory metrics (Increment SME or startup registrations)
+  const jobMetric = db.observatoryMetrics.find(m => m.id === "met-5");
+  if (jobMetric) {
+    jobMetric.value += 12; // Simulate employment expansion estimate
+  }
+
+  saveDB(db);
+  res.status(201).json({ success: true, business: newBusiness });
+});
+
+// Update Business Vetting & Compliance Status
+app.post("/api/commerce/businesses/:id/status", (req, res) => {
+  const db = getDB();
+  const { id } = req.params;
+  const { status, actionAr, actionEn, actor, role } = req.body;
+
+  const biz = db.comBusinesses.find(b => b.id === id);
+  if (!biz) {
+    return res.status(404).json({ error: "Digital business not found" });
+  }
+
+  biz.status = status;
+  
+  // Update Trust Score based on vetting status
+  if (status === "active") biz.trustScore = Math.min(biz.trustScore + 10, 100);
+  if (status === "verified") biz.trustScore = Math.min(biz.trustScore + 15, 100);
+  if (status === "suspended") biz.trustScore = 30;
+
+  const newLog = {
+    id: `log-${Date.now()}`,
+    actionAr: actionAr || `تحديث حالة النشاط إلى: ${status}`,
+    actionEn: actionEn || `Activity status updated to: ${status}`,
+    actor: actor || "مفتش الوزارة الفيدرالي",
+    role: role || "government_officer",
+    timestamp: new Date().toISOString(),
+    ip: req.ip || "127.0.0.1"
+  };
+
+  biz.auditLogs.unshift(newLog);
+
+  // Auto-generate notification on status change
+  db.comNotifications.unshift({
+    id: `ntf-${Date.now()}`,
+    titleAr: `تحديث حالة الكيان الرقمي الموحد`,
+    titleEn: `Sovereign Digital Store Status Change`,
+    recipient: biz.phone,
+    channel: "all",
+    status: "delivered",
+    timestamp: new Date().toISOString(),
+    messageAr: `تم تحديث حالة متجركم "${biz.storeNameAr}" إلى: ${status}. الإجراء: ${actionAr}`,
+    messageEn: `Your store "${biz.storeNameEn}" status has been updated to: ${status}. Action: ${actionEn}`
+  });
+
+  // If approved/activated, auto-generate a Digital Business License
+  if (status === "verified" || status === "active") {
+    const hasLicense = db.comLicenses.some(l => l.businessId === biz.id);
+    if (!hasLicense) {
+      const licenseNumber = `SD-ELIC-${Math.floor(100000 + Math.random() * 900000)}`;
+      db.comLicenses.unshift({
+        id: `lic-${Date.now()}`,
+        licenseNumber,
+        type: biz.businessType === "marketplace" ? "platform_operator_license" : "online_store_license",
+        businessId: biz.id,
+        storeName: biz.storeNameEn,
+        issueDate: new Date().toISOString(),
+        expiryDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+        status: "active"
+      });
+      biz.licenseLink = licenseNumber;
+    }
+  }
+
+  saveDB(db);
+  res.json({ success: true, business: biz });
+});
+
+// --- MODULE 2: DIGITAL BUSINESS LICENSES LIFECYCLE ---
+app.get("/api/commerce/licenses", (req, res) => {
+  const db = getDB();
+  res.json(db.comLicenses || []);
+});
+
+// License Renewal
+app.post("/api/commerce/licenses/:id/renew", (req, res) => {
+  const db = getDB();
+  const { id } = req.params;
+  const { actor } = req.body;
+
+  const license = db.comLicenses.find(l => l.id === id);
+  if (!license) {
+    return res.status(404).json({ error: "Digital license not found" });
+  }
+
+  license.status = "active";
+  const currentExpiry = new Date(license.expiryDate).getTime();
+  const baseTime = currentExpiry > Date.now() ? currentExpiry : Date.now();
+  license.expiryDate = new Date(baseTime + 365 * 24 * 60 * 60 * 1000).toISOString();
+
+  // Find linked business and write log
+  const biz = db.comBusinesses.find(b => b.id === license.businessId);
+  if (biz) {
+    biz.status = "active";
+    biz.auditLogs.unshift({
+      id: `log-${Date.now()}`,
+      actionAr: "تم تجديد رخصة التجارة الإلكترونية الرقمية لعام إضافي",
+      actionEn: "Digital business license renewed for an additional year",
+      actor: actor || biz.ownerName,
+      role: "merchant",
+      timestamp: new Date().toISOString(),
+      ip: req.ip || "127.0.0.1"
+    });
+
+    // Notify
+    db.comNotifications.unshift({
+      id: `ntf-${Date.now()}`,
+      titleAr: "تجديد الرخصة الرقمية الموحدة",
+      titleEn: "Unified Digital Permit Renewed",
+      recipient: biz.phone,
+      channel: "all",
+      status: "delivered",
+      timestamp: new Date().toISOString(),
+      messageAr: `تم تجديد رخصتكم رقم ${license.licenseNumber} لمتجر "${biz.storeNameAr}" بنجاح حتى تاريخ ${new Date(license.expiryDate).toLocaleDateString()}.`,
+      messageEn: `Your permit ${license.licenseNumber} for "${biz.storeNameEn}" has been successfully extended until ${new Date(license.expiryDate).toLocaleDateString()}.`
+    });
+  }
+
+  saveDB(db);
+  res.json({ success: true, license });
+});
+
+// License Amendment (Update store meta)
+app.post("/api/commerce/licenses/:id/amend", (req, res) => {
+  const db = getDB();
+  const { id } = req.params;
+  const { storeNameAr, storeNameEn, email, phone, sector } = req.body;
+
+  const license = db.comLicenses.find(l => l.id === id);
+  if (!license) {
+    return res.status(404).json({ error: "Digital license not found" });
+  }
+
+  const biz = db.comBusinesses.find(b => b.id === license.businessId);
+  if (biz) {
+    if (storeNameAr) biz.storeNameAr = storeNameAr;
+    if (storeNameEn) biz.storeNameEn = storeNameEn;
+    if (email) biz.email = email;
+    if (phone) biz.phone = phone;
+    if (sector) biz.sector = sector;
+
+    license.storeName = biz.storeNameEn;
+
+    biz.auditLogs.unshift({
+      id: `log-${Date.now()}`,
+      actionAr: "إجراء تعديل وتصحيح في وثائق الرخصة الرقمية الموحدة",
+      actionEn: "Amendment executed in Unified Digital License document",
+      actor: biz.ownerName,
+      role: "merchant",
+      timestamp: new Date().toISOString(),
+      ip: req.ip || "127.0.0.1"
+    });
+
+    db.comNotifications.unshift({
+      id: `ntf-${Date.now()}`,
+      titleAr: "تعديل بيانات الرخصة بنجاح",
+      titleEn: "Sovereign License Amendment Finalized",
+      recipient: biz.phone,
+      channel: "push",
+      status: "delivered",
+      timestamp: new Date().toISOString(),
+      messageAr: `تم اعتماد التعديل القانوني لبيانات رخصتكم رقم ${license.licenseNumber} بنجاح.`,
+      messageEn: `Your license amendment for ${license.licenseNumber} has been officially approved.`
+    });
+  }
+
+  saveDB(db);
+  res.json({ success: true, license });
+});
+
+// License Upgrades, Transfers and Cancellations
+app.post("/api/commerce/licenses/:id/lifecycle", (req, res) => {
+  const db = getDB();
+  const { id } = req.params;
+  const { actionType, paramValue, actor } = req.body; // actionType: 'upgrade' | 'transfer' | 'cancel'
+
+  const license = db.comLicenses.find(l => l.id === id);
+  if (!license) {
+    return res.status(404).json({ error: "Digital license not found" });
+  }
+
+  const biz = db.comBusinesses.find(b => b.id === license.businessId);
+  if (!biz) {
+    return res.status(404).json({ error: "Linked business not found" });
+  }
+
+  if (actionType === "upgrade") {
+    license.type = paramValue || "platform_operator_license";
+    biz.businessType = "marketplace";
+    biz.auditLogs.unshift({
+      id: `log-${Date.now()}`,
+      actionAr: `ترقية رخصة الأعمال الرقمية إلى: ${paramValue}`,
+      actionEn: `Upgraded digital business license to: ${paramValue}`,
+      actor: actor || biz.ownerName,
+      role: "merchant",
+      timestamp: new Date().toISOString(),
+      ip: req.ip || "127.0.0.1"
+    });
+  } else if (actionType === "transfer") {
+    const previousOwner = biz.ownerName;
+    biz.ownerName = paramValue;
+    biz.auditLogs.unshift({
+      id: `log-${Date.now()}`,
+      actionAr: `نقل ملكية الكيان التجاري الرقمي بالكامل إلى: ${paramValue}`,
+      actionEn: `Transferred digital store ownership fully to: ${paramValue}`,
+      actor: actor || previousOwner,
+      role: "merchant",
+      timestamp: new Date().toISOString(),
+      ip: req.ip || "127.0.0.1"
+    });
+  } else if (actionType === "cancel") {
+    license.status = "archived";
+    biz.status = "archived";
+    biz.auditLogs.unshift({
+      id: `log-${Date.now()}`,
+      actionAr: "إلغاء وأرشفة رخصة التجارة الإلكترونية بطلب من التاجر",
+      actionEn: "Unified digital trade license cancelled and archived upon request",
+      actor: actor || biz.ownerName,
+      role: "merchant",
+      timestamp: new Date().toISOString(),
+      ip: req.ip || "127.0.0.1"
+    });
+  }
+
+  saveDB(db);
+  res.json({ success: true, license, business: biz });
+});
+
+// --- MODULE 3: OPEN DATA PLATFORM ---
+app.get("/api/commerce/opendata", (req, res) => {
+  const db = getDB();
+  res.json(db.openDatasets || []);
+});
+
+app.post("/api/commerce/opendata/:id/download", (req, res) => {
+  const db = getDB();
+  const { id } = req.params;
+
+  const dataset = db.openDatasets.find(d => d.id === id);
+  if (!dataset) {
+    return res.status(404).json({ error: "Dataset not found" });
+  }
+
+  dataset.downloadCount += 1;
+  saveDB(db);
+  res.json({ success: true, dataset });
+});
+
+// --- MODULE 6: DIGITAL ECONOMY OBSERVATORY ---
+app.get("/api/commerce/observatory", (req, res) => {
+  const db = getDB();
+  res.json(db.observatoryMetrics || []);
+});
+
+// --- MODULE 7: SMART NOTIFICATION CENTER ---
+app.get("/api/commerce/notifications", (req, res) => {
+  const db = getDB();
+  res.json(db.comNotifications || []);
+});
+
+app.post("/api/commerce/notifications", (req, res) => {
+  const db = getDB();
+  const { titleAr, titleEn, recipient, channel, messageAr, messageEn, scheduledFor } = req.body;
+
+  if (!titleAr || !titleEn || !recipient || !messageAr || !messageEn) {
+    return res.status(400).json({ error: "Missing required notification properties" });
+  }
+
+  const newNotification = {
+    id: `ntf-${Date.now()}`,
+    titleAr,
+    titleEn,
+    recipient,
+    channel: channel || "all",
+    status: scheduledFor ? "scheduled" : "delivered",
+    timestamp: new Date().toISOString(),
+    messageAr,
+    messageEn,
+    scheduledFor: scheduledFor || null
+  };
+
+  db.comNotifications.unshift(newNotification);
+  saveDB(db);
+  res.status(201).json({ success: true, notification: newNotification });
+});
+
+// --- MODULE 8: NATIONAL API GATEWAY ---
+app.get("/api/commerce/apigateway/keys", (req, res) => {
+  const db = getDB();
+  res.json(db.apiGatewayLogs || []);
+});
+
+app.post("/api/commerce/apigateway/keys", (req, res) => {
+  const db = getDB();
+  const { clientName, scopes } = req.body;
+
+  if (!clientName) {
+    return res.status(400).json({ error: "Client Name is required" });
+  }
+
+  const newKey = {
+    id: `akey-${Date.now()}`,
+    clientId: `sd-client-${Math.floor(1000 + Math.random() * 9000)}`,
+    clientName,
+    apiKey: `sd_api_live_${Math.random().toString(36).substring(2, 10)}${Math.random().toString(36).substring(2, 10)}`,
+    scopes: scopes || ["read:opendata"],
+    status: "active",
+    requestCount: 0,
+    errorRate: 0.0,
+    avgLatency: 20
+  };
+
+  db.apiGatewayLogs.unshift(newKey);
+  saveDB(db);
+  res.status(201).json({ success: true, credential: newKey });
+});
+
+app.delete("/api/commerce/apigateway/keys/:id", (req, res) => {
+  const db = getDB();
+  const { id } = req.params;
+
+  db.apiGatewayLogs = db.apiGatewayLogs.filter(k => k.id !== id);
+  saveDB(db);
+  res.json({ success: true });
+});
+
+// --- MODULE 5: NATIONAL AI SERVICES (ADVISOR & FORECASTING) ---
+app.post("/api/commerce/ai-advisor", async (req, res) => {
+  try {
+    const { message, contextType, businessesCount } = req.body;
+
+    let ai: GoogleGenAI | null = null;
+    if (process.env.GEMINI_API_KEY) {
+      ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+    }
+
+    if (!ai) {
+      // Return beautiful bilingual intelligent summaries based on context type
+      let responseText = "";
+      if (contextType === "forecasting") {
+        responseText = `
+📊 **التحليل التنبئي واستشراف المؤشرات الاقتصادية لعام ٢٠٢٧** (رؤية السودان ٢٠٣٥):
+بناءً على النمذجة الرياضية والبيانات التشغيلية لسجلات وزارة التجارة الفيدرالية والمشروعات الناشئة:
+- **معدل نمو التجارة الرقمية:** من المتوقع تسارعه من ١٨.٢٪ الحالية ليصل إلى **٢٤.٥٪ لعام ٢٠٢٧** مدفوعاً بتبني بوابات الدفع الفيدرالية الموحدة في الولايات الزراعية.
+- **تبني المدفوعات القومية:** نتوقع ملامسة **٨٩٪ بحلول نهاية عام ٢٠٢٧** مقارنة بـ ٧٨.٤٪ حالياً نتيجة إدماج المحافظ الرقمية وإلغاء الرسوم البينية للمشاريع الريفية.
+- **تأثير النفاذ الإقليمي لـ الكوميسا:** سيساهم تصفير التعريفة الجمركية وتوطين شهادات المنشأ الرقمية في نمو صادرات الصمغ والكركديه بنسبة **٣٢٪ كقيمة إجمالية للمدفوعات**.
+- **رصد المخاطر الكلية:** يوصي النموذج برصد مستويات السيولة التنافسية ورفع مهارات موظفي سلاسل الإمداد بنسب متوازنة لمنع حدوث تضخم في أسعار الشحن اللوجستي الداخلي.
+        `;
+      } else if (contextType === "recommendation") {
+        responseText = `
+💡 **محرك التوصيات السيادي الذكي لأصحاب المشاريع الصغيرة (SME & Startups):**
+استناداً إلى معطيات السوق ونشاط تجارتكم والمؤشرات الكلية:
+- **توصية التمويل والمنح:** نقترح التقديم الفوري على "برنامج منحة التحول الرقمي للمشاريع الريفية" (المنحة الحكومية المتاحة لتمويل المتاجر برأس مال ٥,٠٠٠,٠٠٠ جنيه).
+- **توصية التصدير اللوجستي:** متجركم يبدي جدارة عالية في قطاع التصدير الزراعي. نوصي بتفعيل "الربط اللوجستي مع بورتسودان" لتلقي عروض أسعار شحن تفضيلية من النواقل القومية المسجلة.
+- **الامتثال الفيدرالي:** للحفاظ على تصنيفكم الائتماني والائتمان التجاري (>٩٠)، يرجى إتمام ربط رخصتكم بالسجل التجاري الموحد والتحقق من الهوية الرقمية للتاجر عبر نافذة المفتش الفيدرالي.
+        `;
+      } else if (contextType === "compliance") {
+        responseText = `
+🛡️ **تقرير تدقيق الامتثال التلقائي والذكاء الاصطناعي الرقابي:**
+- **حالة الامتثال العام:** مستوفاة بنسبة **٩٢٪**.
+- **نقاط التدقيق المكتملة:** الهوية الرقمية مربوطة بالرقم الوطني الموحد، السجل التجاري مُفعّل ومطابق، توفير بوابات دفع سيادية معتمدة.
+- **التوصيات التصحيحية:** يرجى إرفاق شهادة مطابقة المواصفات SSMO لضمان سلامة الكيان في عمليات التصدير الإقليمية، وتجنب أي مخالفات للغش التجاري أو الرقابة السعرية.
+        `;
+      } else {
+        responseText = `
+أهلاً بك في منصة مستشار الذكاء الاصطناعي لوزارة التجارة والصناعة السودانية 2035. أنا جاهز لمساعدتكم في فحص شروط الترخيص، الاستشارات القانونية، والتنبؤ بمعدلات نمو تجارتكم ومطابقتها للمعايير والسياسات الفيدرالية. كيف يمكنني إرشادك اليوم؟
+        `;
+      }
+
+      return res.json({
+        text: `💡 (ملاحظة: يعمل المساعد حالياً بنظام محاكاة الذكاء الاصطناعي لعدم توفر مفتاح GEMINI_API_KEY في الإعدادات)\n\n${responseText}`
+      });
+    }
+
+    const systemInstruction = `
+      You are the world's leading Sovereign Digital Economy AI Consultant and Government Advisor for the Sudan Digital Ministry of Commerce & Industry under Sudan Vision 2035.
+      Your task is to analyze commercial trends, detect business risks, predict economic indicators, recommend digital services, and assist entrepreneurs with high professional accuracy.
+      Provide detailed, professional, bilingual (Arabic & English) insights or reports based on the user's request.
+    `;
+
+    const userMessage = `
+      Request Type: ${contextType || "general"}
+      User Query: ${message}
+      Context: We currently have ${businessesCount || 5} registered digital commerce businesses.
+    `;
+
+    const response = await ai.models.generateContent({
+      model: "gemini-3.5-flash",
+      contents: [{ role: "user", parts: [{ text: userMessage }] }],
+      config: {
+        systemInstruction,
+        temperature: 0.5,
+      },
+    });
+
+    res.json({
+      text: response.text || "عذراً، لم يتمكن مستشار الذكاء الاصطناعي التجاري من تقديم الرد."
+    });
+
+  } catch (err: any) {
+    console.error("Commerce AI Advisor Error:", err);
+    res.status(500).json({
+      error: "فشل مستشار الذكاء الاصطناعي التجاري في الاتصال بـ Gemini",
+      details: err.message
+    });
+  }
+});
+
+// ============================================================================
+// --- NATIONAL INTELLIGENT DIGITAL GOVERNMENT PLATFORM ENDPOINTS ---
+// ============================================================================
+
+// Searchable Entities for Unified Search
+const SYSTEM_SEARCH_ENTITIES = [
+  { type: "company", id: "c-1", nameAr: "شركة النيل للمنتجات الغذائية المحدودة", nameEn: "Nile Food Products Co. Ltd", number: "SD-2026-94829", stateAr: "الخرطوم", activityAr: "صناعات تحويلية غذائية" },
+  { type: "company", id: "c-2", nameAr: "المؤسسة الوطنية لتطوير الصمغ العربي", nameEn: "National Gum Arabic Development Corp", number: "SD-2026-10293", stateAr: "البحر الأحمر", activityAr: "تصدير المحاصيل الصناعية" },
+  { type: "factory", id: "f-1", nameAr: "مصنع الخرطوم لتدوير النسيج الحديث", nameEn: "Khartoum Modern Textile Recycling Factory", number: "FAC-SD-8820", stateAr: "الخرطوم", activityAr: "تدوير الغزل والنسيج" },
+  { type: "license", id: "l-1", nameAr: "رخصة تصدير صمغ عربي خام", nameEn: "Raw Gum Arabic Export License", number: "LIC-EXP-9023", stateAr: "البحر الأحمر", activityAr: "تصدير الصمغ العربي" },
+  { type: "complaint", id: "comp-1", nameAr: "مخالفة تسعير الدقيق الوطني - سوبرماركت البركة", nameEn: "National Flour Price Gouging - Al-Baraka", number: "COMP-2026-102", stateAr: "الخرطوم", activityAr: "رقابة الأسواق" }
+];
+
+// 1. AI Copilot (Module 1 & 2 & 9)
+app.post("/api/intelligent-gov/copilot", async (req, res) => {
+  try {
+    const { message, activeTab, role, language } = req.body;
+
+    let ai: GoogleGenAI | null = null;
+    if (process.env.GEMINI_API_KEY) {
+      ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+    }
+
+    if (!ai) {
+      // High-quality Bilingual Fallbacks
+      let responseText = "";
+      let sources: string[] = [];
+
+      if (activeTab === "knowledge") {
+        responseText = language === "ar"
+          ? `🔍 **المسترجع المعرفي الذكي (RAG):**\n\nبناءً على الفهرسة الفيكتورية لقوانين السجل التجاري وحماية المستهلك السودانية:\n\n- **المادة ٥ (ترخيص الشركات):** يستلزم تأسيس الكيان الصناعي ربطاً مسبقاً بنظام الهوية الرقمية للتاجر ومطابقة المعايير الفيدرالية للبيئة.\n- **المخالفات:** تقع غرامة بقيمة تصل إلى ٥,٠٠٠,٠٠٠ جنيه سوداني في حال عدم الإفصاح عن الشركاء الملاك أو استخدام رخص تجارية منتهية الصلاحية.\n- **رؤية ٢٠٣٥:** جميع المستندات تدعم التوقيع الرقمي السيادي المشفر بالكامل.`
+          : `🔍 **Smart Knowledge Retrieval (RAG):**\n\nBased on your query inside the Sudan Commercial & Consumer Protection database:\n\n- **Section 5 (Company Licensing):** Creating a food or commercial entity requires prior integration with the Sovereign Identity Gateway.\n- **Penalties:** Fines up to 5,000,000 SDG apply for non-disclosure of registry partners or operating with expired trade permits.\n- **Vision 2035:** All regulatory documents are fully mapped with cryptographic timestamps.`;
+        sources = ["قانون السجل التجاري لعام 1925", "قانون الرقابة وحماية المستهلك 2026"];
+      } else if (activeTab === "ai-assistant") {
+        responseText = language === "ar"
+          ? `💡 **مستشارك الرقمي السيادي (Copilot):**\n\nأهلاً بك بصفتك **${role || "مستثمر"}**.\n\nيسعدني توجيهك في الخطوات التنفيذية للتجارة والتأسيس الرقمي الموحد:\n١. قم بتسجيل شركتك والحصول على الرقم التجاري الموحد.\n٢. تقدم بطلب رخصة التصدير اللوجستي المربوط ببوابة الكوميسا.\n٣. قم بتأكيد التزامك بمتطلبات حوكمة البيانات والضرائب الوطنية لتجنب أي تعارض في السجلات.`
+          : `💡 **Your Sovereign Digital Copilot:**\n\nHello, acting as a certified **${role || "Investor"}**.\n\nI am here to guide you through the process of unified commercial setups:\n1. Register your company to receive a Unified Commercial Number.\n2. Apply for export licenses connected to the COMESA customs network.\n3. Verify your master data profile to ensure full tax and compliance integration.`;
+        sources = ["دليل خدمات التاجر الموحد v2.1"];
+      } else {
+        responseText = language === "ar"
+          ? `🛡️ **مستشار القرار ومكافحة التزوير:**\n\nتم مراجعة طلب الاستعلام دلالياً. النظام يوصي بالتحقق الفيدرالي الشامل من مستندات الطرف الآخر عبر بوابة التدقيق، والتأكد من ملاءمة الميزانية للمؤشرات الاقتصادية المقدرة لعام ٢٠٢٧ لولاية البحر الأحمر والخرطوم.`
+          : `🛡️ **Sovereign Policy Advisor:**\n\nYour inquiry has been checked against state protocols. The system suggests carrying out a federated document verification through the GRC console and aligning operational plans with the 2027 macroeconomic trends.`;
+        sources = ["معايير الحوكمة والتحقق القومي"];
+      }
+
+      return res.json({ text: responseText, sources });
+    }
+
+    const systemInstruction = `
+      You are the ultimate Sovereign Government Enterprise AI Consultant for the Sudan Digital Ministry of Commerce & Industry.
+      You operate on strict regulatory codes, including Sudan Commercial Registry laws, Investment acts, and consumer protection regulations.
+      Your answers must be highly professional, legally accurate, bilingual (Arabic & English), and helpful for developers, government staff, and foreign/local investors under Sudan Vision 2035.
+      Reference specific parts of the Sudan Commercial Registry Act of 1925 or Sudan Consumer Protection Act of 2026 when relevant.
+    `;
+
+    const userPrompt = `
+      User Query: "${message}"
+      Context: System module is "${activeTab}". User Role is "${role || "guest"}". Requested Language is "${language || "ar"}".
+    `;
+
+    const response = await ai.models.generateContent({
+      model: "gemini-3.5-flash",
+      contents: [{ role: "user", parts: [{ text: userPrompt }] }],
+      config: {
+        systemInstruction,
+        temperature: 0.3,
+      }
+    });
+
+    res.json({
+      text: response.text || "عذراً، لم يتمكن النظام الذكي من توليد الرد المطلوب.",
+      sources: ["قاعدة بيانات RAG السيادية الفيدرالية المحدثة لعام 2026"]
+    });
+
+  } catch (err: any) {
+    console.error("Intelligent Gov Copilot Error:", err);
+    res.status(500).json({ error: "Failed to communicate with AI Copilot", details: err.message });
+  }
+});
+
+// 2. Twin Simulator (Module 3)
+app.post("/api/intelligent-gov/simulation", (req, res) => {
+  const { scenario } = req.body;
+
+  let simulation = {
+    riskLevel: "low",
+    latencyImpactMs: 15,
+    recommendationAr: "",
+    recommendationEn: ""
+  };
+
+  if (scenario === "season-peak") {
+    simulation = {
+      riskLevel: "medium",
+      latencyImpactMs: 42,
+      recommendationAr: "يوصى بزيادة عدد وحدات خوادم حاويات رخص الصادرات من ٤ إلى ١٢ مع تفعيل الذاكرة المؤقتة الذكية لمستندات شهادات المنشأ.",
+      recommendationEn: "Recommend scaling API container replicas for export licensing from 4 to 12 and enabling intelligent Redis caching on COMESA origin files."
+    };
+  } else if (scenario === "api-outage") {
+    simulation = {
+      riskLevel: "critical",
+      latencyImpactMs: 250,
+      recommendationAr: "تفعيل وضع العمل الاحتياطي غير المتصل (Offline Buffer) وحفظ المعاملات مؤقتاً في طوابير الحفظ المحلي الموثق بالبلوكشين لحين استعادة الاتصال.",
+      recommendationEn: "Activate fallback Offline Buffering and queue pending state signatures on the decentralized ledger nodes until customs gateway is restored."
+    };
+  } else if (scenario === "cyber-attack") {
+    simulation = {
+      riskLevel: "high",
+      latencyImpactMs: 120,
+      recommendationAr: "تفعيل محدد معدلات الطلبات الفيدرالي (Rate Limiting) وتمرير حركة المرور فوراً عبر جدار الحماية السيادي القائم على التعرف على السلوك الشاذ (WAF).",
+      recommendationEn: "Activate rate-limiting on unified gateways and route traffic immediately through the Sovereign Web Application Firewall (WAF) using anomaly profiling."
+    };
+  }
+
+  res.json({ success: true, simulation });
+});
+
+// 3. Unified Federated Search (Module 5)
+app.post("/api/intelligent-gov/unified-search", (req, res) => {
+  const { query, facet } = req.body;
+  if (!query) {
+    return res.json({ results: [] });
+  }
+
+  const q = query.toLowerCase();
+  let results = SYSTEM_SEARCH_ENTITIES.filter(e => {
+    const matchText = (e.nameAr + " " + e.nameEn + " " + e.number + " " + e.stateAr + " " + e.activityAr).toLowerCase();
+    const matchesQuery = matchText.includes(q);
+    const matchesFacet = facet === "all" || e.type === facet;
+    return matchesQuery && matchesFacet;
+  });
+
+  res.json({ results });
+});
+
+// 4. Document Intelligence (Module 6)
+app.post("/api/intelligent-gov/document-intelligence", (req, res) => {
+  const { documentType } = req.body;
+
+  let ocrText = "";
+  let extractedEntities = {};
+  let fraudAudit = { status: "verified", confidence: 99 };
+
+  if (documentType === "preset-cr") {
+    ocrText = `جمهورية السودان - وزارة التجارة والصناعة الفيدرالية\nشهادة قيد السجل التجاري الوطني رقم: SD-2026-94829\nاسم الشركة: شركة النيل للمنتجات الغذائية المحدودة\nرأس المال المسجل: 25,000,000 جنيه سوداني\nالموقع: الخرطوم بحري المنطقة الصناعية\nالشركاء: عمر يوسف الفكي، صالح محمد أحمد`;
+    extractedEntities = {
+      "Document Type": "Commercial Registry",
+      "Registration Number": "SD-2026-94829",
+      "Company Name": "Nile Food Products Co. Ltd",
+      "Registered Capital": "25,000,000 SDG",
+      "Audit Authority": "Federal Registry Dept"
+    };
+    fraudAudit = { status: "fully_authentic", confidence: 99.4 };
+  } else if (documentType === "preset-coo") {
+    ocrText = `COMESA CERTIFICATE OF ORIGIN - SUDAN CUSTOMS\nOriginating Exporter: National Gum Arabic Development Corp\nConsignee: Al-Baraka Food Industries (Saudi Arabia)\nHS-Code: 1301.90.10\nDescription: 100% Pure Natural Gum Arabic\nWeight: 25,000 KG\nVerification ID: VER-CO-99120`;
+    extractedEntities = {
+      "Document Type": "COMESA Certificate of Origin",
+      "Exporter": "National Gum Arabic Corp",
+      "Importer": "Al-Baraka Food Industries",
+      "HS Code": "1301.90.10",
+      "Consigned Weight": "25,000 KG"
+    };
+    fraudAudit = { status: "fully_authentic", confidence: 98.7 };
+  } else {
+    ocrText = `جمهورية السودان - إدارة التراخيص الصناعية والإنتاج\nرخصة إنتاج صناعي فئة (أ) رقم: FAC-SD-8820\nالمنشأة: مصنع الخرطوم لتدوير النسيج الحديث\nالقطاع: الغزل والنسيج والملابس\nالطاقة الإنتاجية: 100,000 متر مربع شهرياً\nتاريخ الصدور: 2026-04-10`;
+    extractedEntities = {
+      "Document Type": "Industrial Production License",
+      "License ID": "FAC-SD-8820",
+      "Factory Name": "Khartoum Modern Textile Recycling Factory",
+      "Sector Classification": "Textile & Fabrics",
+      "Approved Capacity": "100,000 sqm/month"
+    };
+    fraudAudit = { status: "fully_authentic", confidence: 99.1 };
+  }
+
+  res.json({ ocrText, extractedEntities, fraudAudit });
+});
+
+// ============================================================================
+// --- NATIONAL COMMERCE ECOSYSTEM PLATFORM ENDPOINTS (PHASE 11) ---
+// ============================================================================
+
+let ecoDirectories = [
+  { id: "dir-1", nameAr: "شركة النيل الأزرق للمطاحن وصناعة الدقيق", nameEn: "Blue Nile Flour Mills Co.", type: "manufacturer", locationAr: "الخرطوم", verified: true, trust: 98, sectorAr: "صناعات غذائية" },
+  { id: "dir-2", nameAr: "المؤسسة الوطنية لتطوير الصمغ العربي", nameEn: "National Gum Arabic Development Corp", type: "exporter", locationAr: "بورتسودان", verified: true, trust: 99, sectorAr: "تصدير المحاصيل الاستراتيجية" }
+];
+
+let ecoProducts = [
+  { id: "p-1", nameAr: "صمغ عربي خام فئة ممتازة (هشاب)", nameEn: "Premium Raw Gum Arabic (Hashab)", company: "National Gum Arabic Corp", price: 3400, unit: "Metric Ton", stock: 120 },
+  { id: "p-2", nameAr: "زيت سمسم أبيض نقي معصور على البارد", nameEn: "Pure Cold-Pressed White Sesame Oil", company: "Blue Nile Flour Mills Co.", price: 1850, unit: "Metric Ton", stock: 85 }
+];
+
+let ecoShipments = [
+  { id: "shp-1", tracking: "SD-LOG-9082", cargoAr: "شحنة صمغ عربي خام", originAr: "الأبيض - كردفان", destinationAr: "ميناء بورتسودان الجنوبي", carrier: "Sudan Unified Cargo", status: "in-transit", risk: "low" }
+];
+
+let ecoTenders = [
+  { id: "ten-1", number: "FED-TEN-2026-904", titleAr: "عطاء توريد وقود الديزل المخصص للمصانع والمنشآت الاقتصادية", authorityAr: "إدارة الإمداد الصناعي الفيدرالي", deadline: "2026-08-15", status: "open", bidsSubmitted: 14 }
+];
+
+let ecoSmes = [
+  { id: "sme-1", name: "محاصيل كردفان للتصدير المحدودة", category: "Micro", employees: 8, location: "الأبيض", score: 94 }
+];
+
+app.get("/api/commerce-ecosystem/directories", (req, res) => {
+  res.json({ success: true, directories: ecoDirectories });
+});
+
+app.get("/api/commerce-ecosystem/marketplace/products", (req, res) => {
+  res.json({ success: true, products: ecoProducts });
+});
+
+app.post("/api/commerce-ecosystem/marketplace/products", express.json(), (req, res) => {
+  const { nameAr, nameEn, company, price, unit, stock } = req.body;
+  const newProduct = {
+    id: `p-${Date.now()}`,
+    nameAr: nameAr || "منتج تجاري جديد",
+    nameEn: nameEn || "New Trade Product",
+    company: company || "Unified Sudanese Partner",
+    price: parseFloat(price) || 1000,
+    unit: unit || "Metric Ton",
+    stock: parseInt(stock) || 50
+  };
+  ecoProducts.push(newProduct);
+  res.json({ success: true, product: newProduct });
+});
+
+app.get("/api/commerce-ecosystem/supply-chain/shipments", (req, res) => {
+  res.json({ success: true, shipments: ecoShipments });
+});
+
+app.post("/api/commerce-ecosystem/supply-chain/shipments", express.json(), (req, res) => {
+  const { tracking, cargoAr, cargoEn, originAr, destinationAr, carrier } = req.body;
+  const newShipment = {
+    id: `shp-${Date.now()}`,
+    tracking: tracking || `SD-LOG-${Math.floor(1000 + Math.random() * 9000)}`,
+    cargoAr: cargoAr || "شحنة تجارية وطنية",
+    originAr: originAr || "الخرطوم",
+    destinationAr: destinationAr || "بورتسودان",
+    carrier: carrier || "Nile National Logistics",
+    status: "pickup",
+    risk: "low"
+  };
+  ecoShipments.push(newShipment);
+  res.json({ success: true, shipment: newShipment });
+});
+
+app.get("/api/commerce-ecosystem/smes", (req, res) => {
+  res.json({ success: true, smes: ecoSmes });
+});
+
+app.post("/api/commerce-ecosystem/smes", express.json(), (req, res) => {
+  const { name, employees, location } = req.body;
+  const newSme = {
+    id: `sme-${Date.now()}`,
+    name: name || "شركة ريادية صغيرة جديدة",
+    category: parseInt(employees) < 10 ? "Micro" : "Small",
+    employees: parseInt(employees) || 5,
+    location: location || "الخرطوم",
+    score: 85 + Math.floor(Math.random() * 15)
+  };
+  ecoSmes.push(newSme);
+  res.json({ success: true, sme: newSme });
+});
+
+app.get("/api/commerce-ecosystem/tenders", (req, res) => {
+  res.json({ success: true, tenders: ecoTenders });
+});
+
+app.post("/api/commerce-ecosystem/tenders/bid", express.json(), (req, res) => {
+  const { tenderId, amount, proposal } = req.body;
+  ecoTenders = ecoTenders.map(t => t.id === tenderId ? { ...t, bidsSubmitted: t.bidsSubmitted + 1 } : t);
+  res.json({ success: true, message: "Bid submitted successfully", tenderId, amount });
+});
+
+app.post("/api/commerce-ecosystem/graphql", express.json(), (req, res) => {
+  const { query } = req.body;
+  console.log("Parsing Federal Commerce Ecosystem GraphQL Query:", query);
+  
+  if (query && query.includes("directories")) {
+    return res.json({
+      data: {
+        directories: ecoDirectories
+      }
+    });
+  }
+  
+  if (query && query.includes("products")) {
+    return res.json({
+      data: {
+        products: ecoProducts
+      }
+    });
+  }
+  
+  res.json({
+    data: {
+      sudanCommerceEcosystem: {
+        status: "active",
+        version: "11.0.0",
+        nodeCount: 14812,
+        networkSecurity: "Zero Trust Enabled",
+        lastBackup: new Date().toISOString()
+      }
+    }
+  });
+});
+
+// ============================================================================
+// --- PHASE 12: NATIONAL ECONOMIC INTELLIGENCE & STRATEGIC PLANNING ---
+// ============================================================================
+
+let nationalIndicators = [
+  { year: "2021", gdp: 28.5, inflation: 120.4, tradeBalance: -4.2, industrialProduction: 92.5 },
+  { year: "2022", gdp: 30.1, inflation: 85.2, tradeBalance: -3.8, industrialProduction: 94.8 },
+  { year: "2023", gdp: 32.4, inflation: 64.1, tradeBalance: -2.9, industrialProduction: 98.1 },
+  { year: "2024", gdp: 35.8, inflation: 42.5, tradeBalance: -1.2, industrialProduction: 104.2 },
+  { year: "2025", gdp: 40.2, inflation: 24.8, tradeBalance: 0.8, industrialProduction: 112.9 },
+  { year: "2026", gdp: 45.5, inflation: 12.4, tradeBalance: 2.1, industrialProduction: 124.6 }
+];
+
+let strategicInitiatives = [
+  { id: "init-1", titleAr: "التحول اللوجستي لمنطقة البحر الأحمر الحرة", titleEn: "Red Sea Free Zone Logistics Transformation", status: "on-track", progress: 78, category: "Infrastructure" },
+  { id: "init-2", titleAr: "مجمع الصناعات التحويلية الزراعية بالقضارف", titleEn: "Al Qadarif Agro-Industrial Manufacturing Cluster", status: "on-track", progress: 85, category: "Agriculture" }
+];
+
+let stateGisMetadata = [
+  { state: "Red Sea", activeProjects: 24, resources: ["Gum Arabic", "Gold", "Salt"] },
+  { state: "Gezira", activeProjects: 18, resources: ["Cotton", "Wheat", "Livestock"] }
+];
+
+app.get("/api/economic-intelligence/indicators", (req, res) => {
+  res.json({ success: true, indicators: nationalIndicators });
+});
+
+app.post("/api/economic-intelligence/indicators", express.json(), (req, res) => {
+  const { year, gdp, inflation, tradeBalance, industrialProduction } = req.body;
+  if (!year || isNaN(parseFloat(gdp))) {
+    return res.status(400).json({ success: false, message: "Invalid parameters" });
+  }
+  const newIndicator = {
+    year: String(year),
+    gdp: parseFloat(gdp),
+    inflation: parseFloat(inflation) || 10.0,
+    tradeBalance: parseFloat(tradeBalance) || 0.0,
+    industrialProduction: parseFloat(industrialProduction) || 100.0
+  };
+  nationalIndicators.push(newIndicator);
+  res.json({ success: true, indicator: newIndicator });
+});
+
+app.get("/api/economic-intelligence/initiatives", (req, res) => {
+  res.json({ success: true, initiatives: strategicInitiatives });
+});
+
+app.post("/api/economic-intelligence/initiatives", express.json(), (req, res) => {
+  const { titleAr, titleEn, category } = req.body;
+  if (!titleAr) {
+    return res.status(400).json({ success: false, message: "Title required" });
+  }
+  const newInit = {
+    id: `init-${Date.now()}`,
+    titleAr,
+    titleEn: titleEn || titleAr,
+    status: "on-track",
+    progress: 0,
+    category: category || "General"
+  };
+  strategicInitiatives.push(newInit);
+  res.json({ success: true, initiative: newInit });
+});
+
+app.post("/api/economic-intelligence/predict-failure", express.json(), (req, res) => {
+  const { companyAge, employeeCount, leverage } = req.body;
+  const age = parseFloat(companyAge) || 3;
+  const emp = parseFloat(employeeCount) || 10;
+  const lev = parseFloat(leverage) || 0.5;
+  const failureChance = Math.min(100, Math.max(0, (lev * 80) - (age * 4) + (emp < 5 ? 15 : 0)));
+  res.json({
+    success: true,
+    riskPercent: failureChance.toFixed(2),
+    assessment: failureChance > 50 ? "High Risk of Solvency Strain" : "Stable & Growth Eligible"
+  });
+});
+
+app.post("/api/economic-intelligence/graphql", express.json(), (req, res) => {
+  const { query } = req.body;
+  console.log("Parsing Phase 12 GraphQL Query:", query);
+  
+  if (query && query.includes("indicators")) {
+    return res.json({
+      data: {
+        indicators: nationalIndicators
+      }
+    });
+  }
+  
+  if (query && query.includes("initiatives")) {
+    return res.json({
+      data: {
+        initiatives: strategicInitiatives
+      }
+    });
+  }
+  
+  res.json({
+    data: {
+      sudanStrategicIntelligence: {
+        status: "operational",
+        version: "12.0.0",
+        lastBackup: new Date().toISOString(),
+        systemIntegrity: "Zero Trust Verified",
+        modelsActive: [
+          "GDP_PROJECTION_MODEL",
+          "INSOLVENCY_RISK_PREDICTOR",
+          "REGIONAL_RESOURCE_GIS_MODEL",
+          "LEGISLATIVE_IMPACT_SIMULATOR"
+        ]
+      }
+    }
+  });
+});
+
+// ============================================================================
+// --- PHASE 13: INTERNATIONAL TRADE & REGIONAL INTEGRATION ---
+// ============================================================================
+
+let tradeCerts = [
+  { id: "co-2026-001", exporter: "Blue Nile Gum Corp", destination: "Germany", product: "Grade-1 Hashab Gum Arabic", quantity: "180 Metric Tons", workflowStep: "Issued", signature: "Ministry Trade Director E-Sign", qrCodeValue: "VERIFIED-SD-CO-001" },
+  { id: "co-2026-002", exporter: "Sennar Agro Products", destination: "Saudi Arabia", product: "Premium Raw White Sesame", quantity: "450 Metric Tons", workflowStep: "Compliance Review", signature: "Pending", qrCodeValue: "PENDING-SD-CO-002" }
+];
+
+app.get("/api/trade-integration/certificates", (req, res) => {
+  res.json({ success: true, certificates: tradeCerts });
+});
+
+app.post("/api/trade-integration/certificates", express.json(), (req, res) => {
+  const { exporter, destination, product, quantity } = req.body;
+  if (!exporter || !destination) {
+    return res.status(400).json({ success: false, message: "Exporter and destination are required" });
+  }
+  const newCert = {
+    id: `co-2026-${Math.floor(100 + Math.random() * 900)}`,
+    exporter,
+    destination,
+    product: product || "Agricultural Produce",
+    quantity: quantity || "100 Tons",
+    workflowStep: "Application",
+    signature: "None (Awaiting Signature)",
+    qrCodeValue: `PENDING-SD-CO-${Math.floor(1000 + Math.random() * 9000)}`
+  };
+  tradeCerts.push(newCert);
+  res.json({ success: true, certificate: newCert });
+});
+
+app.post("/api/trade-integration/verify-co", express.json(), (req, res) => {
+  const { qrCodeValue } = req.body;
+  const match = tradeCerts.find(c => c.qrCodeValue === qrCodeValue);
+  if (match) {
+    res.json({ success: true, verified: true, match });
+  } else {
+    res.json({ success: true, verified: false, message: "No certified record matches the requested QR identifier" });
+  }
+});
+
+// ============================================================================
+// --- PHASE 14: NATIONAL INDUSTRIAL DEVELOPMENT & INNOVATION PLATFORM ---
+// ============================================================================
+
+let industrialClusters = [
+  { id: "cls-1", nameAr: "مجمع الصناعات التحويلية الغذائية بجياد", nameEn: "Giad Agro-Industrial Processing Cluster", locationAr: "ولاية الخرطوم", factoriesCount: 14, growthRate: 12.5, capacityPct: 88, complianceScore: 94 },
+  { id: "cls-2", nameAr: "المدينة الصناعية المتكاملة للجلود بكسلا", nameEn: "Kassala Integrated Leather Industrial City", locationAr: "ولاية كسلا", factoriesCount: 8, growthRate: 8.2, capacityPct: 75, complianceScore: 89 },
+  { id: "cls-3", nameAr: "حاضنة الصناعات النسيجية بالجزيرة", nameEn: "Gezira Textile & Spinning Hub", locationAr: "ولاية الجزيرة", factoriesCount: 11, growthRate: 15.4, capacityPct: 91, complianceScore: 92 },
+  { id: "cls-4", nameAr: "مجمع معالجة الصمغ العربي المتطور بسوبا", nameEn: "Soba Advanced Gum Arabic Downstream Hub", locationAr: "الخرطوم سوبا", factoriesCount: 6, growthRate: 22.1, capacityPct: 94, complianceScore: 98 }
+];
+
+app.get("/api/industrial-development/clusters", (req, res) => {
+  res.json({ success: true, clusters: industrialClusters });
+});
+
+app.post("/api/industrial-development/clusters", express.json(), (req, res) => {
+  const { nameAr, nameEn, locationAr } = req.body;
+  if (!nameAr) {
+    return res.status(400).json({ success: false, message: "Name is required" });
+  }
+  const newCluster = {
+    id: `cls-${Date.now()}`,
+    nameAr,
+    nameEn: nameEn || nameAr,
+    locationAr: locationAr || "الخرطوم",
+    factoriesCount: 1,
+    growthRate: 10.0,
+    capacityPct: 80,
+    complianceScore: 85
+  };
+  industrialClusters.push(newCluster);
+  res.json({ success: true, cluster: newCluster });
+});
+
+// ============================================================================
+// --- PHASE 16: NATIONAL LEGISLATIVE GOVERNANCE & REGULATORY POLICY ---
+// ============================================================================
+
+let commercialLaws = [
+  { id: "law-1", code: "LAW-2026-04", titleAr: "قانون تشجيع الاستثمار الصناعي وحماية الإنتاج الوطني", titleEn: "Industrial Investment Incentive & Domestic Production Protection Act", categoryAr: "قوانين الاستثمار", statusAr: "ساري", statusEn: "Active", date: "2026-03-12" },
+  { id: "law-2", code: "REG-2026-11", titleAr: "اللائحة التنفيذية لرقابة الأسواق ومكافحة الاحتكار", titleEn: "Executive Regulations for Market Surveillance & Anti-Monopoly", categoryAr: "لوائح أسواق", statusAr: "ساري", statusEn: "Active", date: "2026-05-18" },
+  { id: "law-3", code: "DEC-2026-88", titleAr: "القرار الوزاري بشأن التفتيش الرقمي الموحد على المصانع", titleEn: "Ministerial Decision on Unified Digital Factory Inspections", categoryAr: "قرارات وزارية", statusAr: "ساري", statusEn: "Active", date: "2026-06-01" },
+  { id: "law-4", code: "CIR-2026-09", titleAr: "المنشور الدوري لتسهيل الإجراءات الجمركية لمدخلات الإنتاج الزراعي", titleEn: "Circular on Streamlining Customs Procedures for Agro-inputs", categoryAr: "منشورات دورية", statusAr: "ساري", statusEn: "Active", date: "2026-07-10" }
+];
+
+app.get("/api/legislative-governance/laws", (req, res) => {
+  res.json({ success: true, laws: commercialLaws });
+});
+
+app.post("/api/legislative-governance/laws", express.json(), (req, res) => {
+  const { code, titleAr, titleEn, categoryAr } = req.body;
+  if (!code || !titleAr) {
+    return res.status(400).json({ success: false, message: "Code and titleAr are required" });
+  }
+  const newLaw = {
+    id: `law-${Date.now()}`,
+    code,
+    titleAr,
+    titleEn: titleEn || `Sovereign Policy - ${titleAr}`,
+    categoryAr: categoryAr || "قوانين الاستثمار",
+    statusAr: "ساري",
+    statusEn: "Active",
+    date: new Date().toISOString().split("T")[0]
+  };
+  commercialLaws.push(newLaw);
+  res.json({ success: true, law: newLaw });
+});
+
+// ============================================================================
+// --- PHASE 17: NATIONAL COMMERCIAL DATA GOVERNANCE & OPEN DATA ---
+// ============================================================================
+
+let masterDataRecords = [
+  { id: "rec-1", type: "business", code: "SD-BUS-94829", nameAr: "شركة النيل للمنتجات الغذائية المحدودة", nameEn: "Nile Food Products Co. Ltd", classification: "ISIC-1071 (Manufacture of bakery products)", status: "Active", lastSync: "2026-07-19" },
+  { id: "rec-2", type: "business", code: "SD-BUS-10293", nameAr: "المؤسسة الوطنية لتطوير الصمغ العربي", nameEn: "National Gum Arabic Development Corp", classification: "ISIC-0230 (Gathering of non-wood forest products)", status: "Active", lastSync: "2026-07-18" },
+  { id: "rec-3", type: "product", code: "SD-HS-130120", nameAr: "صمغ عربي طبيعي خام (هشاب وطلح)", nameEn: "Natural Raw Gum Arabic (Hashab & Talha)", classification: "HS-1301.20 (Natural Gums & Resins)", status: "Active", lastSync: "2026-07-19" },
+  { id: "rec-4", type: "product", code: "SD-HS-120740", nameAr: "حبوب سمسم سوداني أبيض طبيعي", nameEn: "Natural White Sudanese Sesame Seeds", classification: "HS-1207.40 (Sesame Seeds)", status: "Updated", lastSync: "2026-07-17" },
+  { id: "rec-5", type: "service", code: "SD-SRV-9111", nameAr: "النافذة القومية الموحدة لترخيص الصادرات", nameEn: "National Export Licensing Single Window", classification: "Sovereign Trade Service", status: "Active", lastSync: "2026-07-19" }
+];
+
+let openDatasetsList = [
+  { id: "ds-1", titleAr: "مؤشرات نمو الصادرات السلعية والمحاصيل النقدية 2026", titleEn: "Sovereign Export Growth & Commodity Trade Indices 2026", category: "Trade Indices", version: "2.1.0", license: "Sovereign Open Data License v1.0", citations: 48, downloads: 1420, lastUpdated: "2026-07-15", classification: "Public" },
+  { id: "ds-2", titleAr: "الإنتاج الصناعي السنوي وطاقات المصانع التحويلية", titleEn: "Annual Manufacturing Capacity & Industrial Production Output", category: "Industrial Capacity", version: "1.4.0", license: "Sovereign Open Data License v1.0", citations: 22, downloads: 850, lastUpdated: "2026-07-10", classification: "Public" },
+  { id: "ds-3", titleAr: "الشركات التجارية الفعالة المسجلة وتوزيعها الجغرافي", titleEn: "Geographic Distribution of Federally Registered Corporations", category: "Demographics", version: "3.0.1", license: "Sovereign Open Data License v1.0", citations: 56, downloads: 3110, lastUpdated: "2026-07-18", classification: "Public" },
+  { id: "ds-4", titleAr: "قائمة تصنيفات الأنشطة الاقتصادية الموحدة للسودان", titleEn: "Sudan Unified Economic Activity & ISIC v4 Classification Codes", category: "Classifications", version: "1.0.0", license: "Sovereign Open Data License v1.0", citations: 112, downloads: 6420, lastUpdated: "2026-05-01", classification: "Sovereign" }
+];
+
+let replicationLogs = [
+  { id: "exch-1", source: "Customs Single Window Gateway", destination: "National Commercial Data Hub", dataType: "Export Manifest Sync", volume: 142, status: "Success", timestamp: "10:14:22" },
+  { id: "exch-2", source: "Federal Taxation System", destination: "National Commercial Data Hub", dataType: "SME VAT Compliance Logs", volume: 88, status: "Success", timestamp: "10:14:05" },
+  { id: "exch-3", source: "Central Bank of Sudan", destination: "National Commercial Data Hub", dataType: "Sovereign Forex Allocation Sync", volume: 310, status: "Success", timestamp: "10:13:41" },
+  { id: "exch-4", source: "Ministry of Investment Registry", destination: "National Commercial Data Hub", dataType: "Foreign Investment Project Approvals", volume: 215, status: "Success", timestamp: "10:12:18" }
+];
+
+app.get("/api/commercial-data-governance/hub-records", (req, res) => {
+  res.json({ success: true, records: masterDataRecords });
+});
+
+app.post("/api/commercial-data-governance/hub-records", express.json(), (req, res) => {
+  const { type, code, nameAr, nameEn, classification } = req.body;
+  if (!code || !nameAr || !nameEn) {
+    return res.status(400).json({ success: false, message: "Code, nameAr, and nameEn are mandatory fields" });
+  }
+  const newRecord = {
+    id: `rec-${Date.now()}`,
+    type: type || "business",
+    code,
+    nameAr,
+    nameEn,
+    classification: classification || "General",
+    status: "Active",
+    lastSync: new Date().toISOString().split("T")[0]
+  };
+  masterDataRecords.unshift(newRecord);
+  res.json({ success: true, record: newRecord });
+});
+
+app.get("/api/commercial-data-governance/datasets", (req, res) => {
+  res.json({ success: true, datasets: openDatasetsList });
+});
+
+app.get("/api/commercial-data-governance/exchange-logs", (req, res) => {
+  res.json({ success: true, logs: replicationLogs });
+});
+
+// ============================================================================
+// --- PHASE 19: NATIONAL DIGITAL ECONOMY & SMART BUSINESS PLATFORM ---
+// ============================================================================
+
+// State store for Phase 19 (persists in memory)
+let digitalIdentities = [
+  { id: "DBI-101", companyNameAr: "شركة النيل للمنتجات الغذائية المحدودة", companyNameEn: "Nile Food Products Co. Ltd", crNumber: "SD-2026-94829", status: "Verified", badge: "Gold Trusted Partner", qrCode: "QR-DBI-94829", score: 98, email: "nile@sdmci.gov.sd", certificates: ["Active Commercial License", "mTLS Cryptographic Identity Certificate"], lifecycle: "Active", auditTrail: [{ action: "Identity Issued", user: "Admin", timestamp: "2026-07-19T01:10:00Z" }] },
+  { id: "DBI-102", companyNameAr: "المؤسسة الوطنية لتطوير الصمغ العربي", companyNameEn: "National Gum Arabic Development Corp", crNumber: "SD-2026-10293", status: "Verified", badge: "Sovereign Strategic Partner", qrCode: "QR-DBI-10293", score: 99, email: "gum_arabic@sdmci.gov.sd", certificates: ["mTLS Cryptographic Identity Certificate", "COMESA Border Customs Pass"], lifecycle: "Active", auditTrail: [{ action: "mTLS Certificate Renewed", user: "Admin", timestamp: "2026-07-19T01:12:00Z" }] }
+];
+
+let ecommerceStores = [
+  { id: "ECO-201", storeName: "سودان مارت التجاري", platform: "NileShop Platform", sellerName: "أحمد المأمون", licenseNo: "EC-99382", status: "Approved", badge: "Consumer Trust Certified", url: "https://sudanmart.sd", complianceScore: 96, auditLogs: [{ action: "Seller Verified", timestamp: "2026-07-19T01:15:00Z" }] }
+];
+
+let businessLicenses = [
+  { id: "LIC-301", companyName: "Nile Food Products Co. Ltd", licenseType: "Food Processing License", status: "Active", issueDate: "2026-01-15", expiryDate: "2027-01-15", qrCode: "QR-LIC-301", notification: "All clear. Renewal due in 180 days." }
+];
+
+let startupRecords = [
+  { id: "STP-401", startupName: "حصاد التقنية للزراعة الذكية", founder: "مريم العبيد", sector: "AgriTech", projectTitle: "AI Irrigation Sensor Network", status: "Incubated", fundingTarget: 50000, fundingRaised: 12000, mentor: "د. عبد الباسط محمد", trainingStatus: "Advanced Certificate" }
+];
+
+let digitalTransactions = [
+  { id: "TXN-601", buyer: "سودان مارت التجاري", seller: "Nile Food Products Co. Ltd", amount: 45000, currency: "SDG", status: "Success", fraudRisk: "Low", compliance: "Passed", timestamp: "2026-07-19T01:20:00Z", signature: "SHA256:09a8f7b...e" }
+];
+
+let digitalMarketplace = [
+  { id: "MKT-701", name: "الشركة الوطنية للوجستيات الرقمية", type: "Service Provider", services: "Cold-chain transport & customs clearance", rate: "$150/hr", complianceBadge: "Verified", contract: "Active sovereign master agreement" }
+];
+
+let economyIndicators = {
+  digitalizationIndex: 94.2,
+  ecommerceAdoption: 85.6,
+  startupCount: 145,
+  totalTransactionsVolume: 1248000,
+  growthForecast: "12.4%",
+  digitalReadinessScore: 92.5,
+  innovationScore: 89.1,
+  smeDigitalizationScore: 88.4
+};
+
+// REST APIs
+app.get("/api/digital-economy/identities", (req, res) => {
+  res.json({ success: true, identities: digitalIdentities });
+});
+
+app.post("/api/digital-economy/identities", express.json(), (req, res) => {
+  const { companyNameAr, companyNameEn, crNumber, email } = req.body;
+  if (!companyNameAr || !crNumber) {
+    return res.status(400).json({ success: false, message: "Company Name (Ar) and CR Number are required" });
+  }
+  const newIdentity = {
+    id: `DBI-${Math.floor(100 + Math.random() * 900)}`,
+    companyNameAr,
+    companyNameEn: companyNameEn || companyNameAr,
+    crNumber,
+    status: "Verified",
+    badge: "Verified Merchant",
+    qrCode: `QR-DBI-${crNumber}`,
+    score: 95,
+    email: email || "info@sdmci.gov.sd",
+    certificates: ["Commercial Register ID Token"],
+    lifecycle: "Active",
+    auditTrail: [{ action: "Digital Business Identity Provisioned", user: "Applicant", timestamp: new Date().toISOString() }]
+  };
+  digitalIdentities.unshift(newIdentity);
+  res.json({ success: true, identity: newIdentity });
+});
+
+app.get("/api/digital-economy/ecommerce", (req, res) => {
+  res.json({ success: true, stores: ecommerceStores });
+});
+
+app.post("/api/digital-economy/ecommerce", express.json(), (req, res) => {
+  const { storeName, platform, sellerName, licenseNo, url } = req.body;
+  if (!storeName || !sellerName) {
+    return res.status(400).json({ success: false, message: "Store Name and Seller Name are required" });
+  }
+  const newStore = {
+    id: `ECO-${Math.floor(200 + Math.random() * 900)}`,
+    storeName,
+    platform: platform || "Custom",
+    sellerName,
+    licenseNo: licenseNo || `EC-${Math.floor(10000 + Math.random() * 90000)}`,
+    status: "Approved",
+    badge: "Consumer Trust Certified",
+    url: url || "https://market.sd",
+    complianceScore: 95,
+    auditLogs: [{ action: "Seller Registered and Verified", timestamp: new Date().toISOString() }]
+  };
+  ecommerceStores.unshift(newStore);
+  res.json({ success: true, store: newStore });
+});
+
+app.get("/api/digital-economy/licensing", (req, res) => {
+  res.json({ success: true, licenses: businessLicenses });
+});
+
+app.post("/api/digital-economy/licensing", express.json(), (req, res) => {
+  const { companyName, licenseType } = req.body;
+  const newLic = {
+    id: `LIC-${Math.floor(300 + Math.random() * 900)}`,
+    companyName,
+    licenseType,
+    status: "Active",
+    issueDate: new Date().toISOString().split("T")[0],
+    expiryDate: new Date(Date.now() + 365 * 24 * 3600 * 1000).toISOString().split("T")[0],
+    qrCode: `QR-LIC-${Math.floor(100 + Math.random() * 900)}`,
+    notification: "Renewal automatically registered."
+  };
+  businessLicenses.unshift(newLic);
+  res.json({ success: true, license: newLic });
+});
+
+app.get("/api/digital-economy/entrepreneurship", (req, res) => {
+  res.json({ success: true, startups: startupRecords });
+});
+
+app.post("/api/digital-economy/entrepreneurship", express.json(), (req, res) => {
+  const { startupName, founder, sector, projectTitle, fundingTarget } = req.body;
+  const newSt = {
+    id: `STP-${Math.floor(400 + Math.random() * 900)}`,
+    startupName,
+    founder,
+    sector,
+    projectTitle,
+    status: "Incubated",
+    fundingTarget: Number(fundingTarget) || 50000,
+    fundingRaised: 0,
+    mentor: "Assigned Sovereign Advisor",
+    trainingStatus: "Registered"
+  };
+  startupRecords.unshift(newSt);
+  res.json({ success: true, startup: newSt });
+});
+
+app.get("/api/digital-economy/transactions", (req, res) => {
+  res.json({ success: true, transactions: digitalTransactions });
+});
+
+app.post("/api/digital-economy/transactions", express.json(), (req, res) => {
+  const { buyer, seller, amount, currency } = req.body;
+  const riskScore = Number(amount) > 100000 ? "Medium Risk (Large Value)" : "Low";
+  const newTxn = {
+    id: `TXN-${Math.floor(600 + Math.random() * 900)}`,
+    buyer,
+    seller,
+    amount: Number(amount) || 1000,
+    currency: currency || "SDG",
+    status: "Success",
+    fraudRisk: riskScore,
+    compliance: "Passed",
+    timestamp: new Date().toISOString(),
+    signature: `SHA256:${Math.random().toString(16).substring(2, 10)}...e`
+  };
+  digitalTransactions.unshift(newTxn);
+  res.json({ success: true, transaction: newTxn });
+});
+
+app.get("/api/digital-economy/marketplace", (req, res) => {
+  res.json({ success: true, marketplace: digitalMarketplace });
+});
+
+app.get("/api/digital-economy/observatory", (req, res) => {
+  res.json({ success: true, observatory: { ...economyIndicators, identitiesCount: digitalIdentities.length, ecommerceStoresCount: ecommerceStores.length, startupsCount: startupRecords.length } });
+});
+
+// AI Advisor with local fallback & smart predictions
+app.post("/api/digital-economy/smart-advisor", express.json(), async (req, res) => {
+  const { prompt, type } = req.body;
+  
+  // Local fallback business logic models
+  if (type === "plan") {
+    return res.json({
+      success: true,
+      result: `**Sovereign Business Plan Report for [${prompt || "Enterprise"}]**\n\n` +
+              `1. **Market Analysis:** Sudan Vision 2035 prioritizes industrial clusters, digital logistics, and food secure supply chains.\n` +
+              `2. **Financial Forecast:** Break-even expected within 14 months of operation with 12% projected annual growth.\n` +
+              `3. **E-Commerce Strategy:** Full compliance integration via standard Ministry of Commerce digital identities and mTLS cryptographic shields.\n` +
+              `4. **AI Recommendations:** Launch a digital storefront on NileShop Platform to automatically clear COMESA customs duties.`
+    });
+  }
+
+  if (type === "risk") {
+    const riskScore = prompt && prompt.toLowerCase().includes("food") ? "Low Risk (Strategic National Sector)" : "Medium Risk (Subject to Exchange Fluctuations)";
+    return res.json({
+      success: true,
+      result: `**Cryptographic Compliance & Risk Assessment**\n\n` +
+              `* **Overall Risk Category:** ${riskScore}\n` +
+              `* **WAF/ mTLS Handshake Status:** Valid & Secured via Government Public Key Infrastructure (PKI)\n` +
+              `* **Regulatory Alignment:** 100% compliant with Sudan Electronic Transactions Act and regional GRC policies\n` +
+              `* **Mitigation Strategy:** Leverage central bank sovereign liquidity accounts to cushion transactional volatility.`
+    });
+  }
+
+  // General advisor response
+  res.json({
+    success: true,
+    result: `**Ministry of Commerce sovereign AI Advisor Assistant**\n\n` +
+            `Our AI models have processed your query: "${prompt || "Commercial growth advice"}".\n\n` +
+            `Based on recent data in the Sudan Digital Business Observatory:\n` +
+            `- **SME digitization is up 14.8%** this quarter, spurred by the mTLS identity single-sign-on framework.\n` +
+            `- We recommend configuring digital payment gateways directly to settle corporate tax and regulatory compliance automatically.\n` +
+            `- For cross-border COMESA trade, ensure your digital certificate of origin is SHA-256 stamped.`
+  });
+});
+
+// GRAPHQL Simulated Endpoint
+app.post("/api/digital-economy/graphql", express.json(), (req, res) => {
+  const { query } = req.body;
+  console.log("Parsing Phase 19 GraphQL Query:", query);
+  
+  if (query && query.includes("observatory")) {
+    return res.json({
+      data: {
+        observatory: {
+          digitalizationIndex: economyIndicators.digitalizationIndex,
+          ecommerceAdoption: economyIndicators.ecommerceAdoption,
+          digitalReadinessScore: economyIndicators.digitalReadinessScore
+        }
+      }
+    });
+  }
+
+  if (query && query.includes("identities")) {
+    return res.json({
+      data: {
+        identities: digitalIdentities.map(id => ({ id: id.id, companyNameAr: id.companyNameAr, status: id.status }))
+      }
+    });
+  }
+
+  res.json({
+    data: {
+      sudanDigitalEconomy: {
+        status: "active",
+        nodesOnline: "Federal Trust Center Core Node v19.0",
+        pkiVerification: " mTLS Zero-Trust Enforcement Active"
+      }
+    }
+  });
+});
+
+// ============================================================================
+// --- PHASE 20: NATIONAL DIGITAL ECONOMIC GOVERNMENT PLATFORM ---
+// ============================================================================
+
+let p20Ministries = [
+  { id: "m-1", nameAr: "وزارة التجارة والصناعة", nameEn: "Ministry of Commerce & Industry", code: "MCI", servicesCount: 24, status: "Active" },
+  { id: "m-2", nameAr: "وزارة الاستثمار والتعاون الدولي", nameEn: "Ministry of Investment", code: "MOI", servicesCount: 15, status: "Active" },
+  { id: "m-3", nameAr: "وزارة المالية والتخطيط الاقتصادي", nameEn: "Ministry of Finance", code: "MOF", servicesCount: 32, status: "Active" },
+  { id: "m-4", nameAr: "سلطة الجمارك السودانية", nameEn: "Sudanese Customs Authority", code: "SCA", servicesCount: 18, status: "Active" }
+];
+
+let p20ServiceCatalog = [
+  { id: "srv-1", nameAr: "طلب رخصة استيراد وتصدير ذكية", nameEn: "Smart Import/Export License", dept: "MCI", type: "G2B", fee: "50,000 SDG" },
+  { id: "srv-2", nameAr: "تسجيل السجل التجاري الرقمي", nameEn: "Commercial Registry Registration", dept: "MCI", type: "G2B", fee: "120,000 SDG" },
+  { id: "srv-3", nameAr: "طلب تخصيص أرض صناعية", nameEn: "Industrial Land Allocation", dept: "MOI", type: "G2B", fee: "250,000 SDG" },
+  { id: "srv-4", nameAr: "تفريغ جمركي ذكي عبر نافذة واحدة", nameEn: "Single-Window Customs Clearance", dept: "SCA", type: "G2B", fee: "80,000 SDG" }
+];
+
+let p20AiModels = [
+  { id: "aim-1", name: "Sovereign-Trade-Predictor-v2", type: "Regression", status: "Active", compliance: "Passed", version: "2.1.0", latency: "14ms" },
+  { id: "aim-2", name: "Nile-Arabic-Llama-7B-MCI", type: "LLM-FineTuned", status: "Active", compliance: "Passed", version: "1.0.4", latency: "42ms" },
+  { id: "aim-3", name: "Customs-Anomalies-Detector", type: "AnomalyDetection", status: "Testing", compliance: "Auditing", version: "0.8.2", latency: "8ms" }
+];
+
+let p20OnboardingRequests = [
+  { id: "onb-1", entityAr: "وزارة الصحة الاتحادية", entityEn: "Federal Ministry of Health", status: "Under Review", date: "2026-07-18" },
+  { id: "onb-2", entityAr: "وزارة الثروة الحيوانية والسمكية", entityEn: "Ministry of Animal Resources", status: "Approved", date: "2026-07-15" }
+];
+
+let p20PaymentsLog = [
+  { id: "pay-1", payee: "Nile Food Corp", amount: "120,000 SDG", type: "License Fee", time: "Just now" }
+];
+
+// 1. Get Portal Stats
+app.get("/api/national-economic-gov/portal-stats", (req, res) => {
+  res.json({
+    success: true,
+    ministries: p20Ministries,
+    serviceCatalog: p20ServiceCatalog,
+    aiModels: p20AiModels,
+    onboardingRequests: p20OnboardingRequests
+  });
+});
+
+// 2. Register AI Model
+app.post("/api/national-economic-gov/ai-models", express.json(), (req, res) => {
+  const { name, type, version } = req.body;
+  if (!name) {
+    return res.status(400).json({ success: false, message: "Model name is required" });
+  }
+  const newModel = {
+    id: `aim-${Date.now()}`,
+    name,
+    type: type || "LLM-FineTuned",
+    status: "Testing",
+    compliance: "Auditing",
+    version: version || "1.0.0",
+    latency: "25ms"
+  };
+  p20AiModels.push(newModel);
+  res.json({ success: true, model: newModel });
+});
+
+// 3. Register Onboarding Request
+app.post("/api/national-economic-gov/onboarding-requests", express.json(), (req, res) => {
+  const { entityAr, entityEn, contactEmail, preferredPlugins } = req.body;
+  if (!entityAr || !entityEn) {
+    return res.status(400).json({ success: false, message: "Arabic and English entity names are required" });
+  }
+  const newRequest = {
+    id: `onb-${Date.now()}`,
+    entityAr,
+    entityEn,
+    status: "Under Review",
+    date: new Date().toISOString().split("T")[0]
+  };
+  p20OnboardingRequests.push(newRequest);
+  res.json({ success: true, request: newRequest });
+});
+
+// 4. Explain AI decision simulation
+app.post("/api/national-economic-gov/explain-ai", express.json(), (req, res) => {
+  const { prompt } = req.body;
+  let explanation = `Decision Engine matched the prompt "${prompt || "general scan"}". All standard mTLS compliance requirements have been successfully audited. Fraud risk rating computed as 1.4% (Extremely Low Risk). Automatic routing cleared to SCA Gateway.`;
+  if (prompt && prompt.toLowerCase().includes("grain")) {
+    explanation = `Decision Engine identified cash crop/grain export conditions. National Strategic reserve buffer: Checked (Sufficient). COMESA regional trade certificate of origin: Validated. Export clearance approved.`;
+  }
+  res.json({ success: true, explanation });
+});
+
+// 5. Shared Payments
+app.post("/api/national-economic-gov/shared-payments", express.json(), (req, res) => {
+  const { amount, payee } = req.body;
+  const newPayment = {
+    id: `pay-${Date.now()}`,
+    payee: payee || "Authorized Entity",
+    amount: `${Number(amount).toLocaleString()} SDG`,
+    type: "Sovereign Settlement",
+    time: "Just now"
+  };
+  p20PaymentsLog.unshift(newPayment);
+  res.json({ success: true, payment: newPayment });
+});
+
+// 6. GraphQL simulated endpoint
+app.post("/api/national-economic-gov/graphql", express.json(), (req, res) => {
+  const { query } = req.body;
+  if (query && query.includes("nationalEconomicCenter")) {
+    return res.json({
+      data: {
+        nationalEconomicCenter: {
+          registeredMinistries: p20Ministries.map(m => ({ code: m.code, servicesCount: m.servicesCount })),
+          cyberSecurityComplianceScore: 98.4,
+          aiRiskIndicator: 12.4
+        }
+      }
+    });
+  }
+  res.json({
+    data: {
+      nationalEconomicCenter: {
+        status: "Online",
+        pkiSignature: "SHA256:7739a2d...e"
+      }
+    }
+  });
 });
 
 // --- VITE MIDDLEWARE & STATIC SERVING ---

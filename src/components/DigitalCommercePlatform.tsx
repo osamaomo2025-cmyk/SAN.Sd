@@ -6,7 +6,7 @@
 import React, { useState, useEffect } from "react";
 import { 
   ShoppingBag, Building2, Cpu, FileText, Compass, Bot, 
-  UserCheck, AlertCircle, Sparkles, LayoutDashboard, Database, ShieldAlert 
+  UserCheck, AlertCircle, Sparkles, LayoutDashboard, Database, ShieldAlert, Bell, Key 
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
@@ -20,12 +20,18 @@ import CommerceServices from "./commerce/CommerceServices";
 import CommerceAnalytics from "./commerce/CommerceAnalytics";
 import CommerceAdvisor from "./commerce/CommerceAdvisor";
 
+// New modules frontend imports
+import OpenDataPlatform from "./commerce/OpenDataPlatform";
+import DigitalEconomyObservatory from "./commerce/DigitalEconomyObservatory";
+import SmartNotificationCenter from "./commerce/SmartNotificationCenter";
+import NationalApiGateway from "./commerce/NationalApiGateway";
+
 interface DigitalCommercePlatformProps {
   currentLanguage: "ar" | "en";
 }
 
 export default function DigitalCommercePlatform({ currentLanguage }: DigitalCommercePlatformProps) {
-  const [activeTab, setActiveTab] = useState<"registry" | "marketplace" | "sme" | "services" | "analytics" | "advisor">("registry");
+  const [activeTab, setActiveTab] = useState<"registry" | "marketplace" | "sme" | "services" | "analytics" | "advisor" | "opendata" | "observatory" | "notifications" | "apigateway">("registry");
   const [userRole, setUserRole] = useState<CommerceUserRole>(CommerceUserRole.GOVERNMENT_OFFICER);
 
   // States with localStorage synchronization
@@ -38,8 +44,35 @@ export default function DigitalCommercePlatform({ currentLanguage }: DigitalComm
   const [disputes, setDisputes] = useState<DisputeRecord[]>([]);
   const [shipments, setShipments] = useState<ShipmentRecord[]>([]);
 
+  // Phase Seven New States
+  const [datasets, setDatasets] = useState<any[]>([]);
+  const [observatoryMetrics, setObservatoryMetrics] = useState<any[]>([]);
+  const [comNotifications, setComNotifications] = useState<any[]>([]);
+  const [apiGatewayKeys, setApiGatewayKeys] = useState<any[]>([]);
+
   // Hydrate states on mount
   useEffect(() => {
+    // Fetch Phase Seven API Data
+    fetch("/api/commerce/opendata")
+      .then(r => r.json())
+      .then(data => setDatasets(Array.isArray(data) ? data : (data.datasets || [])))
+      .catch(e => console.error("Error fetching datasets", e));
+
+    fetch("/api/commerce/observatory")
+      .then(r => r.json())
+      .then(data => setObservatoryMetrics(Array.isArray(data) ? data : (data.metrics || [])))
+      .catch(e => console.error("Error fetching metrics", e));
+
+    fetch("/api/commerce/notifications")
+      .then(r => r.json())
+      .then(data => setComNotifications(Array.isArray(data) ? data : (data.notifications || [])))
+      .catch(e => console.error("Error fetching notifications", e));
+
+    fetch("/api/commerce/apigateway/keys")
+      .then(r => r.json())
+      .then(data => setApiGatewayKeys(Array.isArray(data) ? data : (data.credentials || [])))
+      .catch(e => console.error("Error fetching keys", e));
+
     const getOrSetLocal = (key: string, defaultVal: any) => {
       const stored = localStorage.getItem(key);
       if (stored) {
@@ -129,6 +162,22 @@ export default function DigitalCommercePlatform({ currentLanguage }: DigitalComm
     saveState("com_disputes", updated);
   };
 
+  const handleDownloadDataset = (id: string) => {
+    setDatasets(prev => prev.map(d => d.id === id ? { ...d, downloadCount: d.downloadCount + 1 } : d));
+  };
+
+  const handleAddNotification = (newNtf: any) => {
+    setComNotifications(prev => [newNtf, ...prev]);
+  };
+
+  const handleAddCredential = (newCred: any) => {
+    setApiGatewayKeys(prev => [newCred, ...prev]);
+  };
+
+  const handleRevokeCredential = (id: string) => {
+    setApiGatewayKeys(prev => prev.map(k => k.id === id ? { ...k, status: "revoked" } : k));
+  };
+
   return (
     <div className="space-y-6">
       
@@ -196,7 +245,11 @@ export default function DigitalCommercePlatform({ currentLanguage }: DigitalComm
             { id: "sme", labelAr: "تنمية وحواضن ريادة المشاريع", labelEn: "SME & Startups Portal", icon: Cpu },
             { id: "services", labelAr: "الفواتير والعقود واللوجستيات", labelEn: "Integrated Services", icon: FileText },
             { id: "analytics", labelAr: "الخرائط الاقتصادية والتحليلات", labelEn: "GIS Map & Analytics", icon: Compass },
-            { id: "advisor", labelAr: "مستشار الذكاء الاصطناعي التجاري", labelEn: "AI Commerce Advisor", icon: Bot }
+            { id: "advisor", labelAr: "مستشار الذكاء الاصطناعي التجاري", labelEn: "AI Commerce Advisor", icon: Bot },
+            { id: "opendata", labelAr: "منصة البيانات الوطنية المفتوحة", labelEn: "Open Data Platform", icon: Database },
+            { id: "observatory", labelAr: "المرصد الرقمي للاقتصاد الوطني", labelEn: "Digital Economy Observatory", icon: LayoutDashboard },
+            { id: "notifications", labelAr: "مركز الإشعارات والرسائل الذكي", labelEn: "Smart Notification Center", icon: Bell },
+            { id: "apigateway", labelAr: "بوابة الربط البرمجي الوطنية", labelEn: "National API Gateway", icon: Key }
           ].map((tab) => {
             const IconComponent = tab.icon;
             const isSelected = activeTab === tab.id;
@@ -288,6 +341,39 @@ export default function DigitalCommercePlatform({ currentLanguage }: DigitalComm
                   currentLanguage={currentLanguage}
                   businesses={businesses}
                   userRole={userRole}
+                />
+              )}
+
+              {activeTab === "opendata" && (
+                <OpenDataPlatform
+                  currentLanguage={currentLanguage}
+                  datasets={datasets}
+                  onDownloadDataset={handleDownloadDataset}
+                />
+              )}
+
+              {activeTab === "observatory" && (
+                <DigitalEconomyObservatory
+                  currentLanguage={currentLanguage}
+                  metrics={observatoryMetrics}
+                />
+              )}
+
+              {activeTab === "notifications" && (
+                <SmartNotificationCenter
+                  currentLanguage={currentLanguage}
+                  notifications={comNotifications}
+                  onAddNotification={handleAddNotification}
+                  userRole={userRole}
+                />
+              )}
+
+              {activeTab === "apigateway" && (
+                <NationalApiGateway
+                  currentLanguage={currentLanguage}
+                  credentials={apiGatewayKeys}
+                  onAddCredential={handleAddCredential}
+                  onRevokeCredential={handleRevokeCredential}
                 />
               )}
             </motion.div>

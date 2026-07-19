@@ -7,7 +7,7 @@ import React, { useState } from "react";
 import { 
   Building2, Plus, Search, Eye, ShieldCheck, 
   UserCheck, Smartphone, CheckCircle, HelpCircle, 
-  TrendingUp, Activity, BadgeAlert, RefreshCw, X, Check, EyeOff, Link, FileText, Ban
+  TrendingUp, Activity, BadgeAlert, RefreshCw, X, Check, EyeOff, Link, FileText, Ban, QrCode, Wrench, ShieldAlert
 } from "lucide-react";
 import { DigitalBusiness, BusinessType, CommerceUserRole, AuditLog } from "./CommerceTypes";
 
@@ -33,6 +33,25 @@ export default function CommerceRegistry({
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [selectedBiz, setSelectedBiz] = useState<DigitalBusiness | null>(null);
+
+  // License Lifecycle states
+  const [showQrVerifier, setShowQrVerifier] = useState(false);
+  const [lifecycleAction, setLifecycleAction] = useState<"renew" | "amend" | "upgrade" | "transfer" | "cancel" | null>(null);
+  
+  // Amendment state inputs
+  const [amendNameAr, setAmendNameAr] = useState("");
+  const [amendNameEn, setAmendNameEn] = useState("");
+  const [amendEmail, setAmendEmail] = useState("");
+  const [amendPhone, setAmendPhone] = useState("");
+  const [amendSector, setAmendSector] = useState("");
+
+  // Transfer state inputs
+  const [transferOwner, setTransferOwner] = useState("");
+
+  // Upgrade state input
+  const [upgradeType, setUpgradeType] = useState<string>("platform_operator_license");
+
+  const [lifecycleLoading, setLifecycleLoading] = useState(false);
 
   // New business form state
   const [storeNameAr, setStoreNameAr] = useState("");
@@ -137,6 +156,99 @@ export default function CommerceRegistry({
           auditLogs: [newLog, ...prev.auditLogs]
         };
       });
+    }
+  };
+
+  const handleLicenseLifecycle = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedBiz) return;
+
+    setLifecycleLoading(true);
+    try {
+      let url = "";
+      let payload: any = { actor: userRole };
+      const licenseId = selectedBiz.id; // Using business ID as license mapping key in backend
+
+      if (lifecycleAction === "renew") {
+        url = `/api/commerce/licenses/${licenseId}/renew`;
+      } else if (lifecycleAction === "amend") {
+        url = `/api/commerce/licenses/${licenseId}/amend`;
+        payload = {
+          storeNameAr: amendNameAr,
+          storeNameEn: amendNameEn,
+          email: amendEmail,
+          phone: amendPhone,
+          sector: amendSector
+        };
+      } else if (lifecycleAction === "upgrade") {
+        url = `/api/commerce/licenses/${licenseId}/lifecycle`;
+        payload = {
+          actionType: "upgrade",
+          paramValue: upgradeType,
+          actor: userRole
+        };
+      } else if (lifecycleAction === "transfer") {
+        url = `/api/commerce/licenses/${licenseId}/lifecycle`;
+        payload = {
+          actionType: "transfer",
+          paramValue: transferOwner,
+          actor: userRole
+        };
+      } else if (lifecycleAction === "cancel") {
+        url = `/api/commerce/licenses/${licenseId}/lifecycle`;
+        payload = {
+          actionType: "cancel",
+          actor: userRole
+        };
+      }
+
+      const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) throw new Error("Lifecycle action failed");
+      const result = await response.json();
+
+      // Apply changes to current state to avoid reloading
+      if (lifecycleAction === "renew") {
+        selectedBiz.status = "active";
+        selectedBiz.licenseLink = result.license.licenseNumber;
+      } else if (lifecycleAction === "amend") {
+        if (amendNameAr) selectedBiz.storeNameAr = amendNameAr;
+        if (amendNameEn) selectedBiz.storeNameEn = amendNameEn;
+        if (amendEmail) selectedBiz.email = amendEmail;
+        if (amendPhone) selectedBiz.phone = amendPhone;
+        if (amendSector) selectedBiz.sector = amendSector;
+      } else if (lifecycleAction === "upgrade") {
+        selectedBiz.businessType = "marketplace";
+      } else if (lifecycleAction === "transfer") {
+        selectedBiz.ownerName = transferOwner;
+      } else if (lifecycleAction === "cancel") {
+        selectedBiz.status = "archived";
+      }
+
+      // Append new audit log
+      const newLog: AuditLog = {
+        id: `log-${Date.now()}`,
+        actionAr: lifecycleAction === "renew" ? "تجديد رخصة النشاط" : lifecycleAction === "amend" ? "تعديل رخصة النشاط" : lifecycleAction === "upgrade" ? "ترقية صنف الرخصة" : lifecycleAction === "transfer" ? "نقل ملكية رخصة النشاط" : "إلغاء وأرشفة الرخصة الرقمية",
+        actionEn: `License lifecycle change: ${lifecycleAction}`,
+        actor: userRole,
+        role: userRole,
+        timestamp: new Date().toISOString(),
+        ip: "197.251.48.5"
+      };
+      selectedBiz.auditLogs.unshift(newLog);
+
+      // Force state update
+      setSelectedBiz({ ...selectedBiz });
+      setLifecycleAction(null);
+    } catch (err) {
+      console.error(err);
+      alert("Error executing lifecycle action.");
+    } finally {
+      setLifecycleLoading(false);
     }
   };
 
@@ -620,6 +732,253 @@ export default function CommerceRegistry({
                 </div>
               </div>
 
+              {/* Sovereign Electronic Business License Certificate Block */}
+              <div className="bg-slate-50 border border-slate-200 p-5 rounded-2xl space-y-4">
+                <div className="flex items-center justify-between">
+                  <h5 className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+                    <ShieldCheck className="h-4.5 w-4.5 text-sudan-green" />
+                    <span>{currentLanguage === "ar" ? "وثيقة رخصة النشاط الرقمية الفيدرالية" : "Sovereign Digital Business License"}</span>
+                  </h5>
+                  <button 
+                    onClick={() => setShowQrVerifier(true)}
+                    className="flex items-center gap-1 bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 text-[10px] font-bold px-2.5 py-1 rounded-lg cursor-pointer transition-colors"
+                  >
+                    <QrCode className="h-3.5 w-3.5 text-slate-600" />
+                    <span>{currentLanguage === "ar" ? "التحقق الفوري (QR)" : "Verify Document"}</span>
+                  </button>
+                </div>
+
+                <div className="p-4 bg-white rounded-xl border border-slate-200 text-center space-y-3 relative overflow-hidden">
+                  <div className="absolute top-0 left-0 right-0 h-1.5 bg-sudan-green"></div>
+                  
+                  <div className="flex items-center justify-between text-[9px] text-gray-400 font-extrabold font-mono">
+                    <span>{currentLanguage === "ar" ? "وزارة التجارة والصناعة" : "MINISTRY OF COMMERCE & INDUSTRY"}</span>
+                    <span>No: {selectedBiz.licenseLink || `SD-LIC-${selectedBiz.digitalId}`}</span>
+                  </div>
+
+                  <div className="space-y-1">
+                    <h6 className="font-extrabold text-[#1E293B] text-xs">
+                      {currentLanguage === "ar" ? selectedBiz.storeNameAr : selectedBiz.storeNameEn}
+                    </h6>
+                    <p className="text-[10px] text-gray-500">
+                      {currentLanguage === "ar" ? `نوع الكيان: ${getBusinessTypeName(selectedBiz.businessType)}` : `Entity Class: ${getBusinessTypeName(selectedBiz.businessType)}`}
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2 text-[10px] text-slate-600 pt-2 border-t border-dashed border-slate-200">
+                    <div className="space-y-0.5 text-right">
+                      <p className="text-gray-400 font-bold uppercase text-[8px]">{currentLanguage === "ar" ? "الجهة المصدرة" : "Authority"}</p>
+                      <p className="font-extrabold text-slate-800">{currentLanguage === "ar" ? "إدارة التجارة الإلكترونية" : "E-Commerce Div."}</p>
+                    </div>
+                    <div className="space-y-0.5 text-right">
+                      <p className="text-gray-400 font-bold uppercase text-[8px]">{currentLanguage === "ar" ? "الوضع التنظيمي" : "Sovereign Status"}</p>
+                      <span className={`inline-block font-extrabold text-[8px] px-2 py-0.2 rounded-full ${
+                        selectedBiz.status === "active" ? "bg-emerald-50 text-emerald-700" : "bg-amber-50 text-amber-700"
+                      }`}>
+                        {selectedBiz.status === "active" ? (currentLanguage === "ar" ? "مرخص ونشط" : "Licensed & Active") : (currentLanguage === "ar" ? "قيد المراجعة" : "Under Vetting")}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Digital License Lifecycle Actions (Module 2) */}
+                <div className="space-y-2">
+                  <p className="text-gray-400 font-bold uppercase text-[9px]">{currentLanguage === "ar" ? "إدارة دورة حياة الرخصة" : "Sovereign License Lifecycle Operations"}</p>
+                  
+                  <div className="flex flex-wrap gap-1.5 pt-1">
+                    <button
+                      onClick={() => setLifecycleAction(lifecycleAction === "renew" ? null : "renew")}
+                      className={`text-[10px] font-bold px-3 py-1.5 rounded-lg border cursor-pointer transition-colors ${
+                        lifecycleAction === "renew" 
+                          ? "bg-slate-900 border-slate-900 text-white" 
+                          : "bg-white hover:bg-slate-100 border-slate-200 text-slate-700"
+                      }`}
+                    >
+                      {currentLanguage === "ar" ? "تجديد الرخصة" : "Renew License"}
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        setLifecycleAction(lifecycleAction === "amend" ? null : "amend");
+                        setAmendNameAr(selectedBiz.storeNameAr);
+                        setAmendNameEn(selectedBiz.storeNameEn);
+                        setAmendEmail(selectedBiz.email || "");
+                        setAmendPhone(selectedBiz.phone || "");
+                        setAmendSector(selectedBiz.sector || "");
+                      }}
+                      className={`text-[10px] font-bold px-3 py-1.5 rounded-lg border cursor-pointer transition-colors ${
+                        lifecycleAction === "amend" 
+                          ? "bg-slate-900 border-slate-900 text-white" 
+                          : "bg-white hover:bg-slate-100 border-slate-200 text-slate-700"
+                      }`}
+                    >
+                      {currentLanguage === "ar" ? "تعديل رخصة النشاط" : "Amend Details"}
+                    </button>
+
+                    <button
+                      onClick={() => setLifecycleAction(lifecycleAction === "upgrade" ? null : "upgrade")}
+                      className={`text-[10px] font-bold px-3 py-1.5 rounded-lg border cursor-pointer transition-colors ${
+                        lifecycleAction === "upgrade" 
+                          ? "bg-slate-900 border-slate-900 text-white" 
+                          : "bg-white hover:bg-slate-100 border-slate-200 text-slate-700"
+                      }`}
+                    >
+                      {currentLanguage === "ar" ? "ترقية الصنف" : "Upgrade License"}
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        setLifecycleAction(lifecycleAction === "transfer" ? null : "transfer");
+                        setTransferOwner("");
+                      }}
+                      className={`text-[10px] font-bold px-3 py-1.5 rounded-lg border cursor-pointer transition-colors ${
+                        lifecycleAction === "transfer" 
+                          ? "bg-slate-900 border-slate-900 text-white" 
+                          : "bg-white hover:bg-slate-100 border-slate-200 text-slate-700"
+                      }`}
+                    >
+                      {currentLanguage === "ar" ? "نقل ملكية رخصة النشاط" : "Transfer Ownership"}
+                    </button>
+
+                    <button
+                      onClick={() => setLifecycleAction(lifecycleAction === "cancel" ? null : "cancel")}
+                      className={`text-[10px] font-bold px-3 py-1.5 rounded-lg border cursor-pointer transition-colors ${
+                        lifecycleAction === "cancel" 
+                          ? "bg-slate-900 border-slate-900 text-white" 
+                          : "bg-white hover:bg-slate-100 border-slate-200 text-slate-700"
+                      }`}
+                    >
+                      {currentLanguage === "ar" ? "إلغاء الترخيص" : "Cancel Permit"}
+                    </button>
+                  </div>
+
+                  {/* Reactive Form Panel based on chosen action */}
+                  {lifecycleAction && (
+                    <form onSubmit={handleLicenseLifecycle} className="p-4 bg-white rounded-xl border border-slate-200 mt-3 space-y-3 text-right">
+                      <div className="flex items-center justify-between border-b border-slate-100 pb-2 mb-2">
+                        <span className="font-extrabold text-slate-800 text-[10px] uppercase">
+                          {lifecycleAction === "renew" && (currentLanguage === "ar" ? "تجديد الترخيص" : "RENEW PERMIT")}
+                          {lifecycleAction === "amend" && (currentLanguage === "ar" ? "تعديل البيانات القانونية" : "AMEND LEGAL DATA")}
+                          {lifecycleAction === "upgrade" && (currentLanguage === "ar" ? "ترقية صنف الترخيص" : "UPGRADE LICENSE CLASS")}
+                          {lifecycleAction === "transfer" && (currentLanguage === "ar" ? "نقل ملكية الكيان" : "TRANSFER OWNER RECORD")}
+                          {lifecycleAction === "cancel" && (currentLanguage === "ar" ? "طلب إلغاء الترخيص" : "CANCEL PERMIT REQUEST")}
+                        </span>
+                        <button type="button" onClick={() => setLifecycleAction(null)} className="text-slate-400 hover:text-slate-600">
+                          <X className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+
+                      {lifecycleAction === "renew" && (
+                        <p className="text-[10px] text-slate-500 leading-relaxed">
+                          {currentLanguage === "ar" 
+                            ? "سيقوم هذا الإجراء بطلب تجديد رخصة النشاط لمدة عام مالي إضافي، وتحديث حالتها في قاعدة البيانات السيادية."
+                            : "This will automatically renew the license for an additional fiscal year and extend its active validation seal."}
+                        </p>
+                      )}
+
+                      {lifecycleAction === "amend" && (
+                        <div className="space-y-2 text-[10px]">
+                          <div className="grid grid-cols-2 gap-2">
+                            <div className="space-y-0.5">
+                              <label className="text-gray-400 font-bold">{currentLanguage === "ar" ? "الاسم التجاري (العربية)" : "Store Name (Arabic)"}</label>
+                              <input 
+                                type="text" 
+                                value={amendNameAr} 
+                                onChange={(e) => setAmendNameAr(e.target.value)} 
+                                className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 outline-none focus:bg-white"
+                              />
+                            </div>
+                            <div className="space-y-0.5">
+                              <label className="text-gray-400 font-bold">{currentLanguage === "ar" ? "الاسم التجاري (الإنجليزية)" : "Store Name (English)"}</label>
+                              <input 
+                                type="text" 
+                                value={amendNameEn} 
+                                onChange={(e) => setAmendNameEn(e.target.value)} 
+                                className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 outline-none focus:bg-white"
+                              />
+                            </div>
+                          </div>
+                          <div className="grid grid-cols-2 gap-2">
+                            <div className="space-y-0.5">
+                              <label className="text-gray-400 font-bold">{currentLanguage === "ar" ? "البريد الإلكتروني المعتمد" : "Corporate Email"}</label>
+                              <input 
+                                type="email" 
+                                value={amendEmail} 
+                                onChange={(e) => setAmendEmail(e.target.value)} 
+                                className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 outline-none focus:bg-white"
+                              />
+                            </div>
+                            <div className="space-y-0.5">
+                              <label className="text-gray-400 font-bold">{currentLanguage === "ar" ? "الهاتف المعتمد" : "Authorized Phone"}</label>
+                              <input 
+                                type="text" 
+                                value={amendPhone} 
+                                onChange={(e) => setAmendPhone(e.target.value)} 
+                                className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 outline-none focus:bg-white"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {lifecycleAction === "upgrade" && (
+                        <div className="space-y-1 text-[10px]">
+                          <label className="text-gray-400 font-bold">{currentLanguage === "ar" ? "اختر فئة الترقية المستهدفة" : "Target License Class"}</label>
+                          <select 
+                            value={upgradeType} 
+                            onChange={(e) => setUpgradeType(e.target.value)}
+                            className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 outline-none focus:bg-white"
+                          >
+                            <option value="platform_operator_license">{currentLanguage === "ar" ? "رخصة مشغل منصة مشتركة" : "Platform Operator License"}</option>
+                            <option value="online_marketplace_license">{currentLanguage === "ar" ? "رخصة سوق إلكتروني موحد" : "Online Marketplace License"}</option>
+                          </select>
+                        </div>
+                      )}
+
+                      {lifecycleAction === "transfer" && (
+                        <div className="space-y-1 text-[10px]">
+                          <label className="text-gray-400 font-bold">{currentLanguage === "ar" ? "اسم المالك المعتمد الجديد*" : "New Representative Name*"}</label>
+                          <input 
+                            type="text" 
+                            required
+                            value={transferOwner} 
+                            onChange={(e) => setTransferOwner(e.target.value)} 
+                            placeholder="الاسم القانوني ثلاثي..."
+                            className="w-full bg-slate-50 border border-slate-200 rounded-lg px-2 py-1.5 outline-none focus:bg-white text-right"
+                          />
+                        </div>
+                      )}
+
+                      {lifecycleAction === "cancel" && (
+                        <p className="text-[10px] text-rose-600 leading-relaxed font-bold">
+                          {currentLanguage === "ar" 
+                            ? "تحذير: إلغاء الترخيص سيؤدي فورا إلى تجميد حسابات الكيان وتعليق بوابات الدفع الوطنية المرتبطة."
+                            : "Warning: Cancelling this permit will instantly suspend all payment gateways and invalidate the registry index."}
+                        </p>
+                      )}
+
+                      <div className="pt-2 flex justify-end gap-2">
+                        <button 
+                          type="button" 
+                          onClick={() => setLifecycleAction(null)}
+                          className="bg-slate-100 text-slate-600 text-[10px] font-bold px-3 py-1.5 rounded-lg"
+                        >
+                          {currentLanguage === "ar" ? "إلغاء" : "Close"}
+                        </button>
+                        <button 
+                          type="submit" 
+                          disabled={lifecycleLoading}
+                          className="bg-sudan-green hover:bg-sudan-green-light text-white text-[10px] font-bold px-4 py-1.5 rounded-lg disabled:opacity-50 flex items-center gap-1 cursor-pointer"
+                        >
+                          {lifecycleLoading && <RefreshCw className="h-3 w-3 animate-spin" />}
+                          <span>{currentLanguage === "ar" ? "اعتماد وتنفيذ" : "Confirm execution"}</span>
+                        </button>
+                      </div>
+                    </form>
+                  )}
+                </div>
+              </div>
+
               {/* Immutable Sovereign Audit Trail */}
               <div className="space-y-3.5 pt-3 border-t border-slate-150">
                 <h5 className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1">
@@ -715,6 +1074,66 @@ export default function CommerceRegistry({
                 </div>
               )}
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* QR Verifier Overlay Modal */}
+      {showQrVerifier && selectedBiz && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
+          <div className="bg-white rounded-3xl shadow-2xl max-w-sm w-full text-slate-800 border-t-8 border-sudan-green p-6 space-y-5 text-center text-xs relative">
+            <button 
+              onClick={() => setShowQrVerifier(false)} 
+              className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 bg-slate-100 p-1 rounded-full cursor-pointer"
+            >
+              <X className="h-4 w-4" />
+            </button>
+
+            <div className="space-y-1">
+              <span className="text-[9px] bg-emerald-50 text-emerald-700 border border-emerald-200 px-2.5 py-0.5 rounded-full font-bold">
+                {currentLanguage === "ar" ? "التوقيع الرقمي السيادي صالح" : "SOVEREIGN SIGNATURE VALID"}
+              </span>
+              <h4 className="font-extrabold text-slate-800 text-sm">
+                {currentLanguage === "ar" ? "محقق التراخيص والوثائق الفيدرالية" : "Federal Verification Oracle"}
+              </h4>
+            </div>
+
+            {/* Visual grid representing QR Code patterns */}
+            <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 inline-block mx-auto">
+              <div className="bg-white p-2.5 rounded-xl border border-slate-150 inline-block">
+                <div className="grid grid-cols-4 gap-1 w-28 h-28 p-1">
+                  {[...Array(16)].map((_, i) => (
+                    <div 
+                      key={i} 
+                      className={`rounded-xs ${
+                        (i % 3 === 0 || i % 5 === 1 || i === 0 || i === 15) ? "bg-slate-900" : "bg-slate-100"
+                      }`} 
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-2 text-right bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-[10px] font-semibold text-slate-600">
+              <div className="flex justify-between">
+                <span className="text-gray-400">{currentLanguage === "ar" ? "الرقم التسلسلي:" : "Serial No:"}</span>
+                <span className="font-mono text-slate-800">SD-ORC-{selectedBiz.digitalId}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-400">{currentLanguage === "ar" ? "المالك المعتمد:" : "Representative:"}</span>
+                <span className="text-slate-800">{selectedBiz.ownerName}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-gray-400">{currentLanguage === "ar" ? "بصمة التشفير SHA256:" : "SHA256 Crypt Seal:"}</span>
+                <span className="font-mono text-[8px] text-slate-800">f9a2b8e3...491c</span>
+              </div>
+            </div>
+
+            <p className="text-[9px] text-gray-400 leading-normal font-semibold">
+              {currentLanguage === "ar"
+                ? "هذه الوثيقة صادرة وموثقة رقمياً من السحابة الفيدرالية لوزارة التجارة والصناعة وتعد سنداً قانونياً نافذاً لعام ٢٠٢٦."
+                : "This document is cryptographically validated and stamped under the Federal Sovereign Authority of Sudan."}
+            </p>
           </div>
         </div>
       )}

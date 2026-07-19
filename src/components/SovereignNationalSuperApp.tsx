@@ -14,9 +14,11 @@ import {
   MapPin, HelpCircle, PhoneCall, Bell, Search, Sparkles, LayoutDashboard, 
   QrCode, Scale, RefreshCw, Send, CheckCircle2, ChevronRight, AlertTriangle, 
   Settings, Check, Compass, Printer, BarChart3, Clock, Eye, EyeOff, 
-  Volume2, Sliders, Smartphone, Lock, BookOpen, Layers
+  Volume2, Sliders, Smartphone, Lock, BookOpen, Layers,
+  Upload, Trash2, Download, AlertCircle, FileImage, CheckCircle
 } from "lucide-react";
 import { UserRole } from "../types";
+import NationalMobileEcosystem from "./NationalMobileEcosystem";
 
 interface SovereignNationalSuperAppProps {
   currentLanguage: "ar" | "en";
@@ -185,7 +187,7 @@ const initialNotifications: SuperAppNotification[] = [
 
 export default function SovereignNationalSuperApp({ currentLanguage, role }: SovereignNationalSuperAppProps) {
   // App-level views: citizen, business, investor, executive dashboard, AI assistant, Settings
-  const [activeTab, setActiveTab] = useState<"dashboard" | "wallet" | "services" | "investor" | "assistant" | "analytics">("dashboard");
+  const [activeTab, setActiveTab] = useState<"dashboard" | "wallet" | "services" | "investor" | "assistant" | "analytics" | "mobile-ecosystem">("mobile-ecosystem");
 
   // Core Data States
   const [licenses, setLicenses] = useState<DigitalLicense[]>(initialLicenses);
@@ -205,6 +207,195 @@ export default function SovereignNationalSuperApp({ currentLanguage, role }: Sov
   const [complaintType, setComplaintType] = useState("price_gouging");
   const [complaintDetails, setComplaintDetails] = useState("");
   const [complaintStatus, setComplaintStatus] = useState<"idle" | "submitting" | "success">("idle");
+
+  // Secure evidence document file upload states
+  const [evidenceFiles, setEvidenceFiles] = useState<{ id: string; name: string; size: number; type: string; progress: number }[]>([]);
+  const [isDragging, setIsDragging] = useState(false);
+
+  // Sovereign consumer complaints record storage
+  const [submittedComplaints, setSubmittedComplaints] = useState<any[]>([
+    {
+      id: "CMP-4210",
+      store: currentLanguage === "ar" ? "مخبز الوادي الفيدرالي" : "Al-Wadi Federal Bakery",
+      type: "price_gouging",
+      details: currentLanguage === "ar" 
+        ? "بيع الخبز المدعوم خارج منافذ البيع الرسمية ومضاعفة السعر للرغيف الواحد." 
+        : "Selling subsidized bread outside official retail points and doubling the unit price.",
+      status: "investigating",
+      createdAt: "2026-07-16 11:20",
+      files: [{ name: "receipt_wheat_leak.jpg", size: 312 * 1024, type: "image/jpeg" }]
+    },
+    {
+      id: "CMP-1084",
+      store: currentLanguage === "ar" ? "مستودع الأدوية الكبرى" : "Grand Pharmaceutical Depot",
+      type: "expired_goods",
+      details: currentLanguage === "ar"
+        ? "عرض وبيع محاليل تغذية منتهية الصلاحية منذ فبراير الماضي."
+        : "Displaying and selling expired infant nutrition solutions since last February.",
+      status: "resolved",
+      createdAt: "2026-07-14 09:45",
+      files: [{ name: "batch_expiry_photo.png", size: 1204 * 1024, type: "image/png" }]
+    }
+  ]);
+
+  // Secure document processing & validation handler
+  const handleFileUpload = (filesList: FileList) => {
+    const allowedTypes = ["image/jpeg", "image/png", "application/pdf"];
+    const maxSize = 5 * 1024 * 1024; // 5MB limit
+
+    Array.from(filesList).forEach((file) => {
+      if (!allowedTypes.includes(file.type)) {
+        alert(currentLanguage === "ar" 
+          ? `عذراً، نوع الملف [${file.name}] غير مدعوم. يرجى رفع صور JPG, PNG أو ملفات PDF فقط كدليل.`
+          : `Sorry, the file type of [${file.name}] is not supported. Please upload JPG, PNG, or PDF evidence files.`);
+        return;
+      }
+      if (file.size > maxSize) {
+        alert(currentLanguage === "ar"
+          ? `عذراً، حجم الملف [${file.name}] يتجاوز الحد الأقصى المسموح به (5 ميجابايت).`
+          : `Sorry, the file [${file.name}] exceeds the maximum federal evidence size limit of 5MB.`);
+        return;
+      }
+
+      const fileId = `EV-FILE-${Math.floor(Math.random() * 100000)}`;
+      const newFileObj = {
+        id: fileId,
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        progress: 0
+      };
+
+      setEvidenceFiles(prev => [...prev, newFileObj]);
+
+      // Simulate cryptographic scanning & secure upload progress
+      let currentProgress = 0;
+      const interval = setInterval(() => {
+        currentProgress += 20;
+        setEvidenceFiles(prev => prev.map(f => f.id === fileId ? { ...f, progress: currentProgress } : f));
+        if (currentProgress >= 100) {
+          clearInterval(interval);
+        }
+      }, 120);
+    });
+  };
+
+  const handleRemoveFile = (fileId: string) => {
+    setEvidenceFiles(prev => prev.filter(f => f.id !== fileId));
+  };
+
+  // Interactive QR Certificate & Registration Generator using HTML5 Canvas
+  const downloadCertificateAsImage = (license: DigitalLicense) => {
+    const canvas = document.createElement("canvas");
+    canvas.width = 1200;
+    canvas.height = 850;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    // Background Gradient (Elegant deep emerald/charcoal combination representing sovereignty and security)
+    const bgGradient = ctx.createLinearGradient(0, 0, 1200, 850);
+    bgGradient.addColorStop(0, "#031c13"); // Very dark emerald
+    bgGradient.addColorStop(1, "#0a261a"); // Deep rich spruce
+    ctx.fillStyle = bgGradient;
+    ctx.fillRect(0, 0, 1200, 850);
+
+    // Gold Ornate Border Frame
+    ctx.strokeStyle = "#c5a85a"; // Classic gold color
+    ctx.lineWidth = 16;
+    ctx.strokeRect(24, 24, 1152, 802);
+
+    ctx.strokeStyle = "#e2d2a4"; // Lighter gold accent inner frame
+    ctx.lineWidth = 2;
+    ctx.strokeRect(40, 40, 1120, 770);
+
+    // Decorative Solid Gold Corner Squares
+    ctx.fillStyle = "#c5a85a";
+    ctx.fillRect(40, 40, 40, 40);
+    ctx.fillRect(1120, 40, 40, 40);
+    ctx.fillRect(40, 770, 40, 40);
+    ctx.fillRect(1120, 770, 40, 40);
+
+    // Header Text
+    ctx.textAlign = "center";
+    ctx.fillStyle = "#e2d2a4";
+    ctx.font = "bold 34px 'Cairo', 'Inter', sans-serif";
+    ctx.fillText("جمهورية السودان • REPUBLIC OF SUDAN", 600, 105);
+
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "22px 'Cairo', 'Inter', sans-serif";
+    ctx.fillText("وزارة التجارة والصناعة • MINISTRY OF COMMERCE & INDUSTRY", 600, 145);
+
+    // Document Title
+    ctx.fillStyle = "#c5a85a";
+    ctx.font = "bold 42px 'Cairo', sans-serif";
+    ctx.fillText("شهادة السجل التجاري والترخيص القومي المعتمد", 600, 235);
+    ctx.font = "bold 26px 'Inter', sans-serif";
+    ctx.fillText("OFFICIAL COMMERCE REGISTRATION CERTIFICATE", 600, 275);
+
+    // Horizontal Separator
+    ctx.strokeStyle = "rgba(197, 168, 90, 0.4)";
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(120, 315);
+    ctx.lineTo(1080, 315);
+    ctx.stroke();
+
+    // Watermark Seal Outline
+    ctx.fillStyle = "rgba(197, 168, 90, 0.07)";
+    ctx.beginPath();
+    ctx.arc(600, 500, 160, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Details Grid Columns - Left (Arabic), Right (English)
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "bold 21px 'Cairo', sans-serif";
+    ctx.textAlign = "right";
+    ctx.fillText(`نوع الترخيص: ${license.typeAr}`, 520, 390);
+    ctx.fillText(`الرقم الفيدرالي الموحد: ${license.number}`, 520, 450);
+    ctx.fillText(`الجهة المصدرة: ${license.issuer}`, 520, 510);
+    ctx.fillText(`تاريخ الصلاحية والانتهاء: ${license.expiry}`, 520, 570);
+    ctx.fillText(`الحالة الأمنية: نشط معتمد رقمياً`, 520, 630);
+
+    ctx.textAlign = "left";
+    ctx.font = "bold 20px 'Inter', sans-serif";
+    ctx.fillText(`License Type: ${license.typeEn}`, 680, 390);
+    ctx.fillText(`Federal Identity ID: ${license.number}`, 680, 450);
+    ctx.fillText(`Authority: ${license.issuer}`, 680, 510);
+    ctx.fillText(`Expiration Limit: ${license.expiry}`, 680, 570);
+    ctx.fillText(`Sovereign Status: SECURE VALIDATED`, 680, 630);
+
+    // Center QR Block with Golden Core
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(525, 415, 150, 150);
+    ctx.fillStyle = "#031c13";
+    for (let r = 0; r < 14; r++) {
+      for (let c = 0; c < 14; c++) {
+        if ((r % 2 === 0 && c % 3 === 0) || r < 3 || c < 3 || r > 10 || c > 10) {
+          ctx.fillRect(535 + c * 9.5, 425 + r * 9.5, 7.5, 7.5);
+        }
+      }
+    }
+    // QR Core Seal
+    ctx.fillStyle = "#c5a85a";
+    ctx.fillRect(588, 478, 24, 24);
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "bold 11px sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("SD", 600, 494);
+
+    // Footnote Details
+    ctx.fillStyle = "#94a3b8";
+    ctx.font = "italic 15px 'Cairo', sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("هذه شهادة مبرمة إلكترونياً ومسجلة في قواعد البيانات السيادية ولا تحتاج لتوقيع ورقي لإنفاذها.", 600, 715);
+    ctx.fillText("This document is cryptographically signed. Immediate verification is persistent in federal ledgers.", 600, 740);
+
+    // Download Link Click
+    const link = document.createElement("a");
+    link.download = `SD-CERT-${license.number}.png`;
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+  };
 
   // AI Assistant States
   const [chatHistory, setChatHistory] = useState<{ sender: "user" | "ai"; text: string }[]>([
@@ -338,15 +529,27 @@ export default function SovereignNationalSuperApp({ currentLanguage, role }: Sov
     setComplaintStatus("submitting");
 
     setTimeout(() => {
+      const newComp = {
+        id: `CMP-${Math.floor(1000 + Math.random() * 9000)}`,
+        store: complaintStore,
+        type: complaintType,
+        details: complaintDetails,
+        status: "new",
+        createdAt: new Date().toISOString().replace("T", " ").substring(0, 16),
+        files: [...evidenceFiles]
+      };
+      setSubmittedComplaints(prev => [newComp, ...prev]);
+
       setComplaintStatus("success");
       setComplaintStore("");
       setComplaintDetails("");
+      setEvidenceFiles([]); // Clear file list
       
       // Notification
       const newNtf: SuperAppNotification = {
         id: `NTF-${Math.floor(Math.random() * 1000)}`,
-        titleAr: "تم استلام شكواك وقيد المراجعة الفورية من قبل مفتشي حماية المستهلك",
-        titleEn: "Consumer complaint successfully registered and assigned to field inspectors",
+        titleAr: `تم قيد الشكوى ضد [${complaintStore}] بنجاح وإرفاق الأدلة البصرية لفرق التفتيش الفيدرالية`,
+        titleEn: `Complaint against [${complaintStore}] successfully lodged with ${evidenceFiles.length} evidence attachment(s)`,
         category: "alert",
         date: new Date().toISOString().replace("T", " ").substring(0, 16)
       };
@@ -438,6 +641,7 @@ export default function SovereignNationalSuperApp({ currentLanguage, role }: Sov
         {/* Super App Tab Navigation */}
         <div className="flex flex-wrap gap-2 mt-6 border-t border-teal-800 pt-4 relative z-10" id="superapp-tabs">
           {[
+            { id: "mobile-ecosystem", labelAr: "📱 منظومة الهاتف ومحفظة الهوية الرقمية", labelEn: "📱 National Mobile Government Platform", icon: Smartphone },
             { id: "dashboard", labelAr: "الحساب والمستندات الرقمية", labelEn: "Wallet & Document Vault", icon: LayoutDashboard },
             { id: "services", labelAr: "الخدمات وتأسيس الأعمال", labelEn: "Citizen & Business Portal", icon: Briefcase },
             { id: "wallet", labelAr: "المحفظة والجباية الحكومية", labelEn: "Sovereign Wallet & Pay", icon: Wallet },
@@ -474,6 +678,10 @@ export default function SovereignNationalSuperApp({ currentLanguage, role }: Sov
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 150 }}
         >
+          {activeTab === "mobile-ecosystem" && (
+            <NationalMobileEcosystem currentLanguage={currentLanguage} role={role} />
+          )}
+
           {/* TAB 1: PERSONAL DIGITAL DASHBOARD & DOCUMENT WALLET */}
           {activeTab === "dashboard" && (
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6" id="superapp-personal-dash">
@@ -726,8 +934,20 @@ export default function SovereignNationalSuperApp({ currentLanguage, role }: Sov
                     </p>
 
                     <button
+                      onClick={() => downloadCertificateAsImage(selectedLicenseForQR)}
+                      className="w-full py-2.5 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white text-xs font-black rounded-xl cursor-pointer flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5 border border-amber-500/40"
+                    >
+                      <Download className="w-4 h-4 text-white" />
+                      <span>
+                        {currentLanguage === "ar"
+                          ? "تحميل الشهادة الرسمية المشفرة (PNG)"
+                          : "Download Secured Certificate (PNG)"}
+                      </span>
+                    </button>
+
+                    <button
                       onClick={() => setSelectedLicenseForQR(null)}
-                      className="w-full py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl cursor-pointer"
+                      className="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold rounded-xl cursor-pointer"
                     >
                       {currentLanguage === "ar" ? "إغلاق النافذة" : "Close Certificate"}
                     </button>
@@ -948,10 +1168,98 @@ export default function SovereignNationalSuperApp({ currentLanguage, role }: Sov
                         />
                       </div>
 
+                      {/* Premium Secure Drag-and-Drop Evidence File Uploader */}
+                      <div className="space-y-1.5">
+                        <label className="text-gray-500 block flex items-center justify-between">
+                          <span>{currentLanguage === "ar" ? "إرفاق مستندات أو صور الإثبات" : "Attach Proof, Photos, or PDFs"}</span>
+                          <span className="text-[10px] text-slate-400">({currentLanguage === "ar" ? "أقصى حجم: 5MB" : "Max 5MB"})</span>
+                        </label>
+                        
+                        <div
+                          onDragOver={(e) => {
+                            e.preventDefault();
+                            setIsDragging(true);
+                          }}
+                          onDragLeave={() => setIsDragging(false)}
+                          onDrop={(e) => {
+                            e.preventDefault();
+                            setIsDragging(false);
+                            if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                              handleFileUpload(e.dataTransfer.files);
+                            }
+                          }}
+                          className={`border-2 border-dashed rounded-xl p-4 text-center cursor-pointer transition-all ${
+                            isDragging 
+                              ? "border-rose-500 bg-rose-50/50" 
+                              : "border-gray-200 hover:border-slate-300 bg-slate-50"
+                          }`}
+                          onClick={() => document.getElementById("evidence-input")?.click()}
+                        >
+                          <input
+                            type="file"
+                            id="evidence-input"
+                            multiple
+                            accept=".pdf, .jpg, .jpeg, .png"
+                            className="hidden"
+                            onChange={(e) => {
+                              if (e.target.files && e.target.files.length > 0) {
+                                handleFileUpload(e.target.files);
+                              }
+                            }}
+                          />
+                          <Upload className="w-6 h-6 text-slate-400 mx-auto mb-1 animate-pulse" />
+                          <p className="font-semibold text-[11px] text-slate-700">
+                            {currentLanguage === "ar" ? "اسحب الأدلة والمستندات هنا أو اضغط للاختيار" : "Drag files here or click to browse"}
+                          </p>
+                          <p className="text-[10px] text-slate-400 mt-0.5">JPG, PNG, PDF</p>
+                        </div>
+
+                        {/* List of active evidence files */}
+                        {evidenceFiles.length > 0 && (
+                          <div className="space-y-1.5 mt-2 max-h-32 overflow-y-auto pr-1">
+                            {evidenceFiles.map((file) => (
+                              <div key={file.id} className="p-2 bg-white rounded-lg border border-gray-100 flex items-center justify-between text-[11px] space-x-2">
+                                <div className="flex items-center gap-1.5 min-w-0 flex-1">
+                                  {file.type.includes("pdf") ? (
+                                    <FileText className="w-3.5 h-3.5 text-rose-500 shrink-0" />
+                                  ) : (
+                                    <FileImage className="w-3.5 h-3.5 text-blue-500 shrink-0" />
+                                  )}
+                                  <span className="truncate text-slate-700 font-medium" title={file.name}>{file.name}</span>
+                                  <span className="text-gray-400 text-[10px] shrink-0">({(file.size / 1024).toFixed(0)} KB)</span>
+                                </div>
+
+                                <div className="flex items-center gap-2 shrink-0">
+                                  {file.progress < 100 ? (
+                                    <div className="w-12 bg-gray-100 h-1.5 rounded-full overflow-hidden">
+                                      <div className="bg-emerald-600 h-full transition-all" style={{ width: `${file.progress}%` }} />
+                                    </div>
+                                  ) : (
+                                    <span className="text-emerald-600 font-bold text-[9px] flex items-center gap-0.5">
+                                      <CheckCircle className="w-3 h-3" /> SECURE
+                                    </span>
+                                  )}
+                                  <button
+                                    type="button"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleRemoveFile(file.id);
+                                    }}
+                                    className="p-1 hover:bg-slate-100 rounded text-rose-500 cursor-pointer"
+                                  >
+                                    <Trash2 className="w-3.5 h-3.5" />
+                                  </button>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+
                       <button
                         type="submit"
                         disabled={complaintStatus === "submitting"}
-                        className="w-full py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl cursor-pointer flex items-center justify-center gap-1"
+                        className="w-full py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl cursor-pointer flex items-center justify-center gap-1 mt-2"
                       >
                         {complaintStatus === "submitting" ? (
                           <>
@@ -965,6 +1273,66 @@ export default function SovereignNationalSuperApp({ currentLanguage, role }: Sov
                         )}
                       </button>
                     </form>
+                  </div>
+
+                  {/* Dynamic submitted complaints tracker list */}
+                  <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm space-y-4">
+                    <h3 className="font-bold text-gray-900 text-sm border-b border-gray-100 pb-2 flex items-center justify-between" style={{ fontFamily: "var(--font-arabic)" }}>
+                      <span className="flex items-center gap-1.5">
+                        <Scale className="w-4.5 h-4.5 text-rose-600" />
+                        <span>{currentLanguage === "ar" ? "سجل شكاواي والرقابة الشعبية" : "My Lodged Complaints & Evidence"}</span>
+                      </span>
+                      <span className="bg-slate-100 text-slate-800 font-mono px-2 py-0.5 rounded text-[10px]">
+                        {submittedComplaints.length}
+                      </span>
+                    </h3>
+
+                    <div className="space-y-3 max-h-64 overflow-y-auto pr-1">
+                      {submittedComplaints.map((comp) => (
+                        <div key={comp.id} className="p-3 bg-slate-50 border border-gray-100 rounded-xl space-y-2 text-[11px]">
+                          <div className="flex justify-between items-center">
+                            <span className="font-mono text-[9px] text-slate-400 font-bold">[{comp.id}]</span>
+                            <span className={`px-2 py-0.5 rounded font-bold text-[9px] ${
+                              comp.status === "resolved" 
+                                ? "bg-emerald-100 text-emerald-800" 
+                                : comp.status === "investigating" 
+                                  ? "bg-amber-100 text-amber-800" 
+                                  : "bg-blue-100 text-blue-800"
+                            }`}>
+                              {comp.status === "resolved" 
+                                ? (currentLanguage === "ar" ? "تم الإنفاذ والحل" : "Resolved & Enforced")
+                                : comp.status === "investigating"
+                                  ? (currentLanguage === "ar" ? "قيد التحقيق الفيدرالي" : "Federal Investigation")
+                                  : (currentLanguage === "ar" ? "جديد / قيد الفرز" : "New / Reviewing")}
+                            </span>
+                          </div>
+
+                          <div>
+                            <h4 className="font-bold text-slate-900 text-[11.5px]" style={{ fontFamily: "var(--font-arabic)" }}>
+                              {comp.store}
+                            </h4>
+                            <p className="text-slate-500 mt-1 leading-relaxed">{comp.details}</p>
+                          </div>
+
+                          {/* Evidence list in the submitted complaints list */}
+                          {comp.files && comp.files.length > 0 && (
+                            <div className="pt-2 border-t border-gray-200/50 space-y-1">
+                              <span className="text-[10px] text-slate-400 font-bold block">{currentLanguage === "ar" ? "المستندات والأدلة المرفقة:" : "Attached Evidence Documents:"}</span>
+                              <div className="flex flex-wrap gap-1.5">
+                                {comp.files.map((file: any, fIdx: number) => (
+                                  <div key={fIdx} className="bg-white border border-gray-200 px-2 py-1 rounded-lg flex items-center gap-1.5 text-[10px] text-slate-600">
+                                    <FileText className="w-3 h-3 text-rose-500" />
+                                    <span className="truncate max-w-[120px]" title={file.name}>{file.name}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          <span className="text-gray-400 block text-[9px] text-right font-mono">{comp.createdAt}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
 
                   {/* Branch Appointment Scheduling */}

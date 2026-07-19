@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { 
   Building2, Cpu, Globe, Landmark, ShieldAlert, 
   Menu, LayoutDashboard, Layers, Palette, Award, ShieldCheck, Scale, Network, Fingerprint, BarChart3, ClipboardList,
-  ShoppingBag, Database, Users, Boxes, Briefcase, Shield, Brain, Smartphone, Grid
+  ShoppingBag, Database, Users, Boxes, Briefcase, Shield, Brain, Smartphone, Grid, TrendingUp, Bot
 } from "lucide-react";
 
 import { 
@@ -36,6 +36,7 @@ import GovernmentPaymentPlatform from "./components/GovernmentPaymentPlatform";
 import SovereignBIPlatform from "./components/SovereignBIPlatform";
 import SmartInspectionPlatform from "./components/SmartInspectionPlatform";
 import DigitalCommercePlatform from "./components/DigitalCommercePlatform";
+import SovereignDigitalEconomyPlatform from "./components/SovereignDigitalEconomyPlatform";
 import NationalInnovationPlatform from "./components/innovation/NationalInnovationPlatform";
 import GovernmentRecordsArchivePlatform from "./components/GovernmentRecordsArchivePlatform";
 import SovereignLegalAffairsPlatform from "./components/SovereignLegalAffairsPlatform";
@@ -50,6 +51,19 @@ import SovereignNationalSuperApp from "./components/SovereignNationalSuperApp";
 import SovereignExecutiveCommandCenter from "./components/SovereignExecutiveCommandCenter";
 import SovereignAutonomousOperationsHub from "./components/SovereignAutonomousOperationsHub";
 import SovereignAuthModal from "./components/SovereignAuthModal";
+import SovereignIntelligentGovPlatform from "./components/SovereignIntelligentGovPlatform";
+import SovereignCommerceEcosystemPlatform from "./components/SovereignCommerceEcosystemPlatform";
+import SovereignEconomicIntelligencePlatform from "./components/SovereignEconomicIntelligencePlatform";
+import SovereignTradeIntegrationPlatform from "./components/SovereignTradeIntegrationPlatform";
+import SovereignIndustrialDevelopmentPlatform from "./components/SovereignIndustrialDevelopmentPlatform";
+import SovereignLegislativeGovernancePlatform from "./components/SovereignLegislativeGovernancePlatform";
+import SovereignCommercialDataGovernance from "./components/SovereignCommercialDataGovernance";
+import NationalDigitalEconomicPlatform from "./components/NationalDigitalEconomicPlatform";
+import NationalAiCopilotCenter from "./components/NationalAiCopilotCenter";
+import NationalGeospatialTwinPlatform from "./components/NationalGeospatialTwinPlatform";
+import NationalMobileEcosystem from "./components/NationalMobileEcosystem";
+import NationalEconomicCommandCenter from "./components/NationalEconomicCommandCenter";
+import NationalProductionReadinessCenter from "./components/NationalProductionReadinessCenter";
 
 
 // Standard Seeding Data fully compliant with Typescript structures
@@ -252,7 +266,7 @@ const initialComplaints: ConsumerComplaint[] = [
 export default function App() {
   const [currentLanguage, setCurrentLanguage] = useState<"ar" | "en">("ar");
   const [currentRole, setCurrentRole] = useState<UserRole>(UserRole.BUSINESS_INVESTOR);
-  const [activeModule, setActiveModule] = useState<string>("services-center");
+  const [activeModule, setActiveModule] = useState<string>("national-production-readiness");
   const [isSidebarOpen, setIsSidebarOpen] = useState(() => {
     if (typeof window !== "undefined") {
       return window.innerWidth >= 768;
@@ -484,8 +498,14 @@ export default function App() {
 
   // Nav menu items
   const menuItems = [
+    { id: "national-production-readiness", labelAr: "جاهزية التشغيل والتميز الحكومي الفيدرالي", labelEn: "Go-Live & Enterprise Excellence Center", icon: ShieldCheck },
+    { id: "national-economic-command", labelAr: "غرفة طوارئ القيادة الاقتصادية والأزمات الفيدرالية", labelEn: "National Economic Command & Crisis Room", icon: ShieldAlert },
+    { id: "national-ai-copilot", labelAr: "كوبايلوت الحكومة الوطنية والمساعد الذكي", labelEn: "National AI Copilot & Government Assistant", icon: Bot },
+    { id: "national-gis-digitaltwin", labelAr: "منصة الاستخبارات الجغرافية والتوأم الرقمي الوطني", labelEn: "National GIS & Sovereign Digital Twin Platform", icon: Globe },
+    { id: "national-economic-gov", labelAr: "المنصة الرقمية الوطنية للاقتصاد والحوكمة", labelEn: "National Digital Economic Gov Platform", icon: Landmark },
     { id: "services-center", labelAr: "المركز الوطني للخدمات الإلكترونية", labelEn: "National Electronic Services Center", icon: Grid },
     { id: "dashboard", labelAr: "لوحة المتابعة الرقمية", labelEn: "Sovereign Dashboard", icon: LayoutDashboard },
+    { id: "intelligent-gov", labelAr: "منصة الذكاء والسيادة الوطنية ٢٠٣٥", labelEn: "National Intelligent Government 2035", icon: Brain },
     { id: "autonomous-operations", labelAr: "التشغيل الذاتي والابتكار السيادي", labelEn: "Autonomous Gov & Future Innovation", icon: Cpu },
     { id: "executive-command-center", labelAr: "مركز القيادة التنفيذي ورؤية 2035", labelEn: "Executive Command Center 2035", icon: Landmark },
     { id: "gov-records", labelAr: "المنصة الاتحادية للسجلات والأرشيف", labelEn: "Federal Records & Archive", icon: Database },
@@ -499,7 +519,13 @@ export default function App() {
     { id: "national-superapp", labelAr: "التطبيق الوطني والخدمات الموحدة", labelEn: "National Super App Portal", icon: Smartphone },
     { id: "bi-platform", labelAr: "ذكاء الأعمال ودعم القرار", labelEn: "Sovereign BI & Decision Support", icon: BarChart3 },
     { id: "smart-inspection", labelAr: "منصة التفتيش والإنفاذ الذكي", labelEn: "Smart Inspection & Enforcement", icon: ClipboardList },
-    { id: "digital-commerce", labelAr: "التجارة الرقمية وتطوير الـ SMEs", labelEn: "Digital Commerce & SMEs", icon: ShoppingBag },
+    { id: "digital-commerce", labelAr: "المنصة الوطنية للاقتصاد الرقمي والأعمال الذكية", labelEn: "National Digital Economy & Smart Business Platform", icon: ShoppingBag },
+    { id: "commerce-ecosystem", labelAr: "المنظومة التجارية الوطنية الموحدة", labelEn: "National Commerce Ecosystem", icon: Network },
+    { id: "international-trade", labelAr: "التجارة الدولية والتكامل الإقليمي", labelEn: "Int'l Trade & Regional Integration", icon: Globe },
+    { id: "industrial-development-innovation", labelAr: "التطوير الصناعي والابتكار الوطني", labelEn: "Industrial Dev & Innovation", icon: Cpu },
+    { id: "legislative-governance-policy", labelAr: "التشريعات والحوكمة والسياسات التنظيمية", labelEn: "Legislative Governance & Policy", icon: Scale },
+    { id: "commercial-data-governance", labelAr: "منصة حوكمة البيانات المفتوحة والإحصاء", labelEn: "Commercial Data Governance & Statistics", icon: Database },
+    { id: "economic-intelligence-platform", labelAr: "المنصة الوطنية للذكاء الاقتصادي ودعم القرار", labelEn: "Economic Intelligence & Strategic Decision Support", icon: TrendingUp },
     { id: "national-innovation", labelAr: "المنصة الوطنية للابتكار وبراءات الاختراع", labelEn: "National Innovation & Patents", icon: Award },
     { id: "commercial-names", labelAr: "نظام الأسماء التجارية", labelEn: "Commercial Names", icon: Award },
     { id: "commercial", labelAr: "السجل التجاري الذكي", labelEn: "Commercial Registry", icon: Building2 },
@@ -674,7 +700,7 @@ export default function App() {
                 id: "strategic-command",
                 labelAr: "الرقابة والقيادة الاستراتيجية",
                 labelEn: "Leadership & Control",
-                items: ["dashboard", "executive-command-center", "bi-platform", "smart-inspection", "autonomous-operations"]
+                items: ["national-production-readiness", "national-economic-command", "national-ai-copilot", "national-gis-digitaltwin", "national-economic-gov", "dashboard", "intelligent-gov", "executive-command-center", "bi-platform", "smart-inspection", "autonomous-operations"]
               },
               {
                 id: "resource-ops",
@@ -802,9 +828,86 @@ export default function App() {
                 />
               )}
 
-              {activeModule === "digital-commerce" && (
-                <DigitalCommercePlatform
+              {activeModule === "national-production-readiness" && (
+                <NationalProductionReadinessCenter
                   currentLanguage={currentLanguage}
+                  role={currentRole}
+                />
+              )}
+
+              {activeModule === "national-economic-command" && (
+                <NationalEconomicCommandCenter
+                  currentLanguage={currentLanguage}
+                  role={currentRole}
+                />
+              )}
+
+              {activeModule === "national-ai-copilot" && (
+                <NationalAiCopilotCenter
+                  currentLanguage={currentLanguage}
+                  role={currentRole}
+                />
+              )}
+
+              {activeModule === "national-gis-digitaltwin" && (
+                <NationalGeospatialTwinPlatform
+                  currentLanguage={currentLanguage}
+                  role={currentRole}
+                />
+              )}
+
+              {activeModule === "national-economic-gov" && (
+                <NationalDigitalEconomicPlatform
+                  currentLanguage={currentLanguage}
+                  role={currentRole}
+                />
+              )}
+
+              {activeModule === "digital-commerce" && (
+                <SovereignDigitalEconomyPlatform
+                  currentLanguage={currentLanguage}
+                />
+              )}
+
+              {activeModule === "commerce-ecosystem" && (
+                <SovereignCommerceEcosystemPlatform
+                  currentLanguage={currentLanguage}
+                  role={currentRole}
+                />
+              )}
+
+              {activeModule === "international-trade" && (
+                <SovereignTradeIntegrationPlatform
+                  currentLanguage={currentLanguage}
+                  role={currentRole}
+                />
+              )}
+
+              {activeModule === "industrial-development-innovation" && (
+                <SovereignIndustrialDevelopmentPlatform
+                  currentLanguage={currentLanguage}
+                  role={currentRole}
+                />
+              )}
+
+              {activeModule === "legislative-governance-policy" && (
+                <SovereignLegislativeGovernancePlatform
+                  currentLanguage={currentLanguage}
+                  role={currentRole}
+                />
+              )}
+
+              {activeModule === "commercial-data-governance" && (
+                <SovereignCommercialDataGovernance
+                  currentLanguage={currentLanguage}
+                  role={currentRole}
+                />
+              )}
+
+              {activeModule === "economic-intelligence-platform" && (
+                <SovereignEconomicIntelligencePlatform
+                  currentLanguage={currentLanguage}
+                  role={currentRole}
                 />
               )}
 
@@ -999,6 +1102,13 @@ export default function App() {
 
               {activeModule === "autonomous-operations" && (
                 <SovereignAutonomousOperationsHub
+                  currentLanguage={currentLanguage}
+                  role={currentRole}
+                />
+              )}
+
+              {activeModule === "intelligent-gov" && (
+                <SovereignIntelligentGovPlatform
                   currentLanguage={currentLanguage}
                   role={currentRole}
                 />

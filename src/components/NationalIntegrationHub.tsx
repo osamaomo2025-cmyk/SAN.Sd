@@ -18,6 +18,14 @@ import {
 
 import { UserRole } from "../types";
 
+// Import custom Phase 18 sub-modules
+import IdentityFederation from "./integration/IdentityFederation";
+import ServicesExchange from "./integration/ServicesExchange";
+import DocumentExchange from "./integration/DocumentExchange";
+import PaymentsIntegration from "./integration/PaymentsIntegration";
+import SharedServices from "./integration/SharedServices";
+import MonitoringAnalytics from "./integration/MonitoringAnalytics";
+
 interface NationalIntegrationHubProps {
   currentLanguage: "ar" | "en";
   role: UserRole;
@@ -343,7 +351,22 @@ const initialBrokerEvents: BrokerEvent[] = [
 
 export default function NationalIntegrationHub({ currentLanguage, role }: NationalIntegrationHubProps) {
   // Navigation Tabs
-  const [activeSubTab, setActiveSubTab] = useState<"dashboard" | "gateway" | "mdm" | "events" | "security" | "ai" | "opendata" | "devportal">("dashboard");
+  const [activeSubTab, setActiveSubTab] = useState<
+    | "dashboard"
+    | "gateway"
+    | "mdm"
+    | "events"
+    | "security"
+    | "ai"
+    | "opendata"
+    | "devportal"
+    | "identity"
+    | "exchange"
+    | "documents"
+    | "payments"
+    | "shared_services"
+    | "monitoring"
+  >("dashboard");
 
   // Open Data Sets State
   const [openDatasets, setOpenDatasets] = useState([
